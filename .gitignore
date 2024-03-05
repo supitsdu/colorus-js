@@ -1,0 +1,45 @@
+# Ignore Node.js modules
+node_modules/
+
+# Ignore built files and directories
+dist/
+build/
+*.log
+coverage/
+
+# Ignore lock files
+*-lock.*
+*.lockb
+
+# Ignore IDE and editor-specific files and directories
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+.DS_Store
+
+# Ignore environment-specific files
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+.env.*.local
+.env.*.development
+.env.*.test
+.env.*.production
+
+# Ignore Jest generated files
+__tests__/__snapshots__
+__tests__/*.js
+
+# Ignore test result files
+coverage/
+
+# Ignore any custom files or directories you want to exclude
+mock/
