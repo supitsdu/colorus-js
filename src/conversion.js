@@ -1,4 +1,4 @@
-import { clamp } from './clamp'
+import clamp from './clamp'
 import { hexString } from './helpers'
 
 /**
@@ -36,16 +36,38 @@ function computeHsvHue({ r, g, b }, { segment, maxRgb, minRgb }) {
 }
 
 /**
+ * Check if an HEX color is shortanable by comparing the RGB components.
+ * @param {number} r the red channel component of RGB color
+ * @param {number} g the green channel component of RGB color
+ * @param {number} b the blue channel component of RGB color
+ * @param {number} a the alpha channel component of RGBA color
+ * @return {boolean}
+ */
+const isRgbShortanable = (r, g, b, a = 1) => r % 17 === 0 && g % 17 === 0 && b % 17 === 0 && a % 17 === 0
+
+/**
  * **(Color Conversion Functions)** Converts RGB color object to HEX color string.
  *
  * @param {object} rgb an valid RGB color object
+ * @param {Object} [options={}] options to  customize output format and precision
+ * @param {boolean} [options.minify=false]  set `true` for minified hexadecimal notation.
  * @return {string} an HEX string
  */
-function rgbToHex({ r, g, b, a = 1 }) {
+function rgbToHex({ r, g, b, a = 1 }, { minify = false } = {}) {
+  r = Math.round(r)
+  g = Math.round(g)
+  b = Math.round(b)
+  a = Math.round(clamp.eightBit(a * 255))
+
   let value = hexString((r << 16) | (g << 8) | b, 6)
 
-  if ((a ?? 1) < 1) {
-    value += hexString(parseInt(clamp.eightBit(a * 255).toFixed(0)), 2)
+  if (a < 255) {
+    const alphaHex = hexString(a, 2)
+    value += alphaHex
+  }
+
+  if (minify && isRgbShortanable(r, g, b, a)) {
+    value = value.replace(/(.)\1/g, '$1')
   }
 
   return `#${value}`
@@ -59,7 +81,7 @@ function rgbToHex({ r, g, b, a = 1 }) {
  */
 function hexToRgb(hex) {
   const delta = parseInt(hex, 16)
-  let value = {}
+  const value = {}
 
   if (hex.length === 6) {
     value.r = (delta >> 16) & 255
@@ -121,20 +143,10 @@ function rgbToHsv({ r, g, b, a = 1 }) {
   const minRgb = Math.min(r, g, b)
   const segment = maxRgb - minRgb
 
-  // Initialize variables for hue, saturation, and value
-  let h, s, v
-
   // Calculate value (brightness)
-  v = (maxRgb / 255) * 100
-
-  // Calculate saturation
-  if (maxRgb > 0) {
-    s = (segment / maxRgb) * 100
-  } else {
-    s = 0
-  }
-
-  h = computeHsvHue({ r, g, b }, { segment, maxRgb, minRgb })
+  const v = (maxRgb / 255) * 100
+  const s = (maxRgb > 0 ? segment / maxRgb : 0) * 100
+  const h = computeHsvHue({ r, g, b }, { segment, maxRgb, minRgb })
 
   return clamp.hsv({ h, s, v, a })
 }
@@ -157,7 +169,9 @@ function hsvToRgb({ h, s, v, a = 1 }) {
   const secondLargestComponent = chroma * (1 - Math.abs((hueRange % 2) - 1))
   const minComponent = value - chroma
 
-  let red, green, blue
+  let red
+  let green
+  let blue
 
   // Determine the RGB components based on the hue range
   if (0 <= hueRange && hueRange < 1) {
@@ -193,4 +207,14 @@ function hslToRgb({ h, s, l, a = 1 }) {
   return hsvToRgb(hslToHsv({ h, s, l, a }))
 }
 
-export default { hexToRgb, rgbToHex, rgbToHsv, hsvToRgb, hsvToHsl, hslToHsv, hslToRgb, hsvToHsl }
+/**
+ * **(Color Conversion Functions)** Converts RGB color object into its HSL representation using HSV interconversion.
+ *
+ * @param {Object} input - An RGB color object.
+ * @return {Object} An HSL color object representation.
+ */
+function rgbToHsl({ r, g, b, a = 1 }) {
+  return hsvToHsl(rgbToHsv({ r, g, b, a }))
+}
+
+export default { hexToRgb, rgbToHex, rgbToHsv, rgbToHsl, hsvToRgb, hsvToHsl, hslToHsv, hslToRgb, hsvToHsl }
