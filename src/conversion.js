@@ -3,7 +3,6 @@ import { hexString } from './helpers'
 
 /**
  * **(Helper Functions)** Calculates the hue component of an HSV color object.
- *
  * @param {Object} rgb - An RGB color object.
  * @param {Object} params - Parameters including segment, maxRgb, and minRgb.
  * @return {number} The hue component of the HSV color.
@@ -47,7 +46,6 @@ const isRgbShortanable = (r, g, b, a = 1) => r % 17 === 0 && g % 17 === 0 && b %
 
 /**
  * **(Color Conversion Functions)** Converts RGB color object to HEX color string.
- *
  * @param {object} rgb an valid RGB color object
  * @param {Object} [options={}] options to  customize output format and precision
  * @param {boolean} [options.minify=false]  set `true` for minified hexadecimal notation.
@@ -75,7 +73,6 @@ function rgbToHex({ r, g, b, a = 1 }, { minify = false } = {}) {
 
 /**
  * **(Color Conversion Functions)** Converts a HEX color into an RGB color object representation.
- *
  * @param {string} hex - A valid HEX color without the hashtag  "#". The alpha  channel is optional.
  * @return {Object} An RGB color object representation.
  */
@@ -133,7 +130,6 @@ function hsvToHsl({ h, s, v, a = 1 }) {
 
 /**
  * **(Color Conversion Functions)** Converts an RGB color object into its HSV representation.
- *
  * @param {Object} rgb - An RGB color object.
  * @return {Object} - An HSV color object representation.
  */
@@ -153,7 +149,6 @@ function rgbToHsv({ r, g, b, a = 1 }) {
 
 /**
  * **(Color Conversion Functions)** Converts an HSV color object into its RGB representation.
- *
  * @param {Object} hsv - An HSV color object.
  * @return {Object} An RGB color object representation.
  */
@@ -199,7 +194,6 @@ function hsvToRgb({ h, s, v, a = 1 }) {
 
 /**
  * **(Color Conversion Functions)** Converts HSL color object into its RGB representation using HSV interconversion.
- *
  * @param {Object} input - An HSL color object.
  * @return {Object} An RGB color object representation.
  */
@@ -209,7 +203,6 @@ function hslToRgb({ h, s, l, a = 1 }) {
 
 /**
  * **(Color Conversion Functions)** Converts RGB color object into its HSL representation using HSV interconversion.
- *
  * @param {Object} input - An RGB color object.
  * @return {Object} An HSL color object representation.
  */
