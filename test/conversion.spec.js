@@ -11,6 +11,13 @@ describe('conversion.rgbToHex()', () => {
     expect(result).toBe('#64C81E')
   })
 
+  it('converts a valid RGB object to a HEX shortened string if possible', () => {
+    const rgb = { r: 51, g: 51, b: 51, a: 0.8 }
+    const result = conversion.rgbToHex(rgb, { minify: true })
+
+    expect(result).toBe('#333C')
+  })
+
   it('converts a valid RGBA object to a HEX string with an alpha channel', () => {
     const rgba = validRgba
     const result = conversion.rgbToHex(rgba)
