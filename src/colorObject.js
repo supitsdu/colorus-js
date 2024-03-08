@@ -5,7 +5,7 @@ const nan = v => typeof v != 'number' || isNaN(v) || !isFinite(v)
 
 const isNull = v => typeof v !== 'object' || Array.isArray(v) || v === null
 
-const entries = {
+const colorSpaces = {
   rgb: ({ r, g, b, a = 1 }) => (nan(r) || nan(g) || nan(b) || nan(a) ? null : clamp.rgb({ r, g, b, a })),
   hsl: ({ h, s, l, a = 1 }) => (nan(h) || nan(s) || nan(l) || nan(a) ? null : clamp.hsl({ h, s, l, a })),
   hsv: ({ h, s, v, a = 1 }) => (nan(h) || nan(s) || nan(v) || nan(a) ? null : clamp.hsv({ h, s, v, a }))
@@ -19,32 +19,20 @@ const entries = {
  * @throws  Error if no valid color representation could be found in the input
  */
 const serialize = color => {
-  let match = null
-  let colorType = ''
-  let colorMatched = {}
+  for (const colorType in colorSpaces) {
+    if (!colorSpaces.hasOwnProperty(colorType)) continue
 
-  for (const key in entries) {
-    if (!entries.hasOwnProperty(key)) continue
+    const colorMatch = colorSpaces[colorType](color)
 
-    match = entries[key](color)
-
-    if (match == null) continue
-
-    colorType = key
-    colorMatched = match
+    if (colorMatch !== null) {
+      return {
+        colorType,
+        rgb: colorType === 'rgb' ? colorMatch : conversion[`${colorType}ToRgb`](colorMatch)
+      }
+    }
   }
 
-  switch (colorType) {
-    case 'rgb':
-      return { colorType, rgb: colorMatched }
-    case 'hsl':
-      return { colorType, rgb: conversion.hslToRgb(colorMatched) }
-    case 'hsv':
-      return { colorType, rgb: conversion.hsvToRgb(colorMatched) }
-
-    default:
-      throw new Error('Unrecognized color format!')
-  }
+  throw new Error('Unrecognized color format!')
 }
 
 export default { serialize, isNull, nan }
