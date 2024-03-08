@@ -1,71 +1,48 @@
+import clamp from './clamp'
 import conversion from './conversion'
 import { padString } from './helpers'
 
-const rgbCh = /(0|255|25[0-4]|2[0-4]\d|1\d\d|0?\d?\d)/.source
-const comma = /\s*,\s*/.source
-const space = /\s+/.source
-const legacyAlpha = /(?:(?:\s*,\s*)([0-1]|0?\.[0-9]+))?/.source
-const alpha = /(?:(?:\s*\/\s*)([0-1]|0?\.[0-9]+))?/.source
-const hueCh = /(0|360|3[0-5]\d|[12]\d\d|0?\d?\d)/.source
-const percent = /(0|100|\d{1,2})%?/.source
+const colorPatterns = {
+  hex: /^#?([a-f\d]{3,4}|[a-f\d]{6}|[a-f\d]{8})$/gim,
+  rgb: /^(?:rgba?\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*(?:,\s*([01](?:\.\d*)?))?\s*\)|rgba?\(\s*(\d{1,3})\s+(\d{1,3})\s+(\d{1,3})\s*(?:\/\s*([01](?:\.\d*)?))?\s*\))$/gim,
+  hsl: /^(?:hsla?\(\s*(\d{1,3})\s*,\s*(\d{1,3})%?\s*,\s*(\d{1,3})%?\s*(?:,\s*([01](?:\.\d*)?))?\s*\)|hsla?\(\s*(\d{1,3})\s+(\d{1,3})%?\s+(\d{1,3})%?\s*(?:\/\s*([01](?:\.\d*)?))?\s*\))$/gim,
+  hsv: /^(?:hsva?\(\s*(\d{1,3})\s*,\s*(\d{1,3})%?\s*,\s*(\d{1,3})%?\s*(?:,\s*([01](?:\.\d*)?))?\s*\)|hsva?\(\s*(\d{1,3})\s+(\d{1,3})%?\s+(\d{1,3})%?\s*(?:\/\s*([01](?:\.\d*)?))?\s*\))$/gim
+}
 
-/**
- * patterns object contains different color formats as keys and their corresponding regular expression patterns as values
- * @type {{hex: [RegExp], rgb: [RegExp, RegExp], hsl: [RegExp, RegExp], hsv: [RegExp, RegExp]}}
- */
-const patterns = {
-  hex: [/^#?([a-f\d]{3,4}|[a-f\d]{6}|[a-f\d]{8})$/i],
-
-  rgb: [
-    new RegExp(/^rgba?\(\s*/.source + rgbCh + comma + rgbCh + comma + rgbCh + legacyAlpha + /\s*\)$/.source, 'i'),
-    new RegExp(/^rgba?\(\s*/.source + rgbCh + space + rgbCh + space + rgbCh + alpha + /\s*\)$/.source, 'i')
-  ],
-
-  hsl: [
-    new RegExp(/^hsla?\(\s*/.source + hueCh + comma + percent + comma + percent + legacyAlpha + /\s*\)$/.source, 'i'),
-    new RegExp(/^hsla?\(\s*/.source + hueCh + space + percent + space + percent + alpha + /\s*\)$/.source, 'i')
-  ],
-
-  hsv: [
-    new RegExp(/^hsva?\(\s*/.source + hueCh + comma + percent + comma + percent + legacyAlpha + /\s*\)$/.source, 'i'),
-    new RegExp(/^hsva?\(\s*/.source + hueCh + space + percent + space + percent + alpha + /\s*\)$/.source, 'i')
-  ]
+const colorSpaces = {
+  hex: match => ({ colorType: 'hex', rgb: conversion.hexToRgb(padString(match[1])) }),
+  rgb: match => ({
+    colorType: 'rgb',
+    rgb: clamp.rgb({ r: match[1] || match[5], g: match[2] || match[6], b: match[3] || match[7], a: match[4] || match[8] })
+  }),
+  hsl: match => ({
+    colorType: 'hsl',
+    rgb: conversion.hslToRgb(
+      clamp.hsl({ h: match[1] || match[5], s: match[2] || match[6], l: match[3] || match[7], a: match[4] || match[8] })
+    )
+  }),
+  hsv: match => ({
+    colorType: 'hsv',
+    rgb: conversion.hsvToRgb(
+      clamp.hsv({ h: match[1] || match[5], s: match[2] || match[6], v: match[3] || match[7], a: match[4] || match[8] })
+    )
+  })
 }
 
 /**
- * Serializes an color string into an object with the color type and rgb values
- * @param {string} color - The color to serialize in string format
- * @return {{colorType: string, rgb: {r: number, g: number, b: number, a: number}}}
+ *  Takes in a string and returns an object with the color type and its RGB representation.
+ * @param {string} color  - The color to convert to an standardized  format.
+ * @return  {{colorType, rgb}} A object containing the type of color and its RGB value.
+ * @throws  Error if no valid color representation could be found in the input
  */
 const serialize = color => {
-  let match = null
-  let colorType = ''
-  let colorMatched = []
+  for (const [colorType, pattern] of Object.entries(colorPatterns)) {
+    const match = pattern.exec(color)
 
-  for (const key in patterns) {
-    if (!patterns.hasOwnProperty(key)) continue
-
-    match = (patterns[key][0] || patterns[key][1])?.exec(color)
-
-    if (match === null) continue
-
-    colorType = key
-    colorMatched = match.slice(1)
+    if (match !== null) return colorSpaces[colorType](match)
   }
 
-  switch (colorType) {
-    case 'hex':
-      return { colorType, rgb: conversion.hexToRgb(padString(colorMatched[0])) }
-    case 'rgb':
-      return { colorType, rgb: { r: colorMatched[0], g: colorMatched[1], b: colorMatched[2], a: colorMatched[3] } }
-    case 'hsl':
-      return { colorType, rgb: conversion.hslToRgb({ h: colorMatched[0], s: colorMatched[1], l: colorMatched[2], a: colorMatched[3] }) }
-    case 'hsv':
-      return { colorType, rgb: conversion.hsvToRgb({ h: colorMatched[0], s: colorMatched[1], v: colorMatched[2], a: colorMatched[3] }) }
-
-    default:
-      throw new Error('Unrecognized color format!')
-  }
+  throw new Error('Unrecognized color format!')
 }
 
 export default { serialize }
