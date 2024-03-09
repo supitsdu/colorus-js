@@ -3,7 +3,7 @@ import commonjs from '@rollup/plugin-commonjs'
 import swc from '@rollup/plugin-swc'
 
 export default {
-  input: 'src/index.js',
+  input: 'src/main.js',
   output: [
     {
       file: 'dist/main.js',
