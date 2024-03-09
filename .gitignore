@@ -6,6 +6,7 @@ dist/
 build/
 *.log
 coverage/
+*.tgz
 
 # Ignore lock files
 *-lock.*

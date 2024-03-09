@@ -1,0 +1,12 @@
+coverage
+src
+test
+mock
+bun.lockb
+.gitignore
+.eslintrc.json
+.prettierrc
+jest.config.js
+rollup.config.js
+*.tgz
+*.webp
