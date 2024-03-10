@@ -8,7 +8,8 @@ const isNull = v => typeof v !== 'object' || Array.isArray(v) || v === null
 const colorSpaces = {
   rgb: ({ r, g, b, a = 1 }) => (nan(r) || nan(g) || nan(b) || nan(a) ? null : clamp.rgb({ r, g, b, a })),
   hsl: ({ h, s, l, a = 1 }) => (nan(h) || nan(s) || nan(l) || nan(a) ? null : clamp.hsl({ h, s, l, a })),
-  hsv: ({ h, s, v, a = 1 }) => (nan(h) || nan(s) || nan(v) || nan(a) ? null : clamp.hsv({ h, s, v, a }))
+  hsv: ({ h, s, v, a = 1 }) => (nan(h) || nan(s) || nan(v) || nan(a) ? null : clamp.hsv({ h, s, v, a })),
+  cmyk: ({ c, m, y, k, a = 1 }) => (nan(c) || nan(m) || nan(y) || nan(k) || nan(a) ? null : clamp.cmyk({ c, m, y, k, a }))
 }
 
 /**

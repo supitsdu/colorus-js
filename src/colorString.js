@@ -6,25 +6,53 @@ const colorPatterns = {
   hex: /^#?([a-f\d]{3,4}|[a-f\d]{6}|[a-f\d]{8})$/gim,
   rgb: /^(?:rgba?\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*(?:,\s*([01](?:\.\d*)?))?\s*\)|rgba?\(\s*(\d{1,3})\s+(\d{1,3})\s+(\d{1,3})\s*(?:\/\s*([01](?:\.\d*)?))?\s*\))$/gim,
   hsl: /^(?:hsla?\(\s*(\d{1,3})\s*,\s*(\d{1,3})%?\s*,\s*(\d{1,3})%?\s*(?:,\s*([01](?:\.\d*)?))?\s*\)|hsla?\(\s*(\d{1,3})\s+(\d{1,3})%?\s+(\d{1,3})%?\s*(?:\/\s*([01](?:\.\d*)?))?\s*\))$/gim,
-  hsv: /^(?:hsva?\(\s*(\d{1,3})\s*,\s*(\d{1,3})%?\s*,\s*(\d{1,3})%?\s*(?:,\s*([01](?:\.\d*)?))?\s*\)|hsva?\(\s*(\d{1,3})\s+(\d{1,3})%?\s+(\d{1,3})%?\s*(?:\/\s*([01](?:\.\d*)?))?\s*\))$/gim
+  hsv: /^(?:hsva?\(\s*(\d{1,3})\s*,\s*(\d{1,3})%?\s*,\s*(\d{1,3})%?\s*(?:,\s*([01](?:\.\d*)?))?\s*\)|hsva?\(\s*(\d{1,3})\s+(\d{1,3})%?\s+(\d{1,3})%?\s*(?:\/\s*([01](?:\.\d*)?))?\s*\))$/gim,
+  cmyk: /^(?:cmyka?\(\s*(\d{1,3})%?\s*,\s*(\d{1,3})%?\s*,\s*(\d{1,3})%?\s*,\s*(\d{1,3})%?\s*(?:,\s*([01](?:\.\d*)?))?\s*\)|cmyka?\(\s*(\d{1,3})%?\s+(\d{1,3})%?\s+(\d{1,3})%?\s+(\d{1,3})%?\s*(?:\/\s*([01](?:\.\d*)?))?\s*\))$/gim
 }
 
 const colorSpaces = {
   hex: match => ({ colorType: 'hex', rgb: conversion.hexToRgb(padString(match[1])) }),
   rgb: match => ({
     colorType: 'rgb',
-    rgb: clamp.rgb({ r: match[1] || match[5], g: match[2] || match[6], b: match[3] || match[7], a: match[4] || match[8] })
+    rgb: clamp.rgb({
+      r: match[1] || match[5],
+      g: match[2] || match[6],
+      b: match[3] || match[7],
+      a: match[4] || match[8]
+    })
   }),
   hsl: match => ({
     colorType: 'hsl',
     rgb: conversion.hslToRgb(
-      clamp.hsl({ h: match[1] || match[5], s: match[2] || match[6], l: match[3] || match[7], a: match[4] || match[8] })
+      clamp.hsl({
+        h: match[1] || match[5],
+        s: match[2] || match[6],
+        l: match[3] || match[7],
+        a: match[4] || match[8]
+      })
     )
   }),
   hsv: match => ({
     colorType: 'hsv',
     rgb: conversion.hsvToRgb(
-      clamp.hsv({ h: match[1] || match[5], s: match[2] || match[6], v: match[3] || match[7], a: match[4] || match[8] })
+      clamp.hsv({
+        h: match[1] || match[5],
+        s: match[2] || match[6],
+        v: match[3] || match[7],
+        a: match[4] || match[8]
+      })
+    )
+  }),
+  cmyk: match => ({
+    colorType: 'cmyk',
+    rgb: conversion.cmykToRgb(
+      clamp.cmyk({
+        c: match[1] || match[6],
+        m: match[2] || match[7],
+        y: match[3] || match[8],
+        k: match[4] || match[9],
+        a: match[5] || match[10]
+      })
     )
   })
 }

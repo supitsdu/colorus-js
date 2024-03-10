@@ -33,7 +33,16 @@ const rgb = function ({ r, g, b, a = 1 }) {
 }
 
 /**
+ * Clamps an CMYK color object.
+ * @param {object} color - The CMYK color object to be clamped.
+ * @return {object} - The clamped CMYK color object with cyan, magenta, yellow, black, and alpha key values.
+ */
+const cmyk = function ({ c, m, y, k, a = 1 }) {
+  return { c: percent(c), m: percent(m), y: percent(y), k: percent(k), a: alpha(a) }
+}
+
+/**
  * The `clamp` object contains helper functions to clamp different types of color values.
  * These functions ensure that the input values fall within a specific range.
  */
-export default { rgb, hsl, hsv, degree, percent, eightBit, alpha }
+export default { rgb, hsl, hsv, cmyk, degree, percent, eightBit, alpha }

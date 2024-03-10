@@ -69,6 +69,14 @@ class Colorus {
   }
 
   /**
+   * Gets the CMYK object representation of the instantiated color.
+   * @return {Object} CMYK object representation.
+   */
+  get cmyk() {
+    return conversion.rgbToCmyk(this.#data.rgb)
+  }
+
+  /**
    * Returns the HEX string representation of the instantiated color.
    * @param {object} options - An optional options object to alter output.
    * @return {string} HEX string representation.
@@ -102,6 +110,15 @@ class Colorus {
    */
   toHsv(options) {
     return stringify.fromObject('hsv')(this.hsv, options)
+  }
+
+  /**
+   * Returns the CMYK string representation of the instantiated color.
+   * @param {object} options - An optional options object to alter output.
+   * @return {string} RGB string representation.
+   */
+  toCmyk(options) {
+    return stringify.fromObject('cmyk')(this.cmyk, options)
   }
 }
 

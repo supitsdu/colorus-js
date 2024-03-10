@@ -148,6 +148,42 @@ function rgbToHsv({ r, g, b, a = 1 }) {
 }
 
 /**
+ * **(Color Conversion Functions)** Converts an RGB color object into its CMYK representation.
+ * @param {Object} rgb - An RGB color object.
+ * @return {Object} An CMYK color object representation.
+ */
+function rgbToCmyk({ r, g, b, a = 1 }) {
+  r /= 255
+  g /= 255
+  b /= 255
+
+  const k = 1 - Math.max(r, g, b)
+  const c = (1 - r - k) / (1 - k)
+  const m = (1 - g - k) / (1 - k)
+  const y = (1 - b - k) / (1 - k)
+
+  return clamp.cmyk({ c: c * 100, m: m * 100, y: y * 100, k: k * 100, a })
+}
+
+/**
+ * **(Color Conversion Functions)** Converts an CMYK color object into its RGB representation.
+ * @param {Object} cmyk - An CMYK color object.
+ * @return {Object} An RGB color object representation.
+ */
+function cmykToRgb({ c, m, y, k, a = 1 }) {
+  c /= 100
+  m /= 100
+  y /= 100
+  k /= 100
+
+  const r = 255 * ((1 - c) * (1 - k))
+  const g = 255 * ((1 - m) * (1 - k))
+  const b = 255 * ((1 - y) * (1 - k))
+
+  return clamp.rgb({ r, g, b, a })
+}
+
+/**
  * **(Color Conversion Functions)** Converts an HSV color object into its RGB representation.
  * @param {Object} hsv - An HSV color object.
  * @return {Object} An RGB color object representation.
@@ -210,4 +246,4 @@ function rgbToHsl({ r, g, b, a = 1 }) {
   return hsvToHsl(rgbToHsv({ r, g, b, a }))
 }
 
-export default { hexToRgb, rgbToHex, rgbToHsv, rgbToHsl, hsvToRgb, hsvToHsl, hslToHsv, hslToRgb, hsvToHsl }
+export default { cmykToRgb, hexToRgb, rgbToHex, rgbToHsv, rgbToHsl, rgbToCmyk, hsvToRgb, hsvToHsl, hslToHsv, hslToRgb, hsvToHsl }
