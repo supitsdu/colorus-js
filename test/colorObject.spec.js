@@ -19,6 +19,12 @@ describe('serialize function', () => {
     expect(result).toEqual({ colorType: 'hsv', rgb: { r: 70.13, g: 127.5, b: 70.13, a: 1 } })
   })
 
+  it('should return correct serialized object for valid CMYK color input', () => {
+    const color = { c: 0, m: 26, y: 99, k: 1 }
+    const result = colorObject.serialize(color)
+    expect(result).toEqual({ colorType: 'cmyk', rgb: { r: 252.45, g: 186.81, b: 2.52, a: 1 } })
+  })
+
   it('should throw an error for invalid color input', () => {
     const color = { h: 'invalid', s: 'color', l: 'input' }
     expect(() => colorObject.serialize(color)).toThrow('Unrecognized color format!')

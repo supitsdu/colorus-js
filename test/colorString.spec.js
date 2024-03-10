@@ -17,6 +17,10 @@ describe('colorString.serialize', () => {
     expect(colorString.serialize('hsv(0, 100%, 100%)')).toEqual({ colorType: 'hsv', rgb: { r: 255, g: 0, b: 0, a: 1 } })
   })
 
+  it('converts a cmyk color to RGB', () => {
+    expect(colorString.serialize('cmyk(0% 26% 99% 1%)')).toEqual({ colorType: 'cmyk', rgb: { r: 252.45, g: 186.81, b: 2.52, a: 1 } })
+  })
+
   it('throws an error for an invalid color format', () => {
     expect(() => colorString.serialize('color(20 20 30)')).toThrow('Unrecognized color format!')
   })
