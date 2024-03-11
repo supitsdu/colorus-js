@@ -1,5 +1,6 @@
 import colorObject from './colorObject'
 import colorString from './colorString'
+import compose from './compose'
 import conversion from './conversion'
 import stringify from './stringify'
 
@@ -119,6 +120,16 @@ class Colorus {
    */
   toCmyk(options) {
     return stringify.fromObject('cmyk')(this.cmyk, options)
+  }
+
+  /**
+   * Interpolate between two colors.
+   * @param {object} input - The color to interpolate towards.
+   * @param {number} amount - The amount to interpolate (0-1).
+   * @return {Colorus} A new Colorus instance representing the interpolated color
+   */
+  mix(input, amount = 0.1) {
+    return new Colorus(compose.mix(this.rgb, new Colorus(input).rgb, amount))
   }
 }
 
