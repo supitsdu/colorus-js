@@ -1,9 +1,19 @@
 import clamp from './clamp'
 import conversion from './conversion'
 
+/**
+ * **(Helper function)** Check if input is NOT a Number (NaN)
+ * @param  {*} v - The value to check against.
+ * @return  {Boolean} `true` if it is not an number, `false` otherwise.
+ */
 const nan = v => typeof v != 'number' || isNaN(v) || !isFinite(v)
 
-const isNull = v => typeof v !== 'object' || Array.isArray(v) || v === null
+/**
+ * **(Helper function)** Check if input is NOT a Object (NaO)
+ * @param  {*} v - The object to check against.
+ * @return  {Boolean} `true` if it is not an object, `false` otherwise.
+ */
+const nao = v => typeof v !== 'object' || Array.isArray(v) || v === null
 
 const colorSpaces = {
   rgb: ({ r, g, b, a = 1 }) => (nan(r) || nan(g) || nan(b) || nan(a) ? null : clamp.rgb({ r, g, b, a })),
@@ -36,4 +46,4 @@ const serialize = color => {
   throw new Error('Unrecognized color format!')
 }
 
-export default { serialize, isNull, nan }
+export default { serialize, nao, nan }

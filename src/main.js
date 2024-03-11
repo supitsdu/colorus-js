@@ -17,7 +17,7 @@ const defaultFallbackColor = {
 const serializeInput = input => {
   if (typeof input === 'undefined') return null
   if (typeof input === 'string') return colorString.serialize(input)
-  if (!colorObject.isNull(input)) return colorObject.serialize(input)
+  if (!colorObject.nao(input)) return colorObject.serialize(input)
 
   throw new TypeError('Unknown input type. Colors must be either objects or strings.')
 }
