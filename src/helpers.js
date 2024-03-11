@@ -13,16 +13,12 @@
 export const utmost = (v, max) => Math.max(Math.min(v, max), 0)
 
 /**
- * Returns the input value with a specified precision level.
- *
- * If the input value is a floating point number with non-zero decimal part,
- * the value will be rounded to the specified number of decimal places.
+ * Returns the input value with a precision level of two decimal places.
  *
  * @param {number} value - The input value to format
- * @param {number} [max=2] - The maximum number of decimal places to keep
  * @return {number} The input value formatted with the specified precision
  */
-export const precision = (value, max = 2) => (Math.trunc(value) !== value ? parseFloat(value.toFixed(max)) : value)
+export const precision = value => (Math.trunc(value) !== value ? Math.round(value * 100) / 100 : value)
 
 /**
  * Converts the input to a string with radix 16 (HEX).

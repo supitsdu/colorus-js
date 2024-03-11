@@ -114,26 +114,24 @@ describe('padString', () => {
 
 describe('precision()', () => {
   test('Formats positive numbers with specified precision', () => {
-    expect(precision(3.14159, 2)).toBe(3.14)
-    expect(precision(2.71828, 3)).toBe(2.718)
-    expect(precision(1.61803, 4)).toBe(1.618)
+    expect(precision(3.14159)).toBe(3.14)
   })
 
   test('Formats negative numbers with specified precision', () => {
-    expect(precision(-3.14159, 2)).toBe(-3.14)
-    expect(precision(-2.71828, 3)).toBe(-2.718)
-    expect(precision(-1.61803, 4)).toBe(-1.618)
+    expect(precision(-3.14159)).toBe(-3.14)
+    expect(precision(-2.71828)).toBe(-2.72)
+    expect(precision(-1.61803)).toBe(-1.62)
   })
 
   test('Preserves integer values without decimal part', () => {
-    expect(precision(123, 2)).toBe(123)
-    expect(precision(456, 1)).toBe(456)
-    expect(precision(789, 4)).toBe(789)
+    expect(precision(123)).toBe(123)
+    expect(precision(456)).toBe(456)
+    expect(precision(789)).toBe(789)
   })
 
   test('Allows maximum precision of 20 decimal places', () => {
-    expect(precision(0.000000000000000012345, 20)).toBeCloseTo(0.00000000000000001234)
-    expect(precision(0.1234567890123456789, 15)).toBeCloseTo(0.123456789012346)
+    expect(precision(0.000000000000000012345)).toBe(0)
+    expect(precision(0.1234567890123456789)).toBe(0.12)
   })
 
   test('Uses default max precision of 2 if max parameter is undefined', () => {
