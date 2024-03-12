@@ -48,4 +48,15 @@ const lighten = ({ h, s, l, a = 1 }, amount, relative) => {
   return clamp.hsl({ h, s, l: modBy(l, amount, relative), a })
 }
 
-export default { mix, lighten, modBy }
+/**
+ * Saturate an HSL color by the specified amount.
+ * @param {Object} color - HSL color object to lighten.
+ * @param {number} amount - Amount to saturate color by. (Range: 0-1)
+ * @param {number} [relative=false] - Whether to modify the `value` relative to its current value.
+ * @return {Object} New HSL color object.
+ */
+const saturate = ({ h, s, l, a = 1 }, amount, relative) => {
+  return clamp.hsl({ h, s: modBy(s, amount, relative), l: l, a })
+}
+
+export default { mix, lighten, saturate, modBy }

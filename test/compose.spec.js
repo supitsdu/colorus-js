@@ -72,3 +72,41 @@ describe('lighten', () => {
     expect(clampedColor.l).toBeCloseTo(50) // l should be around 50 with precision
   })
 })
+
+describe('saturate', () => {
+  it('Saturate an HSL color by the specified amount', () => {
+    const color = { h: 0, s: 50, l: 50, a: 1 }
+    const amount = 0.2
+
+    const result = compose.saturate(color, amount)
+
+    expect(result.s).toBeCloseTo(70)
+  })
+
+  it('Does not modify the value if relative is false', () => {
+    const color = { h: 0, s: 50, l: 50, a: 1 }
+    const amount = 0.2
+
+    const result = compose.saturate(color, amount, false)
+
+    expect(result.s).toBe(70)
+  })
+
+  it('Modify the value relative to its current value if relative is true', () => {
+    const color = { h: 0, s: 50, l: 50, a: 1 }
+    const amount = 0.2
+
+    const result = compose.saturate(color, amount, true)
+
+    expect(result.s).toBeCloseTo(60)
+  })
+
+  it('Does not modify the alpha channel', () => {
+    const color = { h: 0, s: 50, l: 50, a: 0.7 }
+    const amount = 0.2
+
+    const result = compose.saturate(color, amount)
+
+    expect(result.a).toBe(0.7)
+  })
+})

@@ -145,6 +145,20 @@ class Colorus {
   lighten(amount = 0.1, relative = false) {
     return new Colorus(compose.lighten(this.hsl, amount, relative))
   }
+
+  /**
+   * Saturate the color by a certain amount.
+   * ```
+   * const myColor = new Colorus('#ec3');
+   * const lighterColor = myColor.saturate(0.1); // Saturate the red color slightly
+   * ```
+   * @param {number} amount - The amount to saturate the color by. A value between 0 and 1.
+   * @param {boolean} relative - Whether to saturate the color relative to its current value. Default is false.
+   * @return {Colorus} A new Colorus object with the saturated color.
+   */
+  saturate(amount = 0.1, relative = false) {
+    return new Colorus(compose.saturate(this.hsl, amount, relative))
+  }
 }
 
 export default Colorus
