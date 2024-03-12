@@ -131,6 +131,20 @@ class Colorus {
   mix(input, amount = 0.1) {
     return new Colorus(compose.mix(this.rgb, new Colorus(input).rgb, amount))
   }
+
+  /**
+   * Lightens the color by a certain amount.
+   * ```
+   * const myColor = new Colorus('#f00');
+   * const lighterColor = myColor.lighten(0.1); // Lightens the red color slightly
+   * ```
+   * @param {number} amount - The amount to lighten the color by. A value between 0 and 1.
+   * @param {boolean} relative - Whether to lighten the color relative to its current value. Default is false.
+   * @return {Colorus} A new Colorus object with the lightened color.
+   */
+  lighten(amount = 0.1, relative = false) {
+    return new Colorus(compose.lighten(this.hsl, amount, relative))
+  }
 }
 
 export default Colorus
