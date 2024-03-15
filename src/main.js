@@ -139,10 +139,9 @@ class Colorus {
    * const lighterColor = myColor.lighten(0.1); // Lightens the red color slightly
    * ```
    * @param {number} amount - The amount to lighten the color by. A value between 0 and 1.
-   * @param {boolean} relative - Whether to lighten the color relative to its current value. Default is false.
    * @return {Colorus} A new Colorus object with the lightened color.
    */
-  lighten(amount = 0.1, relative = false) {
+  lighten(amount = 0.1) {
     return new Colorus(compose.lighten(this.hsl, amount, relative))
   }
 
@@ -153,11 +152,10 @@ class Colorus {
    * const lighterColor = myColor.saturate(0.1); // Saturate the red color slightly
    * ```
    * @param {number} amount - The amount to saturate the color by. A value between 0 and 1.
-   * @param {boolean} relative - Whether to saturate the color relative to its current value. Default is false.
    * @return {Colorus} A new Colorus object with the saturated color.
    */
-  saturate(amount = 0.1, relative = false) {
-    return new Colorus(compose.saturate(this.hsl, amount, relative))
+  saturate(amount = 0.1) {
+    return new Colorus(compose.saturate(this.hsl, amount))
   }
 }
 
