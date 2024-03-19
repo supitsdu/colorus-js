@@ -67,3 +67,20 @@ describe('saturate', () => {
     expect(result.l).toBe(color.l)
   })
 })
+
+describe('hue', () => {
+  test('should adjust hue of an HSL color correctly', () => {
+    const color = { h: 180, s: 50, l: 50 }
+    const amount = 0.3
+    const result = compose.hue(color, amount)
+    expect(result.h).toBe(234)
+  })
+
+  test('should not modify saturation and lightness', () => {
+    const color = { h: 240, s: 80, l: 70 }
+    const amount = 0.1
+    const result = compose.hue(color, amount)
+    expect(result.s).toBe(color.s)
+    expect(result.l).toBe(color.l)
+  })
+})

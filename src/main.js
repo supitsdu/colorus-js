@@ -157,6 +157,19 @@ class Colorus {
   saturate(amount = 0.1) {
     return new Colorus(compose.saturate(this.hsl, amount))
   }
+
+  /**
+   * Adjust the hue of a HSL color.
+   * ```
+   * const myColor = new Colorus('#ec3');
+   * const lighterColor = myColor.hue(0.01); // Adjust the hue slightly
+   * ```
+   * @param {number} amount - The amount to saturate the color by. A value between 0 and 1.
+   * @return {Colorus} A new Colorus object with the saturated color.
+   */
+  hue(amount = 0.1) {
+    return new Colorus(compose.hue(this.hsl, amount))
+  }
 }
 
 export default Colorus
