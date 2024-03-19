@@ -65,4 +65,14 @@ const hue = ({ h, s, l, a = 1 }, amount) => {
   return clamp.hsl({ h: modBy(h, amount), s, l, a })
 }
 
-export default { mix, lighten, saturate, hue, modBy }
+/**
+ * Adjust the alpha channel of a RGB color.
+ * @param {Object} color - RGB color object..
+ * @param {number} amount - A value between 0 and 1.
+ * @return {Object} New RGB color object.
+ */
+const alpha = ({ r, g, b, a = 1 }, amount) => {
+  return clamp.rgb({ r, g, b, a: modBy(a, amount) })
+}
+
+export default { mix, lighten, saturate, hue, alpha, modBy }

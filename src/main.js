@@ -170,6 +170,15 @@ class Colorus {
   hue(amount = 0.1) {
     return new Colorus(compose.hue(this.hsl, amount))
   }
+
+  /**
+   * Adjust the alpha channel of a RGB color.
+   * @param {number} amount The amount to adjust the alpha by. A values between 0 and 1.
+   * @return {Colorus} A new Colorus object with the saturated color.
+   */
+  alpha(amount = 0.1) {
+    return new Colorus(compose.alpha(this.rgb, amount))
+  }
 }
 
 export default Colorus

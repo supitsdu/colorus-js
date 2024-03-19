@@ -84,3 +84,21 @@ describe('hue', () => {
     expect(result.l).toBe(color.l)
   })
 })
+
+describe('alpha', () => {
+  test('should adjust alpha channel of an RGB color correctly', () => {
+    const color = { h: 180, s: 50, l: 50, a: 0.54 }
+    const amount = 0.3
+    const result = compose.alpha(color, amount)
+    expect(result.a).toBe(0.7)
+  })
+
+  test('should not modify R, G, and B channels', () => {
+    const color = { r: 90, g: 80, b: 70, a: 0.54 }
+    const amount = 0.1
+    const result = compose.alpha(color, amount)
+    expect(result.r).toBe(color.r)
+    expect(result.g).toBe(color.g)
+    expect(result.b).toBe(color.b)
+  })
+})
