@@ -142,7 +142,7 @@ class Colorus {
    * @return {Colorus} A new Colorus object with the lightened color.
    */
   lighten(amount = 0.1) {
-    return new Colorus(compose.lighten(this.hsl, amount, relative))
+    return new Colorus(compose.lighten(this.hsl, amount))
   }
 
   /**
