@@ -1,4 +1,4 @@
-import clamp from './clamp'
+import { Clamp } from './colorNomalizer'
 import conversion from './conversion'
 import { padString } from './helpers'
 
@@ -14,7 +14,7 @@ const colorSpaces = {
   hex: match => ({ colorType: 'hex', rgb: conversion.hexToRgb(padString(match[1])) }),
   rgb: match => ({
     colorType: 'rgb',
-    rgb: clamp.rgb({
+    rgb: Clamp.rgb({
       r: match[1] || match[5],
       g: match[2] || match[6],
       b: match[3] || match[7],
@@ -24,7 +24,7 @@ const colorSpaces = {
   hsl: match => ({
     colorType: 'hsl',
     rgb: conversion.hslToRgb(
-      clamp.hsl({
+      Clamp.hsl({
         h: match[1] || match[5],
         s: match[2] || match[6],
         l: match[3] || match[7],
@@ -35,7 +35,7 @@ const colorSpaces = {
   hsv: match => ({
     colorType: 'hsv',
     rgb: conversion.hsvToRgb(
-      clamp.hsv({
+      Clamp.hsv({
         h: match[1] || match[5],
         s: match[2] || match[6],
         v: match[3] || match[7],
@@ -46,7 +46,7 @@ const colorSpaces = {
   cmyk: match => ({
     colorType: 'cmyk',
     rgb: conversion.cmykToRgb(
-      clamp.cmyk({
+      Clamp.cmyk({
         c: match[1] || match[6],
         m: match[2] || match[7],
         y: match[3] || match[8],

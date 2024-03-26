@@ -1,6 +1,6 @@
-import clamp from './clamp'
 import colorObject from './colorObject'
 import { precision } from './helpers'
+import { Clamp } from './colorNomalizer'
 
 /**
  * **(Helper Functions)** Modifies the given `value` by a certain `amount`.
@@ -27,12 +27,7 @@ const modBy = (value, amount) => {
 const mix = ({ r, g, b, a = 1 }, { r: R, g: G, b: B, a: A = 1 }, amount = 0.1) => {
   const mixBy = (p, s) => p * (1 - amount) + s * amount
 
-  return clamp.rgb({
-    r: mixBy(r, R),
-    g: mixBy(g, G),
-    b: mixBy(b, B),
-    a: mixBy(a * 100, A * 100)
-  })
+  return Clamp.rgb({ r: mixBy(r, R), g: mixBy(g, G), b: mixBy(b, B), a: mixBy(a * 100, A * 100) })
 }
 
 /**
@@ -42,7 +37,7 @@ const mix = ({ r, g, b, a = 1 }, { r: R, g: G, b: B, a: A = 1 }, amount = 0.1) =
  * @return {Object} New HSL color object.
  */
 const lighten = ({ h, s, l, a = 1 }, amount) => {
-  return clamp.hsl({ h, s, l: modBy(l, amount), a })
+  return Clamp.hsl({ h, s, l: modBy(l, amount), a })
 }
 
 /**
@@ -52,7 +47,7 @@ const lighten = ({ h, s, l, a = 1 }, amount) => {
  * @return {Object} New HSL color object.
  */
 const saturate = ({ h, s, l, a = 1 }, amount) => {
-  return clamp.hsl({ h, s: modBy(s, amount), l: l, a })
+  return Clamp.hsl({ h, s: modBy(s, amount), l: l, a })
 }
 
 /**
@@ -62,7 +57,7 @@ const saturate = ({ h, s, l, a = 1 }, amount) => {
  * @return {Object} New HSL color object.
  */
 const hue = ({ h, s, l, a = 1 }, amount) => {
-  return clamp.hsl({ h: modBy(h, amount), s, l, a })
+  return Clamp.hsl({ h: modBy(h, amount), s, l, a })
 }
 
 /**
@@ -72,7 +67,7 @@ const hue = ({ h, s, l, a = 1 }, amount) => {
  * @return {Object} New RGB color object.
  */
 const alpha = ({ r, g, b, a = 1 }, amount) => {
-  return clamp.rgb({ r, g, b, a: modBy(a, amount) })
+  return Clamp.rgb({ r, g, b, a: modBy(a, amount) })
 }
 
 export default { mix, lighten, saturate, hue, alpha, modBy }

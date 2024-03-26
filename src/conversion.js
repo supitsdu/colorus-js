@@ -1,5 +1,5 @@
-import clamp from './clamp'
 import { hexString } from './helpers'
+import { Clamp, Round } from './colorNomalizer'
 
 /**
  * **(Helper Functions)** Calculates the hue component of an HSV color object.
@@ -51,11 +51,10 @@ const isRgbShortanable = (r, g, b, a = 1) => r % 17 === 0 && g % 17 === 0 && b %
  * @param {boolean} [options.minify=false]  set `true` for minified hexadecimal notation.
  * @return {string} an HEX string
  */
-function rgbToHex({ r, g, b, a = 1 }, { minify = false } = {}) {
-  r = Math.round(r)
-  g = Math.round(g)
-  b = Math.round(b)
-  a = Math.round(clamp.eightBit(a * 255))
+function rgbToHex({ r, g, b, a }, { minify = false } = {}) {
+  ;[r, g, b] = Round.rgb(r, g, b, a)
+
+  a = Math.round(Clamp.eightBit(a * 255))
 
   let value = hexString((r << 16) | (g << 8) | b, 6)
 
@@ -92,7 +91,7 @@ function hexToRgb(hex) {
     value.a = (delta & 255) / 255
   }
 
-  return clamp.rgb(value)
+  return Clamp.rgb(value)
 }
 
 /**
@@ -106,7 +105,7 @@ function hslToHsv({ h, s, l, a = 1 }) {
 
   s = deltaS > 0 ? ((2 * deltaS) / (l + deltaS)) * 100 : 0
 
-  return clamp.hsv({ h, s, v, a })
+  return Clamp.hsv({ h, s, v, a })
 }
 
 /**
@@ -125,7 +124,7 @@ function hsvToHsl({ h, s, v, a = 1 }) {
     s = 0
   }
 
-  return clamp.hsl({ h, s, l, a })
+  return Clamp.hsl({ h, s, l, a })
 }
 
 /**
@@ -144,7 +143,7 @@ function rgbToHsv({ r, g, b, a = 1 }) {
   const s = (maxRgb > 0 ? segment / maxRgb : 0) * 100
   const h = computeHsvHue({ r, g, b }, { segment, maxRgb, minRgb })
 
-  return clamp.hsv({ h, s, v, a })
+  return Clamp.hsv({ h, s, v, a })
 }
 
 /**
@@ -162,7 +161,7 @@ function rgbToCmyk({ r, g, b, a = 1 }) {
   const m = (1 - g - k) / (1 - k)
   const y = (1 - b - k) / (1 - k)
 
-  return clamp.cmyk({ c: c * 100, m: m * 100, y: y * 100, k: k * 100, a })
+  return Clamp.cmyk({ c: c * 100, m: m * 100, y: y * 100, k: k * 100, a })
 }
 
 /**
@@ -180,7 +179,7 @@ function cmykToRgb({ c, m, y, k, a = 1 }) {
   const g = 255 * ((1 - m) * (1 - k))
   const b = 255 * ((1 - y) * (1 - k))
 
-  return clamp.rgb({ r, g, b, a })
+  return Clamp.rgb({ r, g, b, a })
 }
 
 /**
@@ -220,7 +219,7 @@ function hsvToRgb({ h, s, v, a = 1 }) {
   }
 
   // Clamp and return RGB values
-  return clamp.rgb({
+  return Clamp.rgb({
     r: (red + minComponent) * 255,
     g: (green + minComponent) * 255,
     b: (blue + minComponent) * 255,
