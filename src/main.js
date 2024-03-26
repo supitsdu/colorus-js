@@ -1,8 +1,9 @@
+import ColorFormatter from './colorFormatter'
 import colorObject from './colorObject'
 import colorString from './colorString'
 import compose from './compose'
 import conversion from './conversion'
-import stringify from './stringify'
+
 
 const defaultFallbackColor = {
   colorType: undefined,
@@ -92,7 +93,7 @@ class Colorus {
    * @return {string} RGB string representation.
    */
   toRgb(options) {
-    return stringify.fromObject('rgb')(this.rgb, options)
+    return new ColorFormatter(options).rgb(this.rgb)
   }
 
   /**
@@ -101,7 +102,7 @@ class Colorus {
    * @return {string} RGB string representation.
    */
   toHsl(options) {
-    return stringify.fromObject('hsl')(this.hsl, options)
+    return new ColorFormatter(options).hsl(this.hsl)
   }
 
   /**
@@ -110,7 +111,7 @@ class Colorus {
    * @return {string} RGB string representation.
    */
   toHsv(options) {
-    return stringify.fromObject('hsv')(this.hsv, options)
+    return new ColorFormatter(options).hsv(this.hsv)
   }
 
   /**
@@ -119,7 +120,7 @@ class Colorus {
    * @return {string} RGB string representation.
    */
   toCmyk(options) {
-    return stringify.fromObject('cmyk')(this.cmyk, options)
+    return new ColorFormatter(options).cmyk(this.cmyk)
   }
 
   /**
