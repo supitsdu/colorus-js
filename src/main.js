@@ -4,7 +4,10 @@ import colorString from './colorString'
 import compose from './compose'
 import conversion from './conversion'
 
-
+/**
+ * Default fallback color object.
+ * @type {Object}
+ */
 const defaultFallbackColor = {
   colorType: undefined,
   rgb: { r: 0, g: 0, b: 0, a: 1 }
@@ -39,143 +42,121 @@ class Colorus {
   }
 
   /**
-   * Gets the color type from the latest instace.
-   * @return {string}  The color type ('rgb', 'hsl', etc.).
+   * Get the color type of the current color.
+   * @returns {string} The color type.
    */
-  get type() {
+  get colorType() {
     return this.#data.colorType
   }
 
   /**
-   * Gets the RGB object representation of the instantiated color.
-   * @return {Object} RGB object representation.
+   * Get the RGB object representation of the current color.
+   * @returns {Object} The RGB representation.
    */
   get rgb() {
     return this.#data.rgb
   }
 
   /**
-   * Gets the HSL object representation of the instantiated color.
-   * @return {Object} HSL object representation.
+   * Get the HSL object representation of the current color.
+   * @returns {Object} The HSL representation.
    */
   get hsl() {
     return conversion.rgbToHsl(this.#data.rgb)
   }
 
   /**
-   * Gets the HSV object representation of the instantiated color.
-   * @return {Object} HSV object representation.
+   * Get the HSV representation of the current color.
+   * @returns {Object} The HSV representation.
    */
   get hsv() {
     return conversion.rgbToHsv(this.#data.rgb)
   }
 
   /**
-   * Gets the CMYK object representation of the instantiated color.
-   * @return {Object} CMYK object representation.
+   * Get the CMYK representation of the current color.
+   * @returns {Object} The CMYK representation.
    */
   get cmyk() {
     return conversion.rgbToCmyk(this.#data.rgb)
   }
 
   /**
-   * Returns the HEX string representation of the instantiated color.
-   * @param {object} options - An optional options object to alter output.
-   * @return {string} HEX string representation.
+   * Convert the current color to hexadecimal format.
+   * @param {Object} [options] - Formatting options.
+   * @returns {string} The hexadecimal representation of the color.
    */
-  toHex(options) {
-    return conversion.rgbToHex(this.rgb, options)
-  }
+  toHex = options => conversion.rgbToHex(this.rgb, options)
 
   /**
-   * Returns the RGB string representation of the instantiated color.
-   * @param {object} options - An optional options object to alter output.
-   * @return {string} RGB string representation.
+   * Convert the current color to RGB format.
+   * @param {Object} [options] - Formatting options.
+   * @returns {string} The RGB representation of the color.
    */
-  toRgb(options) {
-    return new ColorFormatter(options).rgb(this.rgb)
-  }
+  toRgb = options => new ColorFormatter(options).rgb(this.rgb)
 
   /**
-   * Returns the HSL string representation of the instantiated color.
-   * @param {object} options - An optional options object to alter output.
-   * @return {string} RGB string representation.
+   * Convert the current color to HSL format.
+   * @param {Object} [options] - Formatting options.
+   * @returns {string} The HSL representation of the color.
    */
-  toHsl(options) {
-    return new ColorFormatter(options).hsl(this.hsl)
-  }
+  toHsl = options => new ColorFormatter(options).hsl(this.hsl)
 
   /**
-   * Returns the HSV string representation of the instantiated color.
-   * @param {object} options - An optional options object to alter output.
-   * @return {string} RGB string representation.
+   * Convert the current color to HSV format.
+   * @param {Object} [options] - Formatting options.
+   * @returns {string} The HSV representation of the color.
    */
-  toHsv(options) {
-    return new ColorFormatter(options).hsv(this.hsv)
-  }
+  toHsv = options => new ColorFormatter(options).hsv(this.hsv)
 
   /**
-   * Returns the CMYK string representation of the instantiated color.
-   * @param {object} options - An optional options object to alter output.
-   * @return {string} RGB string representation.
+   * Convert the current color to CMYK format.
+   * @param {Object} [options] - Formatting options.
+   * @returns {string} The CMYK representation of the color.
    */
-  toCmyk(options) {
-    return new ColorFormatter(options).cmyk(this.cmyk)
-  }
+  toCmyk = options => new ColorFormatter(options).cmyk(this.cmyk)
 
   /**
-   * Interpolate between two colors.
-   * @param {object} input - The color to interpolate towards.
-   * @param {number} amount - The amount to interpolate (0-1).
-   * @return {Colorus} A new Colorus instance representing the interpolated color
+   * Mixes the current color with another color.
+   * @param {string|Object} input - The color to mix with.
+   * @param {number} [amount=0.1] - The amount of mixing.
+   * @returns {Colorus} A new Colorus instance representing the mixed color.
    */
   mix(input, amount = 0.1) {
     return new Colorus(compose.mix(this.rgb, new Colorus(input).rgb, amount))
   }
 
   /**
-   * Lightens the color by a certain amount.
-   * ```
-   * const myColor = new Colorus('#f00');
-   * const lighterColor = myColor.lighten(0.1); // Lightens the red color slightly
-   * ```
-   * @param {number} amount - The amount to lighten the color by. A value between 0 and 1.
-   * @return {Colorus} A new Colorus object with the lightened color.
+   * Lightens the current color.
+   * @param {number} [amount=0.1] - The amount of lightening.
+   * @returns {Colorus} A new Colorus instance representing the lightened color.
    */
   lighten(amount = 0.1) {
     return new Colorus(compose.lighten(this.hsl, amount))
   }
 
   /**
-   * Saturate the color by a certain amount.
-   * ```
-   * const myColor = new Colorus('#ec3');
-   * const lighterColor = myColor.saturate(0.1); // Saturate the red color slightly
-   * ```
-   * @param {number} amount - The amount to saturate the color by. A value between 0 and 1.
-   * @return {Colorus} A new Colorus object with the saturated color.
+   * Saturates the current color.
+   * @param {number} [amount=0.1] - The amount of saturation.
+   * @returns {Colorus} A new Colorus instance representing the saturated color.
    */
   saturate(amount = 0.1) {
     return new Colorus(compose.saturate(this.hsl, amount))
   }
 
   /**
-   * Adjust the hue of a HSL color.
-   * ```
-   * const myColor = new Colorus('#ec3');
-   * const lighterColor = myColor.hue(0.01); // Adjust the hue slightly
-   * ```
-   * @param {number} amount - The amount to saturate the color by. A value between 0 and 1.
-   * @return {Colorus} A new Colorus object with the saturated color.
+   * Changes the hue of the current color.
+   * @param {number} [amount=0.1] - The amount of hue change.
+   * @returns {Colorus} A new Colorus instance representing the color with changed hue.
    */
   hue(amount = 0.1) {
     return new Colorus(compose.hue(this.hsl, amount))
   }
 
   /**
-   * Adjust the alpha channel of a RGB color.
-   * @param {number} amount The amount to adjust the alpha by. A values between 0 and 1.
-   * @return {Colorus} A new Colorus object with the saturated color.
+   * Changes the alpha (opacity) of the current color.
+   * @param {number} [amount=0.1] - The amount of alpha change.
+   * @returns {Colorus} A new Colorus instance representing the color with changed alpha.
    */
   alpha(amount = 0.1) {
     return new Colorus(compose.alpha(this.rgb, amount))
