@@ -1,5 +1,5 @@
 import conversion from './conversion'
-import { Clamp } from './colorNomalizer'
+import { Clamp } from './colorNormalizer'
 
 /**
  * **(Helper function)** Check if input is NOT a Number (NaN)

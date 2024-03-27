@@ -1,6 +1,6 @@
 import colorObject from './colorObject'
 import { precision } from './helpers'
-import { Clamp } from './colorNomalizer'
+import { Clamp } from './colorNormalizer'
 
 /**
  * **(Helper Functions)** Modifies the given `value` by a certain `amount`.

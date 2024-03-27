@@ -1,5 +1,5 @@
+import { Clamp, Round, eightBit } from './colorNormalizer'
 import { hexString } from './helpers'
-import { Clamp, Round } from './colorNomalizer'
 
 /**
  * **(Helper Functions)** Calculates the hue component of an HSV color object.
@@ -51,19 +51,19 @@ const isRgbShortanable = (r, g, b, a = 1) => r % 17 === 0 && g % 17 === 0 && b %
  * @param {boolean} [options.minify=false]  set `true` for minified hexadecimal notation.
  * @return {string} an HEX string
  */
-function rgbToHex({ r, g, b, a }, { minify = false } = {}) {
-  ;[r, g, b] = Round.rgb(r, g, b, a)
+function rgbToHex({ r, g, b, a } = {}, { minify = false } = {}) {
+  const { r: R, g: G, b: B, a: A } = Round.rgb({ r, g, b, a })
 
-  a = Math.round(Clamp.eightBit(a * 255))
+  const alphaInEightBit = eightBit(A * 255)
 
-  let value = hexString((r << 16) | (g << 8) | b, 6)
+  let value = hexString((R << 16) | (G << 8) | B, 6)
 
-  if (a < 255) {
-    const alphaHex = hexString(a, 2)
+  if (alphaInEightBit < 255) {
+    const alphaHex = hexString(alphaInEightBit, 2)
     value += alphaHex
   }
 
-  if (minify && isRgbShortanable(r, g, b, a)) {
+  if (minify && isRgbShortanable(R, G, B, alphaInEightBit)) {
     value = value.replace(/(.)\1/g, '$1')
   }
 

@@ -1,13 +1,13 @@
-import { Clamp } from './colorNomalizer'
+import { Clamp } from './colorNormalizer'
 import conversion from './conversion'
 import { padString } from './helpers'
 
 const colorPatterns = {
   hex: /^#?([a-f\d]{3,4}|[a-f\d]{6}|[a-f\d]{8})$/gim,
-  rgb: /^(?:rgba?\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*(?:,\s*([01](?:\.\d*)?))?\s*\)|rgba?\(\s*(\d{1,3})\s+(\d{1,3})\s+(\d{1,3})\s*(?:\/\s*([01](?:\.\d*)?))?\s*\))$/gim,
-  hsl: /^(?:hsla?\(\s*(\d{1,3})\s*,\s*(\d{1,3})%?\s*,\s*(\d{1,3})%?\s*(?:,\s*([01](?:\.\d*)?))?\s*\)|hsla?\(\s*(\d{1,3})\s+(\d{1,3})%?\s+(\d{1,3})%?\s*(?:\/\s*([01](?:\.\d*)?))?\s*\))$/gim,
-  hsv: /^(?:hsva?\(\s*(\d{1,3})\s*,\s*(\d{1,3})%?\s*,\s*(\d{1,3})%?\s*(?:,\s*([01](?:\.\d*)?))?\s*\)|hsva?\(\s*(\d{1,3})\s+(\d{1,3})%?\s+(\d{1,3})%?\s*(?:\/\s*([01](?:\.\d*)?))?\s*\))$/gim,
-  cmyk: /^(?:cmyka?\(\s*(\d{1,3})%?\s*,\s*(\d{1,3})%?\s*,\s*(\d{1,3})%?\s*,\s*(\d{1,3})%?\s*(?:,\s*([01](?:\.\d*)?))?\s*\)|cmyka?\(\s*(\d{1,3})%?\s+(\d{1,3})%?\s+(\d{1,3})%?\s+(\d{1,3})%?\s*(?:\/\s*([01](?:\.\d*)?))?\s*\))$/gim
+  rgb: /^rgba?\(\s*(\d{1,3})(?:\s*\,\s*|\s+)(\d{1,3})(?:\s*\,\s*|\s+)(\d{1,3})(?:\s*(?:\,|\/)\s*(0?\.\d{1,}|1|0))?\s*\)$/gim,
+  hsl: /^hsla?\(\s*(\d{1,3})(?:deg|°)?(?:\s*\,\s*|\s+)(\d{1,3})%?(?:\s*\,\s*|\s+)(\d{1,3})%?(?:\s*(?:\,|\/)\s*(0?\.\d{1,}|1|0))?\s*\)$/gim,
+  hsv: /^hsva?\(\s*(\d{1,3})(?:deg|°)?(?:\s*\,\s*|\s+)(\d{1,3})%?(?:\s*\,\s*|\s+)(\d{1,3})%?(?:\s*(?:\,|\/)\s*(0?\.\d{1,}|1|0))?\s*\)$/gim,
+  cmyk: /^cmyka?\(\s*(\d{1,3})%?(?:\s*\,\s*|\s+)(\d{1,3})%?(?:\s*\,\s*|\s+)(\d{1,3})%?(?:\s*\,\s*|\s+)(\d{1,3})%?(?:\s*(?:\,|\/)\s*(0?\.\d{1,}|1|0))?\s*\)$/gim
 }
 
 const colorSpaces = {
@@ -15,20 +15,20 @@ const colorSpaces = {
   rgb: match => ({
     colorType: 'rgb',
     rgb: Clamp.rgb({
-      r: match[1] || match[5],
-      g: match[2] || match[6],
-      b: match[3] || match[7],
-      a: match[4] || match[8]
+      r: match[1],
+      g: match[2],
+      b: match[3],
+      a: match[4] || 1
     })
   }),
   hsl: match => ({
     colorType: 'hsl',
     rgb: conversion.hslToRgb(
       Clamp.hsl({
-        h: match[1] || match[5],
-        s: match[2] || match[6],
-        l: match[3] || match[7],
-        a: match[4] || match[8]
+        h: match[1],
+        s: match[2],
+        l: match[3],
+        a: match[4] || 1
       })
     )
   }),
@@ -36,10 +36,10 @@ const colorSpaces = {
     colorType: 'hsv',
     rgb: conversion.hsvToRgb(
       Clamp.hsv({
-        h: match[1] || match[5],
-        s: match[2] || match[6],
-        v: match[3] || match[7],
-        a: match[4] || match[8]
+        h: match[1],
+        s: match[2],
+        v: match[3],
+        a: match[4] || 1
       })
     )
   }),
@@ -47,11 +47,11 @@ const colorSpaces = {
     colorType: 'cmyk',
     rgb: conversion.cmykToRgb(
       Clamp.cmyk({
-        c: match[1] || match[6],
-        m: match[2] || match[7],
-        y: match[3] || match[8],
-        k: match[4] || match[9],
-        a: match[5] || match[10]
+        c: match[1],
+        m: match[2],
+        y: match[3],
+        k: match[4],
+        a: match[5] || 1
       })
     )
   })

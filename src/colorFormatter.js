@@ -1,4 +1,4 @@
-import { Round } from './colorNomalizer'
+import { Round } from './colorNormalizer'
 
 // A class for formatting color values into various formats.
 class ColorFormatter {
