@@ -15,12 +15,12 @@ const nan = v => typeof v != 'number' || isNaN(v) || !isFinite(v)
  */
 const nao = v => typeof v !== 'object' || Array.isArray(v) || v === null
 
-const colorSpaces = {
-  rgb: ({ r, g, b, a = 1 }) => (nan(r) || nan(g) || nan(b) || nan(a) ? null : Clamp.rgb({ r, g, b, a })),
-  hsl: ({ h, s, l, a = 1 }) => (nan(h) || nan(s) || nan(l) || nan(a) ? null : Clamp.hsl({ h, s, l, a })),
-  hsv: ({ h, s, v, a = 1 }) => (nan(h) || nan(s) || nan(v) || nan(a) ? null : Clamp.hsv({ h, s, v, a })),
-  cmyk: ({ c, m, y, k, a = 1 }) => (nan(c) || nan(m) || nan(y) || nan(k) || nan(a) ? null : Clamp.cmyk({ c, m, y, k, a }))
-}
+const colorSpaces = [
+  ['rgb', ({ r, g, b, a = 1 }) => (nan(r) || nan(g) || nan(b) || nan(a) ? null : Clamp.rgb({ r, g, b, a }))],
+  ['hsl', ({ h, s, l, a = 1 }) => (nan(h) || nan(s) || nan(l) || nan(a) ? null : Clamp.hsl({ h, s, l, a }))],
+  ['hsv', ({ h, s, v, a = 1 }) => (nan(h) || nan(s) || nan(v) || nan(a) ? null : Clamp.hsv({ h, s, v, a }))],
+  ['cmyk', ({ c, m, y, k, a = 1 }) => (nan(c) || nan(m) || nan(y) || nan(k) || nan(a) ? null : Clamp.cmyk({ c, m, y, k, a }))]
+]
 
 /**
  * Serializes an color string into an object with the color type and rgb values.
@@ -30,10 +30,8 @@ const colorSpaces = {
  * @throws  Error if no valid color representation could be found in the input
  */
 const serialize = color => {
-  for (const colorType in colorSpaces) {
-    if (!colorSpaces.hasOwnProperty(colorType)) continue
-
-    const colorMatch = colorSpaces[colorType](color)
+  for (const [colorType, normalize] of colorSpaces) {
+    const colorMatch = normalize(color)
 
     if (colorMatch !== null) {
       return {
