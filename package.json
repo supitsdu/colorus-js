@@ -4,6 +4,18 @@
   "description": "Sleek and powerful color manipulation library for JavaScript.",
   "type": "module",
   "main": "./dist/index.js",
+  "exports": {
+    ".": {
+      "require": {
+        "default": "./dist/main.cjs",
+        "types": "./@types/main.d.ts"
+      },
+      "import": {
+        "default": "./dist/main.js",
+        "types": "./@types/main.d.ts"
+      }
+    }
+  },
   "scripts": {
     "format": "prettier --write src/**/*.js",
     "lint": "eslint src/**/*.js",
