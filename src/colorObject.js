@@ -1,15 +1,15 @@
-import conversion from './conversion'
+import * as conversion from './conversion'
 import { Clamp } from './colorNormalizer'
 
 /**
- * **(Helper function)** Check if input is NOT a Number (NaN)
+ * Check if input is NOT a Number (NaN)
  * @param  {*} v - The value to check against.
  * @return  {Boolean} `true` if it is not an number, `false` otherwise.
  */
 const nan = v => typeof v != 'number' || isNaN(v) || !isFinite(v)
 
 /**
- * **(Helper function)** Check if input is NOT a Object (NaO)
+ * Check if input is NOT a Object (NaO)
  * @param  {*} v - The object to check against.
  * @return  {Boolean} `true` if it is not an object, `false` otherwise.
  */
@@ -26,7 +26,7 @@ const colorSpaces = [
  * Serializes an color string into an object with the color type and rgb values.
  *
  * @param {object} color any color space object
- * @return {Object}  An object containing the color type and its rgba value
+ * @return {object}  An object containing the color type and its rgba value
  * @throws  Error if no valid color representation could be found in the input
  */
 const serialize = color => {

@@ -1,46 +1,46 @@
-import conversion from '../src/conversion'
+import { rgbToHex, hexToRgb, hslToHsv, hsvToHsl, rgbToHsv, hsvToRgb, hslToRgb } from '../src/conversion'
 
-describe('conversion.rgbToHex()', () => {
+describe('rgbToHex()', () => {
   const validRgb = { r: 100, g: 200, b: 30 }
   const validRgba = { r: 100, g: 200, b: 30, a: 0.5 }
 
   it('converts a valid RGB object to a HEX string', () => {
     const rgb = validRgb
-    const result = conversion.rgbToHex(rgb)
+    const result = rgbToHex(rgb)
 
     expect(result).toBe('#64C81E')
   })
 
   it('converts a valid RGB object to a HEX shortened string if possible', () => {
     const rgb = { r: 51, g: 51, b: 51, a: 0.8 }
-    const result = conversion.rgbToHex(rgb, { minify: true })
+    const result = rgbToHex(rgb, { minify: true })
 
     expect(result).toBe('#333C')
   })
 
   it('converts a valid RGBA object to a HEX string with an alpha channel', () => {
     const rgba = validRgba
-    const result = conversion.rgbToHex(rgba)
+    const result = rgbToHex(rgba)
 
     expect(result).toBe('#64C81E80')
   })
 
   it('returns #000000 when given an RGB object with r, g, and b equal to 0', () => {
     const rgb = { r: 0, g: 0, b: 0 }
-    const result = conversion.rgbToHex(rgb)
+    const result = rgbToHex(rgb)
 
     expect(result).toBe('#000000')
   })
 })
 
-describe('conversion.hexToRgb', () => {
+describe('hexToRgb', () => {
   const validHex = '64c81e'
   const validHexAlpha = '64c81ecc'
 
   it('converts a valid HEX string to an RGB object', () => {
     const hex = validHex
 
-    const rgb = conversion.hexToRgb(hex)
+    const rgb = hexToRgb(hex)
 
     expect(rgb.r).toBe(100)
     expect(rgb.g).toBe(200)
@@ -51,7 +51,7 @@ describe('conversion.hexToRgb', () => {
   it('converts a valid HEX string with an alpha channel to an RGB object with alpha', () => {
     const hex = validHexAlpha
 
-    const rgb = conversion.hexToRgb(hex)
+    const rgb = hexToRgb(hex)
 
     expect(rgb.r).toBe(100)
     expect(rgb.g).toBe(200)
@@ -62,7 +62,7 @@ describe('conversion.hexToRgb', () => {
   it('returns an RGB object with r, g, and b equal to 0 when given #000000', () => {
     const hex = '000000'
 
-    const rgb = conversion.hexToRgb(hex)
+    const rgb = hexToRgb(hex)
 
     expect(rgb.r).toBe(0)
     expect(rgb.g).toBe(0)
@@ -71,10 +71,10 @@ describe('conversion.hexToRgb', () => {
   })
 })
 
-describe('conversion.hslToHsv()', () => {
+describe('hslToHsv()', () => {
   it('converts an HSL color object to HSV correctly', () => {
     const hsl = { h: 120, s: 50, l: 75 }
-    const hsv = conversion.hslToHsv(hsl)
+    const hsv = hslToHsv(hsl)
 
     expect(hsv.h).toBe(120)
     expect(hsv.s).toBe(28.57)
@@ -83,7 +83,7 @@ describe('conversion.hslToHsv()', () => {
 
   it('converts an HSLA color object to HSVA correctly', () => {
     const hsl = { h: 120, s: 50, l: 75, a: 0.5 }
-    const hsv = conversion.hslToHsv(hsl)
+    const hsv = hslToHsv(hsl)
 
     expect(hsv.h).toBe(120, 5)
     expect(hsv.s).toBe(28.57, 5)
@@ -93,7 +93,7 @@ describe('conversion.hslToHsv()', () => {
 
   it('handles saturation of 0 correctly', () => {
     const hsl = { h: 120, s: 0, l: 75, a: 0.5 }
-    const hsv = conversion.hslToHsv(hsl)
+    const hsv = hslToHsv(hsl)
 
     expect(hsv.h).toBe(120, 5)
     expect(hsv.s).toBe(0, 5)
@@ -104,8 +104,8 @@ describe('conversion.hslToHsv()', () => {
   it('handles lightness of 0 and 100 correctly', () => {
     const hsl1 = { h: 120, s: 50, l: 0, a: 0.5 }
     const hsl2 = { h: 120, s: 50, l: 100, a: 0.5 }
-    const hsv1 = conversion.hslToHsv(hsl1)
-    const hsv2 = conversion.hslToHsv(hsl2)
+    const hsv1 = hslToHsv(hsl1)
+    const hsv2 = hslToHsv(hsl2)
 
     expect(hsv1.h).toBe(120, 5)
     expect(hsv1.s).toBe(0, 5)
@@ -119,10 +119,10 @@ describe('conversion.hslToHsv()', () => {
   })
 })
 
-describe('conversion.hsvToHsl()', () => {
+describe('hsvToHsl()', () => {
   it('converts an HSV color object to HSL correctly', () => {
     const hsv = { h: 120, s: 100, v: 100 }
-    const hsl = conversion.hsvToHsl(hsv)
+    const hsl = hsvToHsl(hsv)
 
     expect(hsl.h).toBe(120)
     expect(hsl.s).toBe(100)
@@ -131,7 +131,7 @@ describe('conversion.hsvToHsl()', () => {
 
   it('converts an HSVA color object to HSLA correctly', () => {
     const hsv = { h: 120, s: 100, v: 100, a: 0.5 }
-    const hsl = conversion.hsvToHsl(hsv)
+    const hsl = hsvToHsl(hsv)
 
     expect(hsl.h).toBe(120)
     expect(hsl.s).toBe(100)
@@ -141,7 +141,7 @@ describe('conversion.hsvToHsl()', () => {
 
   it('handles saturation of 0 correctly', () => {
     const hsv = { h: 120, s: 0, v: 75, a: 0.5 }
-    const hsl = conversion.hsvToHsl(hsv)
+    const hsl = hsvToHsl(hsv)
 
     expect(hsl.h).toBe(120)
     expect(hsl.s).toBe(0)
@@ -152,8 +152,8 @@ describe('conversion.hsvToHsl()', () => {
   it('handles lightness of 0 and 100 correctly', () => {
     const hsv1 = { h: 120, s: 50, v: 0 }
     const hsv2 = { h: 120, s: 50, v: 100 }
-    const hsl1 = conversion.hsvToHsl(hsv1)
-    const hsl2 = conversion.hsvToHsl(hsv2)
+    const hsl1 = hsvToHsl(hsv1)
+    const hsl2 = hsvToHsl(hsv2)
 
     expect(hsl1.h).toBe(120)
     expect(hsl1.s).toBe(0)
@@ -165,10 +165,10 @@ describe('conversion.hsvToHsl()', () => {
   })
 })
 
-describe('conversion.rgbToHsv()', () => {
+describe('rgbToHsv()', () => {
   it('converts an RGB color object to HSV correctly', () => {
     const rgb = { r: 230, g: 24, b: 120 }
-    const hsv = conversion.rgbToHsv(rgb)
+    const hsv = rgbToHsv(rgb)
 
     expect(hsv.h).toBe(332.04)
     expect(hsv.s).toBe(89.57)
@@ -178,7 +178,7 @@ describe('conversion.rgbToHsv()', () => {
 
   it('converts an RGBA color object to HSVA correctly', () => {
     const rgb = { r: 230, g: 24, b: 120, a: 0.5 }
-    const hsv = conversion.rgbToHsv(rgb)
+    const hsv = rgbToHsv(rgb)
 
     expect(hsv.h).toBe(332.04)
     expect(hsv.s).toBe(89.57)
@@ -188,7 +188,7 @@ describe('conversion.rgbToHsv()', () => {
 
   it('handles maximum red value correctly', () => {
     const rgb = { r: 255, g: 0, b: 0 }
-    const hsv = conversion.rgbToHsv(rgb)
+    const hsv = rgbToHsv(rgb)
 
     expect(hsv.h).toBe(0)
     expect(hsv.s).toBe(100)
@@ -198,7 +198,7 @@ describe('conversion.rgbToHsv()', () => {
 
   it('handles maximum green value correctly', () => {
     const rgb = { r: 0, g: 255, b: 0 }
-    const hsv = conversion.rgbToHsv(rgb)
+    const hsv = rgbToHsv(rgb)
 
     expect(hsv.h).toBe(120)
     expect(hsv.s).toBe(100)
@@ -208,7 +208,7 @@ describe('conversion.rgbToHsv()', () => {
 
   it('handles maximum blue value correctly', () => {
     const rgb = { r: 0, g: 0, b: 255 }
-    const hsv = conversion.rgbToHsv(rgb)
+    const hsv = rgbToHsv(rgb)
 
     expect(hsv.h).toBe(240)
     expect(hsv.s).toBe(100)
@@ -218,7 +218,7 @@ describe('conversion.rgbToHsv()', () => {
 
   it('handles grayscale values correctly', () => {
     const rgb = { r: 128, g: 128, b: 128 }
-    const hsv = conversion.rgbToHsv(rgb)
+    const hsv = rgbToHsv(rgb)
 
     expect(hsv.h).toBe(0)
     expect(hsv.s).toBe(0)
@@ -227,11 +227,11 @@ describe('conversion.rgbToHsv()', () => {
   })
 })
 
-describe('conversion.hsvToRgb()', () => {
+describe('hsvToRgb()', () => {
   // Test case 1: Validate basic conversion
   it('converts an HSV color object to RGB correctly', () => {
     const hsv = { h: 120, s: 100, v: 100 }
-    const rgb = conversion.hsvToRgb(hsv)
+    const rgb = hsvToRgb(hsv)
 
     expect(rgb.r).toBe(0)
     expect(rgb.g).toBe(255)
@@ -242,7 +242,7 @@ describe('conversion.hsvToRgb()', () => {
   // Test case 2: Validate conversion with alpha channel
   it('converts an HSVA color object to RGBA correctly', () => {
     const hsv = { h: 120, s: 100, v: 100, a: 0.5 }
-    const rgb = conversion.hsvToRgb(hsv)
+    const rgb = hsvToRgb(hsv)
 
     expect(rgb.r).toBe(0)
     expect(rgb.g).toBe(255)
@@ -253,7 +253,7 @@ describe('conversion.hsvToRgb()', () => {
   // Test case 3: Validate boundary for saturation
   it('handles saturation of 0 correctly', () => {
     const hsv = { h: 120, s: 0, v: 75 }
-    const rgb = conversion.hsvToRgb(hsv)
+    const rgb = hsvToRgb(hsv)
 
     expect(rgb.r).toBe(191.25)
     expect(rgb.g).toBe(191.25)
@@ -264,7 +264,7 @@ describe('conversion.hsvToRgb()', () => {
   // Test case 4: Validate boundary for lightness
   it('handles lightness of 0 correctly', () => {
     const hsv = { h: 120, s: 50, v: 0 }
-    const rgb = conversion.hsvToRgb(hsv)
+    const rgb = hsvToRgb(hsv)
 
     expect(rgb.r).toBe(0)
     expect(rgb.g).toBe(0)
@@ -275,7 +275,7 @@ describe('conversion.hsvToRgb()', () => {
   // Test case 5: Validate lightness of 100
   it('handles lightness of 100 correctly', () => {
     const hsv = { h: 120, s: 50, v: 100 }
-    const rgb = conversion.hsvToRgb(hsv)
+    const rgb = hsvToRgb(hsv)
 
     expect(rgb.r).toBe(127.5)
     expect(rgb.g).toBe(255)
@@ -284,10 +284,10 @@ describe('conversion.hsvToRgb()', () => {
   })
 })
 
-describe('conversion.hslToRgb', () => {
+describe('hslToRgb', () => {
   it('converts valid HSL to RGB', () => {
     const input = { h: 120, s: 50, l: 30, a: 1 }
-    const rgb = conversion.hslToRgb(input)
+    const rgb = hslToRgb(input)
 
     expect(rgb.r).toBe(38.25)
     expect(rgb.g).toBe(114.75)
@@ -297,7 +297,7 @@ describe('conversion.hslToRgb', () => {
 
   it('handles max hue', () => {
     const input = { h: 360, s: 50, l: 30, a: 1 }
-    const rgb = conversion.hslToRgb(input)
+    const rgb = hslToRgb(input)
 
     expect(rgb.r).toBe(114.75)
     expect(rgb.g).toBe(38.25)
@@ -307,7 +307,7 @@ describe('conversion.hslToRgb', () => {
 
   it('handles min hue', () => {
     const input = { h: 0, s: 50, l: 30, a: 1 }
-    const rgb = conversion.hslToRgb(input)
+    const rgb = hslToRgb(input)
 
     expect(rgb.r).toBe(114.75)
     expect(rgb.g).toBe(38.25)
@@ -317,7 +317,7 @@ describe('conversion.hslToRgb', () => {
 
   it('handles max saturation', () => {
     const input = { h: 120, s: 100, l: 30, a: 1 }
-    const rgb = conversion.hslToRgb(input)
+    const rgb = hslToRgb(input)
 
     expect(rgb.r).toBe(0)
     expect(rgb.g).toBe(153)
@@ -327,7 +327,7 @@ describe('conversion.hslToRgb', () => {
 
   it('handles min saturation', () => {
     const input = { h: 120, s: 0.1, l: 30, a: 1 }
-    const rgb = conversion.hslToRgb(input)
+    const rgb = hslToRgb(input)
 
     expect(rgb.r).toBe(76.42)
     expect(rgb.g).toBe(76.58)
@@ -337,7 +337,7 @@ describe('conversion.hslToRgb', () => {
 
   it('handles max lightness', () => {
     const input = { h: 120, s: 50, l: 100, a: 1 }
-    const rgb = conversion.hslToRgb(input)
+    const rgb = hslToRgb(input)
 
     expect(rgb.r).toBe(255)
     expect(rgb.g).toBe(255)
@@ -347,7 +347,7 @@ describe('conversion.hslToRgb', () => {
 
   it('handles min lightness', () => {
     const input = { h: 120, s: 50, l: 0, a: 1 }
-    const rgb = conversion.hslToRgb(input)
+    const rgb = hslToRgb(input)
 
     expect(rgb.r).toBe(0)
     expect(rgb.g).toBe(0)
