@@ -1,4 +1,4 @@
-import { modBy, mix, lighten, saturate, hue, alpha } from '../src/compose'
+import { modBy, mix, lighten, saturate, hue, alpha, luminance } from '../src/compose'
 
 describe('modBy', () => {
   test('should correctly modify a value', () => {

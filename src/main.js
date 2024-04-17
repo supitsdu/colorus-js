@@ -1,3 +1,4 @@
+import { relativeLuminance } from './accessibility'
 import ColorFormatter from './colorFormatter'
 import colorObject from './colorObject'
 import colorString from './colorString'
@@ -42,6 +43,14 @@ class Colorus {
    */
   get colorType() {
     return this.#data.colorType
+  }
+
+  /**
+   * Get the relative luminance of the current color.
+   * @link [WCAG 2.0 Adherence](https://www.w3.org/TR/WCAG20-TECHS/G17.html)
+   */
+  get luminance() {
+    return relativeLuminance(this.rgb)
   }
 
   /**
