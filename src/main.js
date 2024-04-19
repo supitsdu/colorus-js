@@ -1,4 +1,4 @@
-import { relativeLuminance } from './accessibility'
+import { contrastRatio, relativeLuminance } from './accessibility'
 import ColorFormatter from './colorFormatter'
 import colorObject from './colorObject'
 import colorString from './colorString'
@@ -164,6 +164,15 @@ class Colorus {
    */
   alpha(amount = 0.1) {
     return new Colorus(compose.alpha(this.rgb, amount))
+  }
+
+  /**
+   * Gets the contrast ratio between an foreground color and its adjacent background.
+   * @param {object} backgroundColor the background color.
+   * @return {number} The contrast ratio between the instantiated color and provided background color.
+   */
+  contrastRatio(backgroundColor) {
+    return contrastRatio(this.rgb, new Colorus(backgroundColor).rgb)
   }
 }
 
