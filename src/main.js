@@ -158,6 +158,15 @@ class Colorus {
   }
 
   /**
+   * Desaturates the current color.
+   * @param {number} [amount=0.1] - The amount of desaturation.
+   * @return {Colorus} A new Colorus instance representing the desaturated color.
+   */
+  desaturate(amount = 0.1) {
+    return new Colorus(compose.saturate(this.hsl, -amount))
+  }
+
+  /**
    * Changes the hue of the current color.
    * @param {number} [amount=0.1] - The amount of hue change.
    * @return {Colorus} A new Colorus instance representing the color with changed hue.
