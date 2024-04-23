@@ -192,6 +192,14 @@ class Colorus {
   contrastRatio(backgroundColor) {
     return contrastRatio(this.rgb, new Colorus(backgroundColor).rgb)
   }
+
+  /**
+   * Invert an RGB color.
+   * @return {object} New RGB color object.
+   */
+  invert() {
+    return new Colorus(compose.invert(this.#data.rgb))
+  }
 }
 
 export default Colorus
