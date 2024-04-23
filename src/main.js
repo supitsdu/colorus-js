@@ -140,6 +140,15 @@ class Colorus {
   }
 
   /**
+   * Darkens the current color.
+   * @param {number} [amount=0.1] - The amount of darkening.
+   * @return {Colorus} A new Colorus instance representing the darkened color.
+   */
+  darken(amount = 0.1) {
+    return new Colorus(compose.lighten(this.hsl, -amount))
+  }
+
+  /**
    * Saturates the current color.
    * @param {number} [amount=0.1] - The amount of saturation.
    * @return {Colorus} A new Colorus instance representing the saturated color.
