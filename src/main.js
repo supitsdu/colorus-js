@@ -1,29 +1,8 @@
 import { contrastRatio, relativeLuminance } from './accessibility'
 import ColorFormatter from './colorFormatter'
-import colorObject from './colorObject'
-import colorString from './colorString'
 import * as compose from './compose'
 import * as conversion from './conversion'
-
-/** Default fallback color object. */
-const defaultFallbackColor = {
-  colorType: undefined,
-  rgb: { r: 0, g: 0, b: 0, a: 1 }
-}
-
-/**
- * Serialize input to extract color information.
- * @param {string|Object} input - The color input string or object.
- * @return {object} Serialized color value containing space and RGB representation. Or `null` if the input is undefined.
- * @throws Will throw if the input is not valid.
- */
-const serializeInput = input => {
-  if (typeof input === 'undefined') return null
-  if (typeof input === 'string') return colorString.serialize(input)
-  if (!colorObject.nao(input)) return colorObject.serialize(input)
-
-  throw new TypeError('Unknown input type. Colors must be either objects or strings.')
-}
+import * as serialize from './serialize'
 
 /** Utility that provides methods for working with colors. */
 class Colorus {
@@ -34,7 +13,7 @@ class Colorus {
    * @param {string|Object} input - The color input string or object.
    */
   constructor(input) {
-    this.#data = serializeInput(input) ?? defaultFallbackColor
+    this.#data = serialize.fromUserInput(input)
   }
 
   /**
@@ -58,7 +37,7 @@ class Colorus {
    * @return {object} The RGB representation.
    */
   get rgb() {
-    return this.#data.rgb
+    return this.#data.colorObject
   }
 
   /**
@@ -66,7 +45,7 @@ class Colorus {
    * @return {object} The HSL representation.
    */
   get hsl() {
-    return conversion.rgbToHsl(this.#data.rgb)
+    return conversion.rgbToHsl(this.rgb)
   }
 
   /**
@@ -74,7 +53,7 @@ class Colorus {
    * @return {object} The HSV representation.
    */
   get hsv() {
-    return conversion.rgbToHsv(this.#data.rgb)
+    return conversion.rgbToHsv(this.rgb)
   }
 
   /**
@@ -82,7 +61,7 @@ class Colorus {
    * @return {object} The CMYK representation.
    */
   get cmyk() {
-    return conversion.rgbToCmyk(this.#data.rgb)
+    return conversion.rgbToCmyk(this.rgb)
   }
 
   /**
