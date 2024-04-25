@@ -1,5 +1,4 @@
-import colorObject from './colorObject'
-import { precision } from './helpers'
+import { nan, precision } from './helpers'
 import { Clamp } from './colorNormalizer'
 
 /**
@@ -12,7 +11,7 @@ import { Clamp } from './colorNormalizer'
 export const modBy = (value, amount) => {
   amount = Number(amount)
 
-  if (colorObject.nan(amount)) return value
+  if (nan(amount)) return value
 
   return precision((1 + amount) * value)
 }
