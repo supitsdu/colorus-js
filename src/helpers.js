@@ -10,7 +10,7 @@
  * @param {number} max - The maximum value for the input
  * @return {number} The clamped value between 0 and max
  */
-export const utmost = (v, max) => Math.max(Math.min(v, max), 0)
+export const utmost = (v, max) => Math.max(Math.min(Number(v), max), 0)
 
 /**
  * Returns the input value with a precision level of two decimal places.
@@ -48,3 +48,45 @@ export const padString = minHex => {
 
   return value
 }
+
+/**
+ * Check if input is NOT a Number (NaN)
+ * @param {*} v - The value to check against.
+ * @return {Boolean} `true` if it is not an number, `false` otherwise.
+ */
+export const nan = v => typeof v != 'number' || isNaN(v) || !isFinite(v)
+
+/**
+ * Check if input is NOT a Object (NaO)
+ * @param {*} v - The object to check against.
+ * @return {Boolean} `true` if it is not an object, `false` otherwise.
+ */
+export const nao = v => typeof v !== 'object' || Array.isArray(v)
+
+/**
+ * Checks if the provided object represents an RGB color.
+ * @param {object} obj - The object to be checked.
+ * @return {boolean} True if the object represents an RGB color, false otherwise.
+ */
+export const isRgbObject = ({ r, g, b, a = 1 }) => !(nan(r) || nan(g) || nan(b) || nan(a))
+
+/**
+ * Checks if the provided object represents an HSL color.
+ * @param {object} obj - The object to be checked.
+ * @return {boolean} True if the object represents an HSL color, false otherwise.
+ */
+export const isHslObject = ({ h, s, l, a = 1 }) => !(nan(h) || nan(s) || nan(l) || nan(a))
+
+/**
+ * Checks if the provided object represents an HSV color.
+ * @param {object} obj - The object to be checked.
+ * @return {boolean} True if the object represents an HSV color, false otherwise.
+ */
+export const isHsvObject = ({ h, s, v, a = 1 }) => !(nan(h) || nan(s) || nan(v) || nan(a))
+
+/**
+ * Checks if the provided object represents a CMYK color.
+ * @param {object} obj - The object to be checked.
+ * @return {boolean} True if the object represents a CMYK color, false otherwise.
+ */
+export const isCmykObject = ({ c, m, y, k, a = 1 }) => !(nan(c) || nan(m) || nan(y) || nan(k) || nan(a))

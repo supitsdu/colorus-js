@@ -1,5 +1,4 @@
-import colorObject from './colorObject'
-import { precision } from './helpers'
+import { nan, precision } from './helpers'
 import { Clamp } from './colorNormalizer'
 
 /**
@@ -12,7 +11,7 @@ import { Clamp } from './colorNormalizer'
 export const modBy = (value, amount) => {
   amount = Number(amount)
 
-  if (colorObject.nan(amount)) return value
+  if (nan(amount)) return value
 
   return precision((1 + amount) * value)
 }
@@ -69,3 +68,10 @@ export const hue = ({ h, s, l, a = 1 }, amount) => {
 export const alpha = ({ r, g, b, a = 1 }, amount) => {
   return Clamp.rgb({ r, g, b, a: modBy(a, amount) })
 }
+
+/**
+ * Invert an RGB color.
+ * @param {object} color - RGB color object.
+ * @return {object} New RGB color object.
+ */
+export const invert = ({ r, g, b, a = 1 }) => ({ r: 255 - r, g: 255 - g, b: 255 - b, a })
