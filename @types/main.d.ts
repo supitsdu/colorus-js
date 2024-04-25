@@ -13,10 +13,18 @@ declare module 'colorus' {
     CSSNext?: boolean
   }
   type HexFormatOptions = Omit<FormatOptions, 'CSSNext'>
-  /** Utility that provides methods for working with colors. */
+  /** Utility that provides methods for working with colors.
+   * @example
+   *
+   * // Create a new Colorus instance
+   * const color = new Colorus('rgb(255, 0, 0)');
+   *
+   * color.colorType // Returns: 'rgb'
+   * color.lighten(0.2).toHex() // Returns: '#FF3333' */
   export default class Colorus {
     /** Creates a new Colorus instance with the provided input.
-     * @param input - The color input string or object. */
+     * @param input - The color input string or object.
+     * @throws If the input is not `undefined` or valid color format (e.g. `string` or `object`). */
     constructor(input?: AnyColor)
     /** Get the color type of the current color. */
     get colorType(): ColorType | undefined
@@ -54,7 +62,10 @@ declare module 'colorus' {
     /** Mixes the current color with another color.
      * @param input The color to mix with.
      * @param amount The amount of mixing. (Default: `0.1`)
-     * @return A new Colorus instance representing the mixed color. */
+     * @return A new Colorus instance representing the mixed color.
+     * @example
+     * const color = new Colorus('#f00')
+     * color.mix('#fff9e6', 0.45).toHex() // Returns: '#FF7068' */
     mix(input: AnyColor, amount?: number): Colorus
     /** Lightens the current color.
      * @param amount The amount of lightening. (Default: `0.1`)
@@ -78,7 +89,10 @@ declare module 'colorus' {
     alpha(amount?: number): Colorus
     /** Gets the contrast ratio between an foreground color and its adjacent background.
      * @param backgroundColor the background color.
-     * @return The contrast ratio between the instantiated color and provided background color. */
+     * @return The contrast ratio between the instantiated color and provided background color.
+     * @example
+     * const color = new Colorus('#000')
+     * color.contrastRatio('#f3f3f3') // Returns: 18.92 */
     contrastRatio(backgroundColor: AnyColor): number
   }
 }
