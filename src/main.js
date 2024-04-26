@@ -4,12 +4,14 @@ import * as compose from './compose'
 import * as conversion from './conversion'
 import * as serialize from './serialize'
 
-/** Utility that provides methods for working with colors. */
+/**
+ * Utility class providing methods for working with colors.
+ */
 class Colorus {
   #data = {}
 
   /**
-   * Creates a new Colorus instance with the provided input.
+   * Constructs a new Colorus instance with the given input.
    * @param {string|Object} input - The color input string or object.
    */
   constructor(input) {
@@ -17,7 +19,7 @@ class Colorus {
   }
 
   /**
-   * Get the color type of the current color.
+   * Gets the type of the current color.
    * @return {string} The color type.
    */
   get colorType() {
@@ -25,15 +27,16 @@ class Colorus {
   }
 
   /**
-   * Get the relative luminance of the current color.
+   * Gets the relative luminance of the current color.
    * @link [WCAG 2.0 Adherence](https://www.w3.org/TR/WCAG20-TECHS/G17.html)
+   * @return {number} The relative luminance.
    */
   get luminance() {
     return relativeLuminance(this.rgb)
   }
 
   /**
-   * Get the RGB object representation of the current color.
+   * Gets the RGB object representation of the current color.
    * @return {object} The RGB representation.
    */
   get rgb() {
@@ -41,7 +44,7 @@ class Colorus {
   }
 
   /**
-   * Get the HSL object representation of the current color.
+   * Gets the HSL object representation of the current color.
    * @return {object} The HSL representation.
    */
   get hsl() {
@@ -49,7 +52,7 @@ class Colorus {
   }
 
   /**
-   * Get the HSV representation of the current color.
+   * Gets the HSV representation of the current color.
    * @return {object} The HSV representation.
    */
   get hsv() {
@@ -57,7 +60,7 @@ class Colorus {
   }
 
   /**
-   * Get the CMYK representation of the current color.
+   * Gets the CMYK representation of the current color.
    * @return {object} The CMYK representation.
    */
   get cmyk() {
@@ -65,35 +68,35 @@ class Colorus {
   }
 
   /**
-   * Convert the current color to hexadecimal format.
+   * Converts the current color to hexadecimal format.
    * @param {object} [options] - Formatting options.
    * @return {string} The hexadecimal representation of the color.
    */
   toHex = options => conversion.rgbToHex(this.rgb, options)
 
   /**
-   * Convert the current color to RGB format.
+   * Converts the current color to RGB format.
    * @param {object} [options] - Formatting options.
    * @return {string} The RGB representation of the color.
    */
   toRgb = options => new ColorFormatter(options).rgb(this.rgb)
 
   /**
-   * Convert the current color to HSL format.
+   * Converts the current color to HSL format.
    * @param {object} [options] - Formatting options.
    * @return {string} The HSL representation of the color.
    */
   toHsl = options => new ColorFormatter(options).hsl(this.hsl)
 
   /**
-   * Convert the current color to HSV format.
+   * Converts the current color to HSV format.
    * @param {object} [options] - Formatting options.
    * @return {string} The HSV representation of the color.
    */
   toHsv = options => new ColorFormatter(options).hsv(this.hsv)
 
   /**
-   * Convert the current color to CMYK format.
+   * Converts the current color to CMYK format.
    * @param {object} [options] - Formatting options.
    * @return {string} The CMYK representation of the color.
    */
@@ -164,17 +167,17 @@ class Colorus {
   }
 
   /**
-   * Gets the contrast ratio between an foreground color and its adjacent background.
-   * @param {object} backgroundColor the background color.
-   * @return {number} The contrast ratio between the instantiated color and provided background color.
+   * Calculates the contrast ratio between a foreground color and its adjacent background.
+   * @param {object} backgroundColor - The background color.
+   * @return {number} The contrast ratio between the instantiated color and the provided background color.
    */
   contrastRatio(backgroundColor) {
     return contrastRatio(this.rgb, new Colorus(backgroundColor).rgb)
   }
 
   /**
-   * Invert an RGB color.
-   * @return {object} New RGB color object.
+   * Inverts the color using sRGB values.
+   * @return {Colorus} A new Colorus instance representing the color with inverted color values.
    */
   invert() {
     return new Colorus(compose.invert(this.#data.rgb))
