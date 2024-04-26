@@ -7,9 +7,20 @@ declare module 'colorus' {
   type Colors = RGB | HSL | HSV | CMYK
   type AnyColor = string | Colors
   type FormatOptions = {
-    /** Whether to attempt to minify the output. */
+    /** Whether to attempt to minify the output.
+     * @example
+     * // Minified: 'hsl(240,20,30,0.5)'
+     * // Default: 'hsl(240°, 20%, 30%, 0.5)'
+     *
+     * // Minified: '#FFF'
+     * // Default: '#FFFFFF'
+     */
     minify?: boolean
-    /** Whether to use CSSNext compatible formatting. */
+    /** Whether to generate CSSNext compatible formatting.
+     * @example
+     * // CSSNext: 'rgb(2 2 30 / 0.5)'
+     * // Legacy: 'rgba(2, 2, 30, 0.5)'
+     */
     CSSNext?: boolean
   }
   type HexFormatOptions = Omit<FormatOptions, 'CSSNext'>
@@ -26,10 +37,11 @@ declare module 'colorus' {
      * @param input - The color input string or object.
      * @throws If the input is not `undefined` or valid color format (e.g. `string` or `object`). */
     constructor(input?: AnyColor)
-    /** Get the color type of the current color. */
+    /** Get the type of the current color. */
     get colorType(): ColorType | undefined
     /** Get the relative luminance of the current color.
-     * @link [WCAG 2.0 Adherence](https://www.w3.org/TR/WCAG20-TECHS/G17.html) */
+     * @link [WCAG 2.0 Adherence](https://www.w3.org/TR/WCAG20-TECHS/G17.html)
+     * @return The relative luminance. */
     get luminance(): number
     /** Get the `RGB` object representation of the current color. */
     get rgb(): RGB
@@ -41,7 +53,9 @@ declare module 'colorus' {
     get cmyk(): CMYK
     /** Convert the current color to hexadecimal format.
      * @param options Formatting options.
-     * @return The hexadecimal representation of the color. */
+     * @return The hexadecimal representation of the color.
+     * @example
+     * new Colorus('rgb(0, 0, 0)').toHex({ minify: true }) // Returns: '#000' */
     toHex(options?: HexFormatOptions): string
     /** Convert the current color to RGB format.
      * @param options Formatting options.
@@ -79,6 +93,10 @@ declare module 'colorus' {
      * @param amount The amount of saturation. (Default: `0.1`)
      * @return A new Colorus instance representing the saturated color. */
     saturate(amount?: number): Colorus
+    /** Desaturates the current color.
+     * @param amount - The amount of desaturation.
+     * @return A new Colorus instance representing the desaturated color. */
+    desaturate(amount?: number): Colorus
     /** Changes the hue of the current color.
      * @param amount The amount of hue change. (Default: `0.1`)
      * @return A new Colorus instance representing the color with changed hue. */
@@ -91,8 +109,10 @@ declare module 'colorus' {
      * @param backgroundColor the background color.
      * @return The contrast ratio between the instantiated color and provided background color.
      * @example
-     * const color = new Colorus('#000')
-     * color.contrastRatio('#f3f3f3') // Returns: 18.92 */
+     * new Colorus('#000').contrastRatio('#f3f3f3') // Returns: 18.92 */
     contrastRatio(backgroundColor: AnyColor): number
+    /** Inverts the color using sRGB values.
+     * @return A new Colorus instance representing the color with inverted color values. */
+    invert(): Colorus
   }
 }
