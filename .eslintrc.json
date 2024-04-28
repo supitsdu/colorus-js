@@ -5,6 +5,7 @@
     "node": true
   },
   "root": true,
+  "plugins": ["jsdoc"],
   "extends": ["google", "prettier"],
   "parserOptions": {
     "ecmaVersion": "latest",

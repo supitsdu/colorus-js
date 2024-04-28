@@ -1,9 +1,21 @@
 {
   "name": "colorus",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "Sleek and powerful color manipulation library for JavaScript.",
   "type": "module",
   "main": "./dist/index.js",
+  "exports": {
+    ".": {
+      "require": {
+        "default": "./dist/main.cjs",
+        "types": "./@types/main.d.ts"
+      },
+      "import": {
+        "default": "./dist/main.js",
+        "types": "./@types/main.d.ts"
+      }
+    }
+  },
   "scripts": {
     "format": "prettier --write src/**/*.js",
     "lint": "eslint src/**/*.js",
@@ -38,6 +50,7 @@
     "eslint": "^8.57.0",
     "eslint-config-google": "^0.14.0",
     "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-jsdoc": "^48.2.3",
     "jest": "^29.7.0",
     "prettier": "^3.2.5",
     "rollup": "^4.9.6"

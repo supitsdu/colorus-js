@@ -2,12 +2,12 @@ import { Clamp, Round, eightBit } from './colorNormalizer'
 import { hexString } from './helpers'
 
 /**
- * **(Helper Functions)** Calculates the hue component of an HSV color object.
- * @param {Object} rgb - An RGB color object.
- * @param {Object} params - Parameters including segment, maxRgb, and minRgb.
+ * Calculates the hue component of an HSV color object.
+ * @param {object} rgb - An RGB color object.
+ * @param {object} params - Parameters including segment, maxRgb, and minRgb.
  * @return {number} The hue component of the HSV color.
  */
-function computeHsvHue({ r, g, b }, { segment, maxRgb, minRgb }) {
+export function computeHsvHue({ r, g, b }, { segment, maxRgb, minRgb }) {
   let h = 0
 
   if (segment === h) return h
@@ -42,16 +42,16 @@ function computeHsvHue({ r, g, b }, { segment, maxRgb, minRgb }) {
  * @param {number} a the alpha channel component of RGBA color
  * @return {boolean}
  */
-const isRgbShortanable = (r, g, b, a = 1) => r % 17 === 0 && g % 17 === 0 && b % 17 === 0 && a % 17 === 0
+export const isRgbShortanable = (r, g, b, a = 1) => r % 17 === 0 && g % 17 === 0 && b % 17 === 0 && a % 17 === 0
 
 /**
- * **(Color Conversion Functions)** Converts RGB color object to HEX color string.
+ * Converts RGB color object to HEX color string.
  * @param {object} rgb an valid RGB color object
- * @param {Object} [options={}] options to  customize output format and precision
+ * @param {object} [options={}] options to  customize output format and precision
  * @param {boolean} [options.minify=false]  set `true` for minified hexadecimal notation.
  * @return {string} an HEX string
  */
-function rgbToHex({ r, g, b, a } = {}, { minify = false } = {}) {
+export function rgbToHex({ r, g, b, a } = {}, { minify = false } = {}) {
   const { r: R, g: G, b: B, a: A } = Round.rgb({ r, g, b, a })
 
   const alphaInEightBit = eightBit(A * 255)
@@ -71,11 +71,11 @@ function rgbToHex({ r, g, b, a } = {}, { minify = false } = {}) {
 }
 
 /**
- * **(Color Conversion Functions)** Converts a HEX color into an RGB color object representation.
+ * Converts a HEX color into an RGB color object representation.
  * @param {string} hex - A valid HEX color without the hashtag  "#". The alpha  channel is optional.
- * @return {Object} An RGB color object representation.
+ * @return {object} An RGB color object representation.
  */
-function hexToRgb(hex) {
+export function hexToRgb(hex) {
   const delta = parseInt(hex, 16)
   const value = {}
 
@@ -95,11 +95,11 @@ function hexToRgb(hex) {
 }
 
 /**
- * **(Color Conversion Functions)** Converts an HSL color to its HSV representation.
- * @param {Object} hsl - An HSL color object.
- * @return {Object} - An HSV color object representation.
+ * Converts an HSL color to its HSV representation.
+ * @param {object} hsl - An HSL color object.
+ * @return {object} - An HSV color object representation.
  */
-function hslToHsv({ h, s, l, a = 1 }) {
+export function hslToHsv({ h, s, l, a = 1 }) {
   const deltaS = (s * (l < 50 ? l : 100 - l)) / 100
   const v = l + deltaS
 
@@ -109,11 +109,11 @@ function hslToHsv({ h, s, l, a = 1 }) {
 }
 
 /**
- * **(Color Conversion Functions)** Converts HSV color object into its HSL representation using interconversion.
- * @param {Object} hsv - An HSV color object.
- * @return {Object} - An HSL color object representation.
+ * Converts HSV color object into its HSL representation using interconversion.
+ * @param {object} hsv - An HSV color object.
+ * @return {object} - An HSL color object representation.
  */
-function hsvToHsl({ h, s, v, a = 1 }) {
+export function hsvToHsl({ h, s, v, a = 1 }) {
   const deltaL = ((200 - s) * v) / 100
 
   const l = deltaL / 2
@@ -128,11 +128,11 @@ function hsvToHsl({ h, s, v, a = 1 }) {
 }
 
 /**
- * **(Color Conversion Functions)** Converts an RGB color object into its HSV representation.
- * @param {Object} rgb - An RGB color object.
- * @return {Object} - An HSV color object representation.
+ * Converts an RGB color object into its HSV representation.
+ * @param {object} rgb - An RGB color object.
+ * @return {object} - An HSV color object representation.
  */
-function rgbToHsv({ r, g, b, a = 1 }) {
+export function rgbToHsv({ r, g, b, a = 1 }) {
   // Find maximum and minimum values among RGB components
   const maxRgb = Math.max(r, g, b)
   const minRgb = Math.min(r, g, b)
@@ -147,11 +147,11 @@ function rgbToHsv({ r, g, b, a = 1 }) {
 }
 
 /**
- * **(Color Conversion Functions)** Converts an RGB color object into its CMYK representation.
- * @param {Object} rgb - An RGB color object.
- * @return {Object} An CMYK color object representation.
+ * Converts an RGB color object into its CMYK representation.
+ * @param {object} rgb - An RGB color object.
+ * @return {object} An CMYK color object representation.
  */
-function rgbToCmyk({ r, g, b, a = 1 }) {
+export function rgbToCmyk({ r, g, b, a = 1 }) {
   r /= 255
   g /= 255
   b /= 255
@@ -165,11 +165,11 @@ function rgbToCmyk({ r, g, b, a = 1 }) {
 }
 
 /**
- * **(Color Conversion Functions)** Converts an CMYK color object into its RGB representation.
- * @param {Object} cmyk - An CMYK color object.
- * @return {Object} An RGB color object representation.
+ * Converts an CMYK color object into its RGB representation.
+ * @param {object} cmyk - An CMYK color object.
+ * @return {object} An RGB color object representation.
  */
-function cmykToRgb({ c, m, y, k, a = 1 }) {
+export function cmykToRgb({ c, m, y, k, a = 1 }) {
   c /= 100
   m /= 100
   y /= 100
@@ -183,11 +183,11 @@ function cmykToRgb({ c, m, y, k, a = 1 }) {
 }
 
 /**
- * **(Color Conversion Functions)** Converts an HSV color object into its RGB representation.
- * @param {Object} hsv - An HSV color object.
- * @return {Object} An RGB color object representation.
+ * Converts an HSV color object into its RGB representation.
+ * @param {object} hsv - An HSV color object.
+ * @return {object} An RGB color object representation.
  */
-function hsvToRgb({ h, s, v, a = 1 }) {
+export function hsvToRgb({ h, s, v, a = 1 }) {
   // Convert degrees to the range [0, 6]
   const hueRange = (h / 60) % 6
   // Normalize saturation and value to the range [0, 1]
@@ -228,21 +228,19 @@ function hsvToRgb({ h, s, v, a = 1 }) {
 }
 
 /**
- * **(Color Conversion Functions)** Converts HSL color object into its RGB representation using HSV interconversion.
- * @param {Object} input - An HSL color object.
- * @return {Object} An RGB color object representation.
+ * Converts HSL color object into its RGB representation using HSV interconversion.
+ * @param {object} input - An HSL color object.
+ * @return {object} An RGB color object representation.
  */
-function hslToRgb({ h, s, l, a = 1 }) {
+export function hslToRgb({ h, s, l, a = 1 }) {
   return hsvToRgb(hslToHsv({ h, s, l, a }))
 }
 
 /**
- * **(Color Conversion Functions)** Converts RGB color object into its HSL representation using HSV interconversion.
- * @param {Object} input - An RGB color object.
- * @return {Object} An HSL color object representation.
+ * Converts RGB color object into its HSL representation using HSV interconversion.
+ * @param {object} input - An RGB color object.
+ * @return {object} An HSL color object representation.
  */
-function rgbToHsl({ r, g, b, a = 1 }) {
+export function rgbToHsl({ r, g, b, a = 1 }) {
   return hsvToHsl(rgbToHsv({ r, g, b, a }))
 }
-
-export default { cmykToRgb, hexToRgb, rgbToHex, rgbToHsv, rgbToHsl, rgbToCmyk, hsvToRgb, hsvToHsl, hslToHsv, hslToRgb, hsvToHsl }
