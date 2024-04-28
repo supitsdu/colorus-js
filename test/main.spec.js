@@ -1,4 +1,4 @@
-import Colorus from '../src/main'
+import { Colorus } from '../src/main'
 
 describe('Colorus.darken()', () => {
   it('darkens by default amount', () => {

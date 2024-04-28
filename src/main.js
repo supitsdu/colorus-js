@@ -7,7 +7,7 @@ import * as serialize from './serialize'
 /**
  * Utility class providing methods for working with colors.
  */
-class Colorus {
+export class Colorus {
   #data = {}
 
   /**
@@ -191,5 +191,3 @@ class Colorus {
     return new Colorus(compose.invert(this.#data.rgb))
   }
 }
-
-export default Colorus
