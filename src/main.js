@@ -18,6 +18,14 @@ class Colorus {
     this.#data = serialize.fromUserInput(input)
   }
 
+  /** Tests the `input` for a valid color.
+   * @param {unknown} input - The color input string or object.
+   * @return {string|null} The type of the string (e.g.: `rgb`) if color is valid, otherwise `null`.
+   */
+  static test(input) {
+    return serialize.fromUserInput(input, { analytical: true }).colorType || null
+  }
+
   /**
    * Gets the type of the current color.
    * @return {string} The color type.

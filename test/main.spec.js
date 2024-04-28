@@ -51,3 +51,38 @@ describe('Colorus.desaturate()', () => {
     expect(new Colorus('#3646d1').desaturate(0.8).toHex()).toBe('#747793')
   })
 })
+
+describe('Colorus.test()', () => {
+  test('should return "hex" for valid hex color input', () => {
+    expect(Colorus.test('#F33')).toBe('hex')
+    expect(Colorus.test('#FF0000')).toBe('hex')
+    expect(Colorus.test('#00ff00')).toBe('hex')
+  })
+
+  test('should return "rgb" for valid RGB color object input', () => {
+    expect(Colorus.test({ r: 255, g: 0, b: 0 })).toBe('rgb')
+    expect(Colorus.test({ r: 0, g: 255, b: 0 })).toBe('rgb')
+    expect(Colorus.test({ r: 0, g: 0, b: 255 })).toBe('rgb')
+  })
+
+  test('should return "hsl" for valid HSL color object input', () => {
+    expect(Colorus.test({ h: 0, s: 100, l: 50 })).toBe('hsl')
+    expect(Colorus.test({ h: 240, s: 100, l: 50 })).toBe('hsl')
+  })
+
+  test('should return "hsv" for valid HSV color object input', () => {
+    expect(Colorus.test({ h: 0, s: 100, v: 100 })).toBe('hsv')
+    expect(Colorus.test({ h: 240, s: 100, v: 100 })).toBe('hsv')
+  })
+
+  test('should return "cmyk" for valid CMYK color object input', () => {
+    expect(Colorus.test({ c: 0, m: 100, y: 100, k: 0 })).toBe('cmyk')
+    expect(Colorus.test({ c: 0, m: 0, y: 0, k: 100 })).toBe('cmyk')
+  })
+
+  test('should return null for invalid color input', () => {
+    expect(Colorus.test('invalid')).toBeNull()
+    expect(Colorus.test(null)).toBeNull()
+    expect(Colorus.test(undefined)).toBeNull()
+  })
+})

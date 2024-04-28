@@ -109,6 +109,7 @@ export function fromUserInput(input, { analytical } = { analytical: false }) {
   } else if (!nao(input)) {
     return fromObject({ colorObject: input }, analytical)
   } else {
+    if (analytical) return { colorType: undefined }
     throw new TypeError('Invalid color type, expected and valid color string or object.')
   }
 }

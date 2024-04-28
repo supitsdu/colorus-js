@@ -69,6 +69,16 @@ declare module 'colorus' {
      */
     constructor(input?: AnyColor)
 
+    /** Analitycal method to quickly tests the `input` for any valid color.
+     * @param input - The color input string or object.
+     * @return The type of the color (e.g.: `'rgb'`) if color is valid, otherwise `null`.
+     * @example
+     * Colorus.test('#F33') // Returns: 'hex'
+     * Colorus.test({ r: 255, g: 0, b: 0 }) // Returns: 'rgb'
+     * Colorus.test('#c(') // Returns: null
+     */
+    static test(input?: unknown): AnyColorType | null
+
     /** Get the type of the current color. */
     get colorType(): AnyColorType | undefined
 
