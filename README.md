@@ -1,6 +1,6 @@
-# Colorus
+# Colorus-js
 
-<img src="https://raw.githubusercontent.com/supitsdu/colorus/main/favicon.svg" width="196">
+<img src="https://raw.githubusercontent.com/supitsdu/colorus-js/main/favicon.svg" width="196">
 
 Colorus is a versatile tool designed for seamless color manipulation across various formats. Whether you're handling RGB, HSL, HSV, or CMYK colors, Colorus streamlines the process, offering a hassle-free experience for managing colors in your projects.
 
@@ -16,13 +16,13 @@ The key features of Colorus include:
 You can install Colorus via npm:
 
 ```sh
-npm i colorus
+npm i colorus-js
 ```
 
 ## Usage
 
 ```js
-const { Colorus } = require('colorus');
+const { Colorus } = require('colorus-js');
 
 // Create a new Colorus instance
 const color = new Colorus('rgb(255 0 0)');
