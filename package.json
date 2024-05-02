@@ -1,7 +1,7 @@
 {
-  "name": "colorus-js",
-  "version": "0.7.2",
-  "description": "Sleek and powerful color manipulation library.",
+  "name": "colorus",
+  "version": "0.8.0",
+  "description": "Sleek and powerful color manipulation library for JavaScript.",
   "type": "module",
   "main": "./dist/index.js",
   "exports": {

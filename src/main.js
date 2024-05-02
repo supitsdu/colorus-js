@@ -190,4 +190,13 @@ export class Colorus {
   invert() {
     return new Colorus(compose.invert(this.#data.rgb))
   }
+
+  /**
+   * Converts the current color to grayscale.
+   * @param {boolean} [useNTSCFormula=false] - Whether to use the NTSC formula for conversion. (Default: `false`)
+   * @return {Colorus} A new Colorus object representing the grayscale color.
+   */
+  grayscale(useNTSCFormula = false) {
+    return new Colorus(compose.rgbToGray(this.rgb, useNTSCFormula))
+  }
 }
