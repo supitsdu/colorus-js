@@ -26,12 +26,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/supitsdu/colorus.git"
+    "url": "git+https://github.com/supitsdu/colorus-js.git"
   },
   "bugs": {
-    "url": "https://github.com/supitsdu/colorus/issues"
+    "url": "https://github.com/supitsdu/colorus-js/issues"
   },
-  "homepage": "https://github.com/supitsdu/colorus/",
+  "homepage": "https://github.com/supitsdu/colorus-js/",
   "keywords": [
     "color",
     "colours",

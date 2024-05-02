@@ -1,7 +1,7 @@
 /**
- * The `colorus` module allows for easy manipulation and conversion of colors between different formats.
+ * The `colorus-js` module allows for easy manipulation and conversion of colors between different formats.
  */
-declare module 'colorus' {
+declare module 'colorus-js' {
   export type RgbObject = { r: number | string; g: number | string; b: number | string; a?: number | string }
 
   export type HslObject = { h: number | string; s: number | string; l: number | string; a?: number | string }
