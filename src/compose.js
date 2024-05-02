@@ -75,3 +75,15 @@ export const alpha = ({ r, g, b, a = 1 }, amount) => {
  * @return {object} New RGB color object.
  */
 export const invert = ({ r, g, b, a = 1 }) => ({ r: 255 - r, g: 255 - g, b: 255 - b, a })
+
+/**
+ * Converts an RGB color to grayscale.
+ * @param {Object} color - An object representing an RGBA color.
+ * @param {boolean} [useNTSCFormula=false] - Whether to use the NTSC formula for conversion. (Default: `false`)
+ * @return {Object} An object representing the grayscale color.
+ */
+export const rgbToGray = ({ r, g, b, a = 1 }, useNTSCFormula = false) => {
+  const y = useNTSCFormula ? 0.299 * r + 0.587 * g + 0.114 * b : 0.2126 * r + 0.7152 * g + 0.0722 * b
+
+  return { r: y, g: y, b: y, a }
+}

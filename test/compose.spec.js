@@ -1,4 +1,4 @@
-import { modBy, mix, lighten, saturate, hue, alpha, luminance } from '../src/compose'
+import { modBy, mix, lighten, saturate, hue, alpha, rgbToGray } from '../src/compose'
 
 describe('modBy', () => {
   test('should correctly modify a value', () => {
@@ -100,5 +100,42 @@ describe('alpha', () => {
     expect(result.r).toBe(color.r)
     expect(result.g).toBe(color.g)
     expect(result.b).toBe(color.b)
+  })
+})
+
+describe('rgbToGray', () => {
+  // Test for converting RGB to grayscale without using the NTSC formula
+  it('should convert RGB to grayscale without NTSC formula', () => {
+    const color = { r: 50, g: 168, b: 82, a: 1 }
+    const result = rgbToGray(color)
+    expect(result).toEqual({ r: 136.704, g: 136.704, b: 136.704, a: 1 })
+  })
+
+  // Test for converting RGB to grayscale using the NTSC formula
+  it('should convert RGB to grayscale with NTSC formula', () => {
+    const color = { r: 50, g: 168, b: 82, a: 1 }
+    const result = rgbToGray(color, true)
+    expect(result).toEqual({ r: 122.914, g: 122.914, b: 122.914, a: 1 })
+  })
+
+  // Test for converting black (0, 0, 0) to grayscale without NTSC formula
+  it('should convert black color to grayscale without NTSC formula', () => {
+    const color = { r: 0, g: 0, b: 0, a: 1 }
+    const result = rgbToGray(color)
+    expect(result).toEqual({ r: 0, g: 0, b: 0, a: 1 })
+  })
+
+  // Test for converting white (255, 255, 255) to grayscale using the NTSC formula
+  it('should convert white color to grayscale with NTSC formula', () => {
+    const color = { r: 255, g: 255, b: 255, a: 1 }
+    const result = rgbToGray(color, true)
+    expect(result).toEqual({ r: 255, g: 255, b: 255, a: 1 })
+  })
+
+  // Test for converting a color with alpha channel
+  it('should preserve alpha channel when converting to grayscale', () => {
+    const color = { r: 120, g: 60, b: 200, a: 0.5 }
+    const result = rgbToGray(color)
+    expect(result).toEqual({ r: 82.864, g: 82.864, b: 82.864, a: 0.5 })
   })
 })

@@ -205,5 +205,18 @@ declare module 'colorus' {
      * @return A new Colorus instance representing the color with inverted color values.
      */
     invert(): Colorus
+
+    /**
+     * Converts the current color to grayscale.
+     * @param useNTSCFormula - Whether to use the NTSC formula for conversion. (Default: `false`)
+     * @return A new Colorus object representing the grayscale color.
+     * @example
+     * // Create a Colorus object representing an RGB color
+     * const color = new Colorus('rgb(50 168 82)');
+     * color.grayscale().toRgb(); // Returns: 'rgb(137, 137, 137)'
+     * // Convert using the NTSC formula
+     * color.grayscale(true).toRgb(); // Returns 'rgb(123, 123, 123)'
+     */
+    grayscale(useNTSCFormula?: boolean): Colorus
   }
 }
