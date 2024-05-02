@@ -72,6 +72,7 @@ constructor(input?: AnyColor)
 - `alpha(amount): Colorus`: Changes the alpha (opacity) of the current color.
 - `contrastRatio(backgroundColor): number`: Gets the contrast ratio between a foreground color and its adjacent background.
 - `invert(): Colorus`: Inverts the color using sRGB values.
+- `grayscale(): Colorus`: Converts the current color to grayscale.
 
 #### Static Methods
 
