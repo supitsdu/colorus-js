@@ -1,19 +1,22 @@
 {
   "name": "colorus-js",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "description": "Sleek and powerful color manipulation library for JavaScript.",
   "type": "module",
-  "main": "./dist/index.js",
+  "sideEffects": false,
+  "main": "./dist/main.js",
+  "module": "./dist/main.js",
+  "files": [
+    "dist",
+    "@types",
+    "README.md",
+    "LICENSE"
+  ],
   "exports": {
     ".": {
-      "require": {
-        "default": "./dist/main.cjs",
-        "types": "./@types/main.d.ts"
-      },
-      "import": {
-        "default": "./dist/main.js",
-        "types": "./@types/main.d.ts"
-      }
+      "import": "./dist/main.js",
+      "require": "./dist/main.cjs",
+      "types": "./@types/main.d.ts"
     }
   },
   "scripts": {
