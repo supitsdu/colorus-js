@@ -1,5 +1,36 @@
+import CSSNamedColors from './cssNamedColors'
 import { Clamp, Round, eightBit } from './colorNormalizer'
 import { hexString } from './helpers'
+
+/**
+ * Calculates the Euclidean distance between two RGB colors.
+ * @param {object} primary - The first RGB color string.
+ * @param {object} secondary - The second RGB color string.
+ * @return {number} The distance between the two colors.
+ */
+export const computeColorDistance = ({ r: r1, g: g1, b: b1 }, { r: r2, g: g2, b: b2 }) =>
+  Math.sqrt(Math.pow(r1 - r2, 2) + Math.pow(g1 - g2, 2) + Math.pow(b1 - b2, 2))
+
+/**
+ * Converts RGB values to the nearest CSS named color.
+ * @param {object} color - The RGB color object.
+ * @return {string} The name of the color.
+ */
+export function rgbToNamedColor({ r, g, b }) {
+  let closestColor = undefined
+  let shortestDistance = Infinity
+
+  for (const [name, color] of Object.entries(CSSNamedColors.colors)) {
+    const distance = computeColorDistance({ r, g, b }, hexToRgb(color))
+
+    if (distance < shortestDistance) {
+      shortestDistance = distance
+      closestColor = name
+    }
+  }
+
+  return closestColor
+}
 
 /**
  * Calculates the hue component of an HSV color object.

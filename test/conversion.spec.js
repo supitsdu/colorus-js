@@ -1,4 +1,4 @@
-import { rgbToHex, hexToRgb, hslToHsv, hsvToHsl, rgbToHsv, hsvToRgb, hslToRgb } from '../src/conversion'
+import { rgbToHex, hexToRgb, hslToHsv, hsvToHsl, rgbToHsv, hsvToRgb, hslToRgb, rgbToNamedColor } from '../src/conversion'
 
 describe('rgbToHex()', () => {
   const validRgb = { r: 100, g: 200, b: 30 }
@@ -353,5 +353,28 @@ describe('hslToRgb', () => {
     expect(rgb.g).toBe(0)
     expect(rgb.b).toBe(0)
     expect(rgb.a).toBe(1)
+  })
+})
+
+describe('rgbToNamedColor', () => {
+  it('converts a red color from RGB to CSS named color correctly', () => {
+    const input = { r: 255, g: 0, b: 0, a: 1 }
+    const named = rgbToNamedColor(input)
+
+    expect(named).toBe('red')
+  })
+
+  it('converts a green color from RGB to CSS named color correctly', () => {
+    const input = { r: 0, g: 128, b: 0, a: 1 }
+    const named = rgbToNamedColor(input)
+
+    expect(named).toBe('green')
+  })
+
+  it('converts a blue color from RGB to CSS named color correctly', () => {
+    const input = { r: 0, g: 0, b: 255, a: 1 }
+    const named = rgbToNamedColor(input)
+
+    expect(named).toBe('blue')
   })
 })

@@ -161,6 +161,16 @@ declare module 'colorus-js' {
     toCmyk(options?: FormatOptions): string
 
     /**
+     * Convert the current color to the nearest CSS named color.
+     * @see https://www.w3.org/TR/css-color-4/#named-colors
+     * @returns The nearest CSS named color.
+     * @example
+     * const color = new Colorus('#f00')
+     * color.toNamed() // Returns: 'red'
+     */
+    toNamed(): string
+
+    /**
      * Mixes the current color with another color.
      * @param input The color to mix with.
      * @param amount The amount of mixing. (Default: `0.1`)
