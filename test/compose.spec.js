@@ -1,4 +1,4 @@
-import { modBy, mix, lighten, saturate, hue, alpha, rgbToGray } from '../src/compose'
+import { modBy, mix, lighten, saturate, hue, alpha, rgbToGray, invert } from '../src/compose'
 
 describe('modBy', () => {
   test('should correctly modify a value', () => {
@@ -65,6 +65,24 @@ describe('saturate', () => {
     const result = saturate(color, amount)
     expect(result.h).toBe(color.h)
     expect(result.l).toBe(color.l)
+  })
+})
+
+describe('invert', () => {
+  test('should invert black to white correctly', () => {
+    const color = { r: 255, g: 255, b: 255 }
+    const result = invert(color)
+    expect(result.r).toBe(0)
+    expect(result.g).toBe(0)
+    expect(result.b).toBe(0)
+  })
+
+  test('should invert white to black correctly', () => {
+    const color = { r: 0, g: 0, b: 0 }
+    const result = invert(color)
+    expect(result.r).toBe(255)
+    expect(result.g).toBe(255)
+    expect(result.b).toBe(255)
   })
 })
 

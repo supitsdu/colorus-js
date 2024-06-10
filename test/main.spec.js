@@ -86,3 +86,9 @@ describe('Colorus.test()', () => {
     expect(Colorus.test(undefined)).toBeNull()
   })
 })
+
+describe('Colorus.invert()', () => {
+  test('should invert colors correctly', () => {
+    expect(new Colorus('crimson').invert().toRgb()).toBe('rgb(35, 235, 195)')
+  })
+})
