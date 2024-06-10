@@ -194,7 +194,7 @@ export class Colorus {
    * @return {Colorus} A new Colorus instance representing the color with inverted color values.
    */
   invert() {
-    return new Colorus(compose.invert(this.#data.rgb))
+    return new Colorus(compose.invert(this.rgb))
   }
 
   /**
@@ -206,5 +206,3 @@ export class Colorus {
     return new Colorus(compose.rgbToGray(this.rgb, useNTSCFormula))
   }
 }
-
-// console.log(new Colorus('aliceblue').rgb)
