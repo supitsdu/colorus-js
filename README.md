@@ -22,13 +22,13 @@ npm i colorus-js
 ## Usage
 
 ```js
-const { Colorus } = require('colorus-js');
+const { Colorus } = require('colorus-js')
 
 // Create a new Colorus instance
-const color = new Colorus('rgb(255 0 0)');
+const color = new Colorus('rgb(255 0 0)')
 
-console.log(color.colorType); // Returns: 'rgb'
-console.log(color.lighten(0.2).toHex({ minify: true })); // Returns: '#F33'
+console.log(color.colorType) // Returns: 'rgb'
+console.log(color.lighten(0.2).toHex({ minify: true })) // Returns: '#F33'
 ```
 
 ## API Reference
@@ -59,10 +59,11 @@ constructor(input?: AnyColor)
 #### Methods
 
 - `toHex(options): string`: Convert the current color to hexadecimal format.
-- `toRgb(options): string`: Convert the current color to RgbObject format.
-- `toHsl(options): string`: Convert the current color to HslObject format.
-- `toHsv(options): string`: Convert the current color to HsvObject format.
-- `toCmyk(options): string`: Convert the current color to CmykObject format.
+- `toRgb(options): string`: Convert the current color to `RGB` string format.
+- `toHsl(options): string`: Convert the current color to `HSL` string format.
+- `toHsv(options): string`: Convert the current color to `HSV` string format.
+- `toCmyk(options): string`: Convert the current color to `CMYK` string format.
+- `toNamed(): string`: Convert the current color to its nearest [CSS named color](https://www.w3.org/TR/css-color-4/#named-colors) representation.
 - `mix(input, amount): Colorus`: Mixes the current color with another color.
 - `lighten(amount): Colorus`: Lightens the current color.
 - `darken(amount): Colorus`: Darkens the current color.
