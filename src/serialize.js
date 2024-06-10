@@ -1,5 +1,6 @@
 import { Clamp } from './colorNormalizer'
 import { cmykToRgb, hexToRgb, hslToRgb, hsvToRgb } from './conversion'
+import CSSNamedColors from './cssNamedColors'
 import { isCmykObject, isHslObject, isHsvObject, isRgbObject, nao, padString } from './helpers'
 
 const colorPatterns = [
@@ -10,7 +11,8 @@ const colorPatterns = [
   [
     'cmyk',
     /^cmyka?\(\s*(\d{1,3})%?(?:\s*\,\s*|\s+)(\d{1,3})%?(?:\s*\,\s*|\s+)(\d{1,3})%?(?:\s*\,\s*|\s+)(\d{1,3})%?(?:\s*(?:\,|\/)\s*(0?\.\d+|1|0))?\s*\)$/iy
-  ]
+  ],
+  ['named', CSSNamedColors.pattern]
 ]
 
 const colorParsers = {
@@ -18,7 +20,8 @@ const colorParsers = {
   rgb: match => ({ r: Number(match[1]), g: Number(match[2]), b: Number(match[3]), a: Number(match[4]) || 1 }),
   hsl: match => ({ h: Number(match[1]), s: Number(match[2]), l: Number(match[3]), a: Number(match[4]) || 1 }),
   hsv: match => ({ h: Number(match[1]), s: Number(match[2]), v: Number(match[3]), a: Number(match[4]) || 1 }),
-  cmyk: match => ({ c: Number(match[1]), m: Number(match[2]), y: Number(match[3]), k: Number(match[4]), a: Number(match[5]) || 1 })
+  cmyk: match => ({ c: Number(match[1]), m: Number(match[2]), y: Number(match[3]), k: Number(match[4]), a: Number(match[5]) || 1 }),
+  named: match => hexToRgb(match[0])
 }
 
 const colorSerializers = {

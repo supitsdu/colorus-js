@@ -111,6 +111,12 @@ export class Colorus {
   toCmyk = options => new ColorFormatter(options).cmyk(this.cmyk)
 
   /**
+   * Converts the current color to its nearest CSS named color representation.
+   * @return {string} The CSS named color.
+   */
+  toNamed = () => conversion.rgbToNamedColor(this.rgb)
+
+  /**
    * Mixes the current color with another color.
    * @param {string|Object} input - The color to mix with.
    * @param {number} [amount=0.1] - The amount of mixing.
@@ -200,3 +206,5 @@ export class Colorus {
     return new Colorus(compose.rgbToGray(this.rgb, useNTSCFormula))
   }
 }
+
+// console.log(new Colorus('aliceblue').rgb)

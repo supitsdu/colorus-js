@@ -157,6 +157,14 @@ describe('parse function', () => {
     expect(result.colorObject).toEqual(expectedOutput.colorObject)
   })
 
+  it('should parse CSS named color string', () => {
+    const input = 'red'
+    const expectedOutput = { colorType: 'named', colorObject: { r: 255, g: 0, b: 0, a: 1 } }
+    const result = parse(input)
+    expect(result.colorType).toBe(expectedOutput.colorType)
+    expect(result.colorObject).toEqual(expectedOutput.colorObject)
+  })
+
   it('should return null for invalid color string', () => {
     const input = 'invalid color string'
     const result = parse(input)
@@ -182,6 +190,14 @@ describe('fromUserInput function', () => {
   it('should parse and serialize RGB color string input', () => {
     const input = 'rgb(255, 0, 128)'
     const expectedOutput = { colorType: 'rgb', colorObject: { r: 255, g: 0, b: 128, a: 1 } }
+    const result = fromUserInput(input)
+    expect(result.colorType).toBe(expectedOutput.colorType)
+    expect(result.colorObject).toEqual(expectedOutput.colorObject)
+  })
+
+  it('should parse and serialize CSS named color string input', () => {
+    const input = 'aliceblue'
+    const expectedOutput = { colorType: 'named', colorObject: { r: 240, g: 248, b: 255, a: 1 } }
     const result = fromUserInput(input)
     expect(result.colorType).toBe(expectedOutput.colorType)
     expect(result.colorObject).toEqual(expectedOutput.colorObject)
