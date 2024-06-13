@@ -9,7 +9,6 @@ coverage/
 *.tgz
 
 # Ignore lock files
-*-lock.*
 *.lockb
 
 # Ignore IDE and editor-specific files and directories
