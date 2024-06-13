@@ -20,8 +20,11 @@
     }
   },
   "scripts": {
-    "format": "prettier --write src/**/*.js",
-    "lint": "eslint src/**/*.js",
+    "lint": "eslint ./src/*.js",
+    "lint:fix": "eslint --fix ./src/*.js",
+    "prettier": "prettier --check src",
+    "prettier:fix": "prettier --write src",
+    "format": "npm run lint:fix && npm run prettier:fix",
     "test": "jest",
     "build": "rollup -c"
   },
