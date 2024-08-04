@@ -1,5 +1,48 @@
 import { Colorus } from '../src/main'
 
+describe('Plugin Functionality', () => {
+  it('should add a plugin method to the Colorus instance', () => {
+    const color = new Colorus('#333', {
+      plugins: {
+        getHue: function () {
+          return this.hsl.h
+        }
+      }
+    })
+
+    expect(color).toHaveProperty('getHue')
+    expect(typeof color.getHue).toBe('function')
+  })
+
+  it('should allow the plugin method to access the Colorus instance data', () => {
+    const color = new Colorus('rgb(20, 120, 80)', {
+      plugins: {
+        getHue: function () {
+          return this.hsl.h
+        }
+      }
+    })
+
+    expect(color.getHue()).toBe(156)
+  })
+
+  it('should handle multiple plugin methods', () => {
+    const color = new Colorus('#FF0000', {
+      plugins: {
+        getHue: function () {
+          return this.hsl.h
+        },
+        isRed: function () {
+          return this.rgb.r === 255 && this.rgb.g === 0 && this.rgb.b === 0
+        }
+      }
+    })
+
+    expect(color.getHue()).toBe(0)
+    expect(color.isRed()).toBe(true)
+  })
+})
+
 describe('Colorus.darken()', () => {
   it('darkens by default amount', () => {
     expect(new Colorus('#333').darken().toHex()).toBe('#2E2E2E')

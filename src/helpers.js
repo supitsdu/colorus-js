@@ -64,6 +64,20 @@ export const nan = v => typeof v != 'number' || isNaN(v) || !isFinite(v)
 export const nao = v => typeof v !== 'object' || Array.isArray(v)
 
 /**
+ * Check if the plugin is Not a Plugin
+ * @param {Object} plugins An key-value object with plugin functions to apply.
+ * @param {string} name Method name of the Plugin
+ * @return {boolean|undefined} True if the plugins is not valid, undefined in case it's valid.
+ */
+export const isNotPlugin = function (plugins, name) {
+  if (!Object.hasOwnProperty.call(plugins, name)) return true
+
+  if (typeof plugins[name] !== 'function') {
+    throw new TypeError(`Invalid plugin for '${name}': Expected a function.`)
+  }
+}
+
+/**
  * Checks if the provided object represents an RGB color.
  * @param {object} obj - The object to be checked.
  * @return {boolean} True if the object represents an RGB color, false otherwise.
