@@ -2,7 +2,34 @@ import { contrastRatio, relativeLuminance } from './accessibility'
 import ColorFormatter from './colorFormatter'
 import * as compose from './compose'
 import * as conversion from './conversion'
+import { nao, isNotPlugin } from './helpers'
 import * as serialize from './serialize'
+
+/**
+ * Validates the options object passed to the Colorus constructor.
+ *
+ * @param {Object} [options={}] - An optional configuration object.
+ * @param {Object} [options.plugins] - An optional object containing plugin functions to extend the Colorus instance.
+ *                                     - Keys should be the names of the plugin methods.
+ *                                     - Values should be functions that take the Colorus instance as `this` and any additional arguments.
+ *
+ * @throws {TypeError} If `options` is not a plain object or if `options.plugins` is present but not a plain object.
+ */
+function validateOptions(options = {}) {
+  if (nao(options)) {
+    throw new TypeError(
+      `Invalid options: Expected a plain object with method names as keys. Received ${Array.isArray(options) ? 'an array' : typeof options}`
+    )
+  }
+
+  const { plugins } = options
+
+  if (typeof plugins !== 'undefined' && nao(plugins)) {
+    throw new TypeError(
+      `Invalid plugins: Expected a plain object with method names as keys. Received ${Array.isArray(plugins) ? 'an array' : typeof plugins}`
+    )
+  }
+}
 
 /**
  * Utility class providing methods for working with colors.
@@ -11,11 +38,23 @@ export class Colorus {
   #data = {}
 
   /**
-   * Constructs a new Colorus instance with the given input.
+   * Constructs a new Colorus instance with the given input and optional plugins.
    * @param {string|Object} input - The color input string or object.
+   * @param {Object} [options] - Optional configuration options.
+   * @param {Object} [options.plugins] - An key-value object with plugin functions to apply.
    */
-  constructor(input) {
+  constructor(input, options = {}) {
     this.#data = serialize.fromUserInput(input)
+
+    validateOptions(options)
+
+    for (const methodName in options.plugins) {
+      if (isNotPlugin(options.plugins, methodName)) continue
+
+      this[methodName] = function (...args) {
+        return options.plugins[methodName].call(this, ...args)
+      }
+    }
   }
 
   /** Tests the `input` for a valid color.

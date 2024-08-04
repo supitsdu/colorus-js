@@ -2,38 +2,27 @@
  * The `colorus-js` module allows for easy manipulation and conversion of colors between different formats.
  */
 declare module 'colorus-js' {
-  export interface RgbObject {
-    r: number | string
-    g: number | string
-    b: number | string
-    a?: number | string
-  }
+  type ColorChannel = number | string
 
-  export interface HslObject {
-    h: number | string
-    s: number | string
-    l: number | string
-    a?: number | string
-  }
+  export type BaseColor<K extends string, T> = {
+    [key in K]: T
+  } & { a?: T }
 
-  export interface HsvObject {
-    h: number | string
-    s: number | string
-    v: number | string
-    a?: number | string
-  }
+  export type AnyRgb<T = ColorChannel> = BaseColor<'r' | 'g' | 'b', T>
+  export type RgbColor = AnyRgb<number>
 
-  export interface CmykObject {
-    c: number | string
-    m: number | string
-    y: number | string
-    k: number | string
-    a?: number | string
-  }
+  export type AnyHsl<T = ColorChannel> = BaseColor<'h' | 's' | 'l', T>
+  export type HslColor = AnyHsl<number>
+
+  export type AnyHsv<T = ColorChannel> = BaseColor<'h' | 's' | 'v', T>
+  export type HsvColor = AnyHsv<number>
+
+  export type AnyCmyk<T = ColorChannel> = BaseColor<'c' | 'm' | 'y' | 'k', T>
+  export type CmykColor = AnyCmyk<number>
 
   export type AnyColorType = 'rgb' | 'hsl' | 'hsv' | 'cmyk'
 
-  export type AnyColorObject = RgbObject | HslObject | HsvObject | CmykObject
+  export type AnyColorObject = AnyRgb | AnyHsl | AnyHsv | AnyCmyk
 
   export type AnyColor = string | AnyColorObject
 
@@ -66,6 +55,27 @@ declare module 'colorus-js' {
   }
 
   /**
+   * Represents a plugin function that extends the Colorus instance with custom methods.
+   *
+   * @param this The Colorus instance to which the plugin methods will be added.
+   * @param args Any additional arguments passed to the plugin method.
+   *
+   * @returns An object containing the plugin methods to be added to the Colorus instance.
+   *          - Keys should be the names of the plugin methods.
+   *          - Values should be the corresponding functions.
+   */
+  export type ColorusPlugin = (this: Colorus, ...args: any[]) => any
+
+  export interface ColorusOptions {
+    /**
+     * An optional object containing plugin functions to extend the Colorus instance.
+     */
+    plugins?: {
+      [methodName: string]: ColorusPlugin
+    }
+  }
+
+  /**
    * Utility that provides methods for working with colors.
    *
    * @remarks
@@ -84,11 +94,14 @@ declare module 'colorus-js' {
    */
   export class Colorus {
     /**
-     * Creates a new Colorus instance with the provided input.
+     * Constructs a new Colorus instance with the given input and optional plugins.
      * @param input - The color input string or object.
-     * @throws If the input is not `undefined` or valid color format (e.g. `string` or `object`).
+     * @param options - Optional configuration options, including plugins.
+     * @throws If the input is not `undefined` or a valid color format (e.g. `string` or `object`).
+     * @throws If `options` is not a plain object.
+     * @throws If `options.plugins` is present but not a plain object with method names as keys and plugin functions as values.
      */
-    constructor(input?: AnyColor)
+    constructor(input?: AnyColor, options?: ColorusOptions)
 
     /**
      * Analytical method to quickly test the `input` for any valid color.
@@ -99,7 +112,7 @@ declare module 'colorus-js' {
      * Colorus.test({ r: 255, g: 0, b: 0 }); // Returns: 'rgb'
      * Colorus.test('#c('); // Returns: null
      */
-    static test(input?: unknown): AnyColorType | null
+    static test(input?: AnyColor | unknown): AnyColorType | null
 
     /** Get the type of the current color. */
     get colorType(): AnyColorType | undefined
@@ -112,16 +125,16 @@ declare module 'colorus-js' {
     get luminance(): number
 
     /** Get the `sRGB` object representation of the current color. */
-    get rgb(): RgbObject
+    get rgb(): RgbColor
 
     /** Get the `HSL` object representation of the current color. */
-    get hsl(): HslObject
+    get hsl(): HslColor
 
     /** Get the `HSV` object representation of the current color. */
-    get hsv(): HsvObject
+    get hsv(): HsvColor
 
     /** Get the `CMYK` object representation of the current color. */
-    get cmyk(): CmykObject
+    get cmyk(): CmykColor
 
     /**
      * Convert the current color to hexadecimal format.
