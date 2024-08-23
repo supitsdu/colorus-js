@@ -1,7 +1,3 @@
-export { ColorFormatter } from "./colorFormatter";
-
-export { parseColor } from "./colorParser";
-
 export { isValidColor } from "./isValidColor";
 
 export { defineColor, Color } from "./Color";

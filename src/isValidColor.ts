@@ -2,7 +2,7 @@ import {
 	determineColorType,
 	execColorStringTest,
 } from "./core/colorTypeAnalyzer";
-import { isNotObject } from "./helpers";
+import { isObject } from "./helpers";
 import type { AnyObject, SupportedColorFormat } from "./types";
 
 /** Tests the `input` for a valid color.
@@ -12,9 +12,9 @@ import type { AnyObject, SupportedColorFormat } from "./types";
 export function isValidColor(
 	input: object | string | unknown,
 ): SupportedColorFormat | null {
-	if (typeof input === "undefined") return null;
+	if (!input) return null;
 
-	if (isNotObject(input) && input !== null) {
+	if (isObject(input)) {
 		return determineColorType(input as AnyObject) || null;
 	}
 

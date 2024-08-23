@@ -1,8 +1,9 @@
-import { parseColor } from "../colorParser";
+import { parseColor } from "./colorParser";
+import { errorMessages } from "../constants/errorMessages";
 import { cmykToRgb } from "../conversions/cmykConversions";
 import { hslToRgb } from "../conversions/hslConversions";
 import { hsvToRgb } from "../conversions/hsvConversions";
-import { isNotObject } from "../helpers";
+import { isObject } from "../helpers";
 import type {
 	AnyColorData,
 	ColorConverters,
@@ -10,11 +11,13 @@ import type {
 	ColorObject,
 } from "../types";
 import { Clamp } from "./colorNormalizer";
-import { determineColorType } from "./colorTypeAnalyzer";
+import { determineColorType, isColorData } from "./colorTypeAnalyzer";
 
 export const fallbackColor: ColorData = {
-	colorType: undefined,
-	colorObject: { r: 0, g: 0, b: 0, a: 1 },
+	originalInput: undefined,
+	isValid: false,
+	value: { r: 0, g: 0, b: 0, a: 1 },
+	format: undefined,
 };
 
 const converters: ColorConverters = {
@@ -32,65 +35,53 @@ const converters: ColorConverters = {
  */
 export function fromObject(
 	input?: AnyColorData | ColorObject | null,
-): ColorData | null {
-	if (input == null) return null;
-
-	let colorType: ColorData["colorType"];
-	let colorObject: ColorObject | undefined;
-
-	if ("colorType" in input && "colorObject" in input) {
-		// Input is AnyColorData
-		colorType = input.colorType;
-		colorObject = input.colorObject;
-	} else {
-		// Input is AnyColorObject
-		colorType = determineColorType(input as ColorObject);
-		colorObject = input as ColorObject;
+): ColorData {
+	if (!input || !isObject(input)) {
+		throw new TypeError(errorMessages.invalidColorType);
 	}
 
-	const colorTypeFromObject = determineColorType(colorObject);
+	const hasData = isColorData(input);
 
+	const value = hasData ? input.value : input;
+	if (!value) {
+		throw new TypeError(errorMessages.invalidColorType);
+	}
+
+	const originalInput = hasData ? input.originalInput || value : value;
+
+	const colorTypeFromObject = determineColorType(value);
 	if (!colorTypeFromObject || !Object.hasOwn(converters, colorTypeFromObject)) {
-		return null;
+		throw new TypeError(errorMessages.invalidColorObject(value));
 	}
+
+	const format = hasData ? input.format : colorTypeFromObject;
 
 	return {
-		colorType, // Always return 'rgb' as the color type
-		colorObject: converters[colorTypeFromObject](colorObject as ColorObject), // Explicit type assertion and ensure RgbColor output
+		originalInput: originalInput || value,
+		isValid: value !== undefined && format !== undefined,
+		value: converters[colorTypeFromObject](value as ColorObject),
+		format,
 	};
 }
 
 /**
- * Attemps to serializes an color input to a standardized color object.
- * @param input - The input color string or object.
- * @throws If the input is not a valid color string or object.
+ * Processes a color input (string or object) and returns its standardized ColorData representation.
+ *
+ * @param input - The color input (string, color object, or undefined).
+ * @returns The standardized ColorData representation of the input color.
+ * @throws {TypeError} If the input is not a valid color string or object.
  */
 export function processColorInput(
 	input?: unknown | string | ColorObject | ColorData,
 ): ColorData {
-	if (typeof input === "undefined") {
-		return fallbackColor;
-	}
-
-	let colorData: ColorData | null;
-
 	if (typeof input === "string") {
-		colorData = fromObject(parseColor(input));
+		const parsedColorData = parseColor(input);
+		if (parsedColorData !== null) return fromObject(parsedColorData);
 
-		if (colorData == null) {
-			throw new TypeError(`Invalid color string: ${input}`);
-		}
+		throw new TypeError(errorMessages.invalidColorString(input));
 	}
 
-	if (!isNotObject(input)) {
-		colorData = fromObject(input);
+	if (typeof input === "undefined") return fallbackColor;
 
-		if (colorData == null) {
-			throw new TypeError(`Invalid color object: ${input}`);
-		}
-	}
-
-	throw new TypeError(
-		"Invalid color type, expected and valid color string or object.",
-	);
+	return fromObject(input);
 }

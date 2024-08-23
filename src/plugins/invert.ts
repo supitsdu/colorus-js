@@ -6,7 +6,7 @@ import type { RgbColor } from "../types";
  * @param color - RgbColor color object.
  * @return New RgbColor color object.
  */
-const invertRgb = (color: RgbColor): RgbColor => ({
+export const invertRgb = (color: RgbColor): RgbColor => ({
 	...color,
 	r: 255 - color.r,
 	g: 255 - color.g,

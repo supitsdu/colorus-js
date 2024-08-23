@@ -1,6 +1,19 @@
 import namedColors from "../constants/namedColors";
 import { nan } from "../helpers";
-import type { AnyObject, ColorPatterns, SupportedColorFormat } from "../types";
+import type {
+	AnyColorData,
+	AnyObject,
+	ColorPatterns,
+	SupportedColorFormat,
+} from "../types";
+
+export const isColorData = (
+	input: Record<string, unknown>,
+): input is AnyColorData =>
+	"format" in input ||
+	"value" in input ||
+	"isValid" in input ||
+	"originalInput" in input;
 
 export const colorPatterns: ColorPatterns = [
 	["hex", /^#([a-f\d]{8}|[a-f\d]{6}|[a-f\d]{3,4})$/iy],
@@ -31,13 +44,16 @@ export const colorPatterns: ColorPatterns = [
  * @param input - The input color string.
  */
 export function execColorStringTest(
-	input: string,
+	input = "",
 ): [SupportedColorFormat, string[]] | null {
+	if (typeof input !== "string" || !input) return null;
+
 	for (const [name, pattern] of colorPatterns) {
 		pattern.lastIndex = 0;
 		const match = pattern.exec(input);
 		if (match !== null) return [name, match];
 	}
+
 	return null;
 }
 

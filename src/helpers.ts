@@ -1,4 +1,4 @@
-import type { ColorPlugins } from "./types";
+import type { AnyObject } from "./types";
 
 /**
  * Clamps a value between a minimum and maximum limit.
@@ -63,21 +63,9 @@ export const nan = (v: unknown): boolean =>
 	typeof v !== "number" || Number.isNaN(v) || !Number.isFinite(v);
 
 /**
- * Check if input is NOT a Object (NaO)
+ * Check if input is a valid object
  * @param v - The object to check against.
  * @return `true` if it is not an object, `false` otherwise.
  */
-export const isNotObject = (v: unknown): boolean =>
-	typeof v !== "object" || Array.isArray(v);
-
-/**
- * Check if the plugin is Not a Plugin
- * @param plugins An key-value object with plugin functions to apply.
- * @param name Method name of the Plugin
- * @return True if the plugins is not valid, undefined in case it's valid.
- */
-export const isNotPlugin = (plugins: ColorPlugins, name: string): boolean => {
-	if (!Object.hasOwnProperty.call(plugins, name)) return true;
-
-	return false;
-};
+export const isObject = (v: unknown): v is AnyObject<string, unknown> =>
+	!(typeof v !== "object" || Array.isArray(v) || v === null);

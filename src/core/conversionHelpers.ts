@@ -1,4 +1,4 @@
-import { type AnyRgb, RgbColor } from "../types";
+import type { AnyRgb } from "../types";
 
 /**
  * Check if an HEX color is shortanable by comparing the RgbColor components.
@@ -11,8 +11,8 @@ export const isRgbShortanable = (
 	r: number,
 	g: number,
 	b: number,
-	a = 1,
-): boolean => r % 17 === 0 && g % 17 === 0 && b % 17 === 0 && a % 17 === 0;
+	a = 255,
+): boolean => !(r % 17 !== 0 || g % 17 !== 0 || b % 17 !== 0 || a % 17 !== 0);
 
 /**
  * Calculates the Euclidean distance between two RgbColor colors.

@@ -151,11 +151,20 @@ export const namedColorsMap = {
 	yellowgreen: "9acd32",
 };
 
+/**
+ * Formats a named color into its standardized CSS representation.
+ *
+ * @param name - The named color string (e.g., "Red", "Rebecca Purple", "slate-grey").
+ * @returns The standardized CSS named color (e.g., "red", "rebeccapurple", "slategrey") or the original input if not found.
+ */
+const formatNamedColor = (name: string): string =>
+	name.toLowerCase().replace(/[\s-]+/g, "");
+
 const execMatch: ExecMatchClone = {
 	pattern: {
 		lastIndex: 0,
 		exec(input: string) {
-			const match = namedColorsMap[input];
+			const match = namedColorsMap[formatNamedColor(input)];
 			return match !== undefined ? [match] : null;
 		},
 	},

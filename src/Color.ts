@@ -1,4 +1,4 @@
-import { ColorFormatter } from "./colorFormatter";
+import { errorMessages } from "./constants/errorMessages";
 import {
 	rgbToCmyk,
 	rgbToHex,
@@ -8,12 +8,17 @@ import {
 } from "./conversions/rgbConversions";
 import { contrastRatio, relativeLuminance } from "./core/accessibility";
 import { alpha, hue, lighten, saturate } from "./core/colorAdjustments";
+import { ColorFormatter } from "./core/colorFormatter";
+import { parseColor } from "./core/colorParser";
+import { determineColorType } from "./core/colorTypeAnalyzer";
 import { processColorInput } from "./core/inputSerializer";
-import { isNotObject, isNotPlugin } from "./helpers";
+import { isValidPlugin } from "./core/pluginValidation";
+import { isObject } from "./helpers";
 import type {
 	CmykColor,
 	ColorData,
 	ColorInput,
+	ColorObject,
 	ColorOptions,
 	ColorPlugins,
 	FormatOptions,
@@ -23,7 +28,10 @@ import type {
 } from "./types";
 
 export class Color {
-	private readonly data: ColorData;
+	readonly value: ColorData["value"];
+	readonly format: ColorData["format"];
+	readonly originalInput: ColorData["originalInput"];
+	readonly isValid: ColorData["isValid"];
 
 	/**
 	 * Constructs a new Color instance with the given input and optional plugins.
@@ -32,29 +40,67 @@ export class Color {
 	 * @param options.plugins - An key-value object with plugin functions to apply.
 	 */
 	constructor(input: ColorInput, options?: ColorOptions<any>) {
-		this.data = processColorInput(input);
+		Object.assign(this, processColorInput(input));
 
-		validateOptions(options);
+		if (validateOptions(options)) {
+			for (const methodName in options.plugins) {
+				if (!isValidPlugin(options.plugins, methodName)) {
+					continue;
+				}
 
-		for (const methodName in options?.plugins) {
-			if (isNotPlugin(options?.plugins, methodName)) continue;
-
-			Object.defineProperty(this, methodName, {
-				value: (...args: unknown[]) =>
-					options.plugins[methodName]?.call(this, ...args),
-				enumerable: false, // Make the property non-enumerable
-				writable: false, // Prevent accidental modification
-				configurable: false, // Prevent deletion or reconfiguration
-			});
+				Object.defineProperty(this, methodName, {
+					value: (...args: unknown[]) =>
+						options.plugins[methodName]?.call(this, ...args),
+					enumerable: false, // Make the property non-enumerable
+					writable: false, // Prevent accidental modification
+					configurable: false, // Prevent deletion or reconfiguration
+				});
+			}
 		}
 	}
 
 	/**
-	 * Gets the type of the current color.
-	 * @return The color type.
+	 * Converts a color object to a formatted string representation.
+	 *
+	 * @param colorObject - The color object to format.
+	 * @param options - Optional formatting options.
+	 * @returns The formatted color `string` or `null` if the input is invalid or not supported.
 	 */
-	get colorType(): string | undefined {
-		return this.data?.colorType;
+	static stringify(
+		colorObject: ColorObject,
+		options?: FormatOptions,
+	): string | null {
+		if (!isObject(colorObject)) return null;
+
+		const format = determineColorType(colorObject);
+		const formatter = new ColorFormatter(options);
+
+		switch (format) {
+			case "rgb":
+				return formatter.rgb(colorObject);
+			case "hsl":
+				return formatter.hsl(colorObject);
+			case "hsv":
+				return formatter.hsv(colorObject);
+			case "cmyk":
+				return formatter.cmyk(colorObject);
+			default:
+				return null;
+		}
+	}
+
+	/**
+	 * Parses a color string into its corresponding color object representation.
+	 *
+	 * @param colorString - The color string to parse (e.g., 'rgb(255, 0, 0)', '#FF0000', 'hsl(0, 100%, 50%)').
+	 * @returns A color object containing the parsed color values, or null if the parsing fails.
+	 *
+	 * @example
+	 * const redColor = Color.parse('rgb(255 0 0)');
+	 * console.log(redColor); // Output: { r: 255, g: 0, b: 0 }
+	 */
+	static parse(colorString: string): ColorObject | null {
+		return parseColor(colorString)?.value || null;
 	}
 
 	/**
@@ -71,7 +117,7 @@ export class Color {
 	 * @return The RgbColor representation.
 	 */
 	get rgb(): RgbColor {
-		return this.data.colorObject;
+		return this.value;
 	}
 
 	/**
@@ -217,22 +263,21 @@ export class Color {
  *
  * @throws If `options` is not a plain object or if `options.plugins` is present but not a plain object.
  */
-function validateOptions(options?: ColorOptions<any>) {
-	if (typeof options === "undefined") return {};
+function validateOptions(
+	options?: ColorOptions<any>,
+): options is ColorOptions<any> {
+	if (typeof options === "undefined") return false;
 
-	if (isNotObject(options)) {
-		throw new TypeError(
-			`Invalid options: Expected a plain object with method names as keys. Received ${Array.isArray(options) ? "an array" : typeof options}`,
-		);
+	if (!isObject(options)) {
+		throw new TypeError(errorMessages.invalidOptions);
 	}
 
 	const { plugins } = options;
 
-	if (typeof plugins !== "undefined" && isNotObject(plugins)) {
-		throw new TypeError(
-			`Invalid plugins: Expected a plain object with method names as keys. Received ${Array.isArray(plugins) ? "an array" : typeof plugins}`,
-		);
+	if (typeof plugins !== "undefined" && !isObject(plugins)) {
+		throw new TypeError(errorMessages.invalidPlugins);
 	}
+	return true;
 }
 
 /**

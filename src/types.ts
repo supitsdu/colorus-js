@@ -34,8 +34,10 @@ export type ColorObject = AnyRgb | AnyHsl | AnyHsv | AnyCmyk;
 export type ColorInput = string | ColorObject;
 
 export type ColorData<C = RgbColor> = {
-	colorObject: C;
-	colorType?: string;
+	originalInput?: ColorInput;
+	isValid: boolean;
+	value: C;
+	format?: SupportedColorFormat;
 };
 
 export type AnyColorData = Partial<ColorData<ColorObject | undefined>>;

@@ -1,8 +1,8 @@
-import { hexToRgb } from "./conversions/hexConversions";
-import { execColorStringTest } from "./core/colorTypeAnalyzer";
-import { padString } from "./helpers";
+import { hexToRgb } from "../conversions/hexConversions";
+import { execColorStringTest } from "./colorTypeAnalyzer";
+import { padString } from "../helpers";
 
-import type { AnyColorData, ColorParsers } from "./types";
+import type { AnyColorData, ColorParsers } from "../types";
 
 export const colorParsers: ColorParsers<string[]> = {
 	hex: match => hexToRgb(padString(match[1])),
@@ -37,16 +37,18 @@ export const colorParsers: ColorParsers<string[]> = {
 /**
  * Parses a color string and converts it to a color object.
  * ```
- * parse('hsl(360,0,100)') // Returns: { colorType: "hsl", colorObject: { h: 360, s: 0, l: 100, a: 1 } }
+ * parseColor('hsl(360,0,100)') // Returns: { colorType: "hsl", colorObject: { h: 360, s: 0, l: 100, a: 1 } }
  * ```
  * @param input - The input color string.
  */
 export function parseColor(input?: string): AnyColorData | null {
-	if (!input) return null;
-
-	const [name, match] = execColorStringTest(input) || [];
-
-	if (!name || !match) return null;
-
-	return { colorType: name, colorObject: colorParsers[name](match) };
+	const result = execColorStringTest(input);
+	return result != null
+		? {
+				originalInput: input,
+				isValid: true,
+				value: colorParsers[result[0]](result[1]),
+				format: result[0],
+			}
+		: null;
 }
