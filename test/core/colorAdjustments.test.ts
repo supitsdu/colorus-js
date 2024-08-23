@@ -12,14 +12,14 @@ const hslColor = testColors.hsl;
 describe("Color Adjustment Functions", () => {
 	describe("modBy", () => {
 		it("should modify a value by the given amount", () => {
-			expect(modBy(50, 0.2)).toBe(60); // Increase by 20%
-			expect(modBy(100, -0.3)).toBe(70); // Decrease by 30%
+			expect(modBy(50, 0.2)).toBe(60);
+			expect(modBy(100, -0.3)).toBe(70);
 		});
 
 		it("should clamp the result to be within 0 and the specified maximum", () => {
-			expect(modBy(80, 0.5)).toBe(120); // 80 + (80 * 0.5) = 120
-			expect(modBy(80, 1)).toBe(160); // 80 + (80 * 1) = 160
-			expect(modBy(50, -1)).toBe(0); // Clamped to 0
+			expect(modBy(80, 0.5)).toBe(120);
+			expect(modBy(80, 1)).toBe(160);
+			expect(modBy(50, -1)).toBe(0);
 		});
 
 		it("should handle string input for value", () => {

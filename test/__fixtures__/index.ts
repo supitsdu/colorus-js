@@ -27,7 +27,7 @@ export type ColorNames =
 export type ColorRepresentations<T extends ColorObject = ColorObject> = {
 	object: T;
 	string: string;
-	rgb?: RgbColor; // Optional RGB representation
+	rgb?: RgbColor;
 };
 
 export type FormatColorMap<

@@ -3,7 +3,7 @@ import { isValidColor } from "../src/isValidColor";
 
 describe("isValidColor", () => {
 	it("should return null for an invalid color object", () => {
-		expect(isValidColor({ x: 10, y: 20 })).toBeNull(); // Invalid object structure
+		expect(isValidColor({ x: 10, y: 20 })).toBeNull();
 	});
 
 	it("should return null for an invalid color string", () => {

@@ -18,9 +18,9 @@ describe("RGB Color Conversions", () => {
 		);
 
 		it("should return the closest named color for non-exact matches", () => {
-			expect(rgbToNamedColor({ r: 250, g: 8, b: 7, a: 1 })).toBe("red"); // Slightly off-red
-			expect(rgbToNamedColor({ r: 8, g: 255, b: 7, a: 1 })).toBe("lime"); // Slightly off-lime
-			expect(rgbToNamedColor({ r: 8, g: 7, b: 255, a: 1 })).toBe("blue"); // Slightly off-blue
+			expect(rgbToNamedColor({ r: 250, g: 8, b: 7, a: 1 })).toBe("red");
+			expect(rgbToNamedColor({ r: 8, g: 255, b: 7, a: 1 })).toBe("lime");
+			expect(rgbToNamedColor({ r: 8, g: 7, b: 255, a: 1 })).toBe("blue");
 		});
 	});
 

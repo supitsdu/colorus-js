@@ -42,7 +42,7 @@ describe("Conversion Helper Functions", () => {
 				expect(computeColorDistance(black.object, white.object)).toBeCloseTo(
 					441.67,
 					2,
-				); // Allow for some rounding error
+				);
 			});
 
 			it("should calculate the distance between two similar colors", () => {
@@ -54,7 +54,7 @@ describe("Conversion Helper Functions", () => {
 
 			it("should handle colors with alpha values (ignoring alpha)", () => {
 				const redWithAlpha = { ...red.object, a: 0.65 };
-				expect(computeColorDistance(red.object, redWithAlpha)).toBe(0); // Distance should be 0 as alpha is ignored
+				expect(computeColorDistance(red.object, redWithAlpha)).toBe(0);
 			});
 		});
 	});
@@ -88,7 +88,7 @@ describe("Conversion Helper Functions", () => {
 
 			it("should normalize negative hue values", () => {
 				const params = { segment: 255, maxRgb: 255, minRgb: 0 };
-				const expectedHue = 180; // 60 * (1 - 1) + 120 = 120, then normalized to 180
+				const expectedHue = 180;
 				expect(computeHsvHue(aqua.object, params)).toBe(expectedHue);
 			});
 		});

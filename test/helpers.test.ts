@@ -1,5 +1,3 @@
-// Assuming you have the ColorPlugin type defined
-
 import {
 	hexString,
 	isObject,
@@ -13,11 +11,11 @@ describe("Helper Functions", () => {
 	describe("Number Utilities", () => {
 		describe("utmost", () => {
 			it("should clamp values within the specified range", () => {
-				expect(utmost(50, 100)).toBe(50); // Within range
-				expect(utmost(150, 100)).toBe(100); // Above max
-				expect(utmost(-50, 100)).toBe(0); // Below min
-				expect(utmost("75", 100)).toBe(75); // String input
-				expect(utmost("120", 100)).toBe(100); // String input above max
+				expect(utmost(50, 100)).toBe(50);
+				expect(utmost(150, 100)).toBe(100);
+				expect(utmost(-50, 100)).toBe(0);
+				expect(utmost("75", 100)).toBe(75);
+				expect(utmost("120", 100)).toBe(100);
 			});
 		});
 
@@ -25,7 +23,7 @@ describe("Helper Functions", () => {
 			it("should round to two decimal places", () => {
 				expect(precision(3.1419)).toBe(3.14);
 				expect(precision(12.3456)).toBe(12.35);
-				expect(precision(10)).toBe(10); // Integer remains unchanged
+				expect(precision(10)).toBe(10);
 			});
 		});
 	});
@@ -71,7 +69,7 @@ describe("Helper Functions", () => {
 			it("should correctly identify objects", () => {
 				expect(isObject({})).toBeTruthy();
 				expect(isObject({ a: 1, b: "hello" })).toBeTruthy();
-				expect(isObject([])).toBeFalsy(); // Array is not considered an object in this context
+				expect(isObject([])).toBeFalsy();
 				expect(isObject(null)).toBeFalsy();
 				expect(isObject(undefined)).toBeFalsy();
 				expect(isObject("string")).toBeFalsy();

@@ -3,7 +3,7 @@ import {
 	fallbackColor,
 	fromObject,
 } from "../../src/core/inputSerializer";
-import type { AnyObject, ColorData } from "../../src/types";
+import type { AnyObject } from "../../src/types";
 import { forEachColorFormat, testColors } from "../__fixtures__";
 
 describe("Color Input Processing", () => {
@@ -15,7 +15,7 @@ describe("Color Input Processing", () => {
 			});
 
 			it("should throw error for unsupported color types", () => {
-				const input: AnyObject = { x: 100, y: 200 }; // Unsupported color type
+				const input: AnyObject = { x: 100, y: 200 };
 				expect(() => fromObject(input)).toThrow();
 			});
 		});

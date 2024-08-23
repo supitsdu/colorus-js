@@ -8,19 +8,19 @@ describe("CMYK Color Conversion", () => {
 				g: 0,
 				b: 0,
 				a: 1,
-			}); // Red
+			});
 			expect(cmykToRgb({ c: 100, m: 0, y: 100, k: 0, a: 1 })).toEqual({
 				r: 0,
 				g: 255,
 				b: 0,
 				a: 1,
-			}); // Green
+			});
 			expect(cmykToRgb({ c: 100, m: 100, y: 0, k: 0, a: 1 })).toEqual({
 				r: 0,
 				g: 0,
 				b: 255,
 				a: 1,
-			}); // Blue
+			});
 		});
 
 		it("should handle alpha values correctly", () => {

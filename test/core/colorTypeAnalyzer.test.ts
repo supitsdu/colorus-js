@@ -103,10 +103,10 @@ describe("Color Type Analyzis", () => {
 			});
 
 			it("should return false for invalid RGB color objects", () => {
-				expect(isRgbObject({ r: 255, g: 0 })).toBeFalsy(); // Missing 'l'
+				expect(isRgbObject({ r: 255, g: 0 })).toBeFalsy();
 				// @ts-expect-error
-				expect(isRgbObject({ r: "255", g: 0, b: 0 })).toBeFalsy(); // 'r' is a string
-				expect(isRgbObject({ h: 0, s: 100, l: 50 })).toBeFalsy(); // HSL object
+				expect(isRgbObject({ r: "255", g: 0, b: 0 })).toBeFalsy();
+				expect(isRgbObject({ h: 0, s: 100, l: 50 })).toBeFalsy();
 			});
 		});
 
@@ -119,10 +119,10 @@ describe("Color Type Analyzis", () => {
 			});
 
 			it("should return false for invalid HSL color objects", () => {
-				expect(isHslObject({ h: 255, s: 0 })).toBeFalsy(); // Missing 'l'
+				expect(isHslObject({ h: 255, s: 0 })).toBeFalsy();
 				// @ts-expect-error
-				expect(isHslObject({ h: "255", s: 0, l: 0 })).toBeFalsy(); // 'h' is a string
-				expect(isHslObject({ r: 0, g: 100, b: 50 })).toBeFalsy(); // RGB object
+				expect(isHslObject({ h: "255", s: 0, l: 0 })).toBeFalsy();
+				expect(isHslObject({ r: 0, g: 100, b: 50 })).toBeFalsy();
 			});
 		});
 
@@ -135,10 +135,10 @@ describe("Color Type Analyzis", () => {
 			});
 
 			it("should return false for invalid HSV color objects", () => {
-				expect(isHsvObject({ h: 255, s: 0 })).toBeFalsy(); // Missing 'v'
+				expect(isHsvObject({ h: 255, s: 0 })).toBeFalsy();
 				// @ts-expect-error
-				expect(isHsvObject({ h: "255", s: 0, v: 0 })).toBeFalsy(); // 'h' is a string
-				expect(isHsvObject({ r: 0, g: 100, b: 50 })).toBeFalsy(); // RGB object
+				expect(isHsvObject({ h: "255", s: 0, v: 0 })).toBeFalsy();
+				expect(isHsvObject({ r: 0, g: 100, b: 50 })).toBeFalsy();
 			});
 		});
 
@@ -151,10 +151,10 @@ describe("Color Type Analyzis", () => {
 			});
 
 			it("should return false for invalid CMYK color objects", () => {
-				expect(isCmykObject({ c: 0, m: 100, y: 100 })).toBeFalsy(); // Missing 'k'
+				expect(isCmykObject({ c: 0, m: 100, y: 100 })).toBeFalsy();
 				// @ts-expect-error
-				expect(isCmykObject({ c: "0", m: 100, y: 100, k: 0 })).toBeFalsy(); // 'c' is a string
-				expect(isCmykObject({ r: 0, g: 100, b: 50 })).toBeFalsy(); // RGB object
+				expect(isCmykObject({ c: "0", m: 100, y: 100, k: 0 })).toBeFalsy();
+				expect(isCmykObject({ r: 0, g: 100, b: 50 })).toBeFalsy();
 			});
 		});
 	});

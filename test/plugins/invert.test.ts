@@ -8,19 +8,19 @@ describe("RGB Color Manipulation", () => {
 				g: 255,
 				b: 255,
 				a: 1,
-			}); // Red to Cyan
+			});
 			expect(invertRgb({ r: 0, g: 255, b: 0, a: 1 })).toEqual({
 				r: 255,
 				g: 0,
 				b: 255,
 				a: 1,
-			}); // Green to Magenta
+			});
 			expect(invertRgb({ r: 0, g: 0, b: 255, a: 1 })).toEqual({
 				r: 255,
 				g: 255,
 				b: 0,
 				a: 1,
-			}); // Blue to Yellow
+			});
 		});
 
 		it("should handle alpha values correctly", () => {
