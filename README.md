@@ -22,10 +22,10 @@ npm i colorus-js
 ## Usage
 
 ```js
-const { Colorus } = require('colorus-js')
+const { Colorus } = require("colorus-js")
 
 // Create a new Colorus instance
-const color = new Colorus('rgb(255 0 0)')
+const color = new Colorus("rgb(255 0 0)")
 
 console.log(color.colorType) // Returns: 'rgb'
 console.log(color.lighten(0.2).toHex({ minify: true })) // Returns: '#F33'
