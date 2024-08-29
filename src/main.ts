@@ -3,7 +3,6 @@ export { isValidColor } from "./isValidColor";
 export { defineColor, Color } from "./Color";
 
 export {
-	AnyColorData,
 	AnyCmyk,
 	AnyHsl,
 	AnyHsv,

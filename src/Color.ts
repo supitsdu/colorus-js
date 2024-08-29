@@ -11,12 +11,11 @@ import { alpha, hue, lighten, saturate } from "./core/colorAdjustments";
 import { ColorFormatter } from "./core/colorFormatter";
 import { parseColor } from "./core/colorParser";
 import { determineColorType } from "./core/colorTypeAnalyzer";
-import { processColorInput } from "./core/inputSerializer";
+import { fallbackColor, processColorInput } from "./core/inputSerializer";
 import { isValidPlugin } from "./core/pluginValidation";
 import { isObject } from "./helpers";
 import type {
 	CmykColor,
-	ColorData,
 	ColorInput,
 	ColorObject,
 	ColorOptions,
@@ -25,13 +24,14 @@ import type {
 	HslColor,
 	HsvColor,
 	RgbColor,
+	SupportedColorFormat,
 } from "./types";
 
 export class Color {
-	readonly value: ColorData["value"];
-	readonly format: ColorData["format"];
-	readonly originalInput: ColorData["originalInput"];
-	readonly isValid: ColorData["isValid"];
+	readonly value?: RgbColor;
+	readonly format?: SupportedColorFormat;
+	readonly originalInput?: ColorInput;
+	readonly isValid?: boolean;
 
 	/**
 	 * Constructs a new Color instance with the given input and optional plugins.
@@ -117,7 +117,7 @@ export class Color {
 	 * @return The RgbColor representation.
 	 */
 	get rgb(): RgbColor {
-		return this.value;
+		return this.value || fallbackColor.value;
 	}
 
 	/**
