@@ -1,0 +1,17 @@
+{
+	"compilerOptions": {
+		"declaration": true,
+		"declarationDir": "dist/__types__",
+		"emitDeclarationOnly": true,
+		"declarationMap": false,
+		"rootDir": "src",
+		"outDir": "dist",
+		"moduleResolution": "node",
+		"target": "esnext",
+		"module": "esnext",
+		"strict": true,
+		"composite": false
+	},
+	"include": ["src/**/*.ts"],
+	"exclude": ["node_modules", "dist"]
+}
