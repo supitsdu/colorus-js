@@ -68,18 +68,20 @@ export interface HexFormatOptions {
  *
  * @param this The Color instance to which the plugin methods will be added.
  * @param args Any additional arguments passed to the plugin method.
- *
- * @returns An object containing the plugin methods to be added to the Colorus instance.
- *          - Keys should be the names of the plugin methods.
- *          - Values should be the corresponding functions.
  */
-// Define a type for plugin methods that can modify the Color instance
 export type ColorPluginMethod<T> = (this: Color, ...args: any[]) => T | void;
-
 export type ColorPlugins = Record<string, ColorPluginMethod<any>>;
-
-// Update ColorOptions to use the new ColorPluginMethod type
 export interface ColorOptions<T extends ColorPlugins> {
+	/**
+	 * An object containing the plugin methods to be added to the Colorus instance.
+	 *
+	 * @example
+	 * plugins: {
+	 *   getHue() {
+	 * 	  return this.hsl.h
+	 *   }
+	 * }
+	 */
 	plugins?: T;
 }
 
