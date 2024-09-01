@@ -1,5 +1,5 @@
 import { errorMessages } from "../constants/errorMessages";
-import type { ColorPlugins } from "../types";
+import type { DyePlugins } from "../types";
 
 /**
  * Check if the plugin is Not a Plugin
@@ -8,7 +8,7 @@ import type { ColorPlugins } from "../types";
  * @return True if the plugins is not valid, undefined in case it's valid.
  */
 export const isValidPlugin = (
-	plugins: ColorPlugins,
+	plugins: DyePlugins,
 	name: string,
 ): name is keyof typeof plugins => {
 	if (!Object.hasOwn(plugins, name)) return false;

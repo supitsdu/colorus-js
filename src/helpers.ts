@@ -27,7 +27,7 @@ export const precision = (value: number): number =>
 /**
  * Converts the input to a string with radix 16 (HEX).
  *
- * @param input - The RgbColor channel values.
+ * @param input - The Rgb channel values.
  * @param minSize - Minimum size of the HEX string. If not provided, defaults to 6.
  * @return An HEX string. (e.g., "FF" or "00FF00" depending on the minSize value.)
  */
@@ -69,3 +69,8 @@ export const nan = (v: unknown): boolean =>
  */
 export const isObject = (v: unknown): v is AnyObject<string, unknown> =>
 	!(typeof v !== "object" || Array.isArray(v) || v === null);
+
+export const isUndefined = (v: unknown): v is undefined =>
+	typeof v === "undefined";
+
+export const isString = (v: unknown): v is string => typeof v === "string";

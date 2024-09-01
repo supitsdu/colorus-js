@@ -1,13 +1,13 @@
 import { Clamp } from "../core/colorNormalizer";
-import type { HslColor, HsvColor, RgbColor } from "../types";
+import type { Hsl, Hsv, Rgb } from "../types";
 import { hsvToRgb } from "./hsvConversions";
 
 /**
- * Converts an HslColor color to its HsvColor representation.
- * @param {object} hsl - An HslColor color object.
- * @return {object} - An HsvColor color object representation.
+ * Converts an Hsl color to its Hsv representation.
+ * @param {object} hsl - An Hsl color object.
+ * @return {object} - An Hsv color object representation.
  */
-export function hslToHsv({ h, s, l, a = 1 }: HslColor): HsvColor {
+export function hslToHsv({ h, s, l, a = 1 }: Hsl): Hsv {
 	const deltaS = (s * (l < 50 ? l : 100 - l)) / 100;
 	const v = l + deltaS;
 
@@ -17,10 +17,10 @@ export function hslToHsv({ h, s, l, a = 1 }: HslColor): HsvColor {
 }
 
 /**
- * Converts HslColor color object into its RgbColor representation using HsvColor interconversion.
- * @param {object} input - An HslColor color object.
- * @return {object} An RgbColor color object representation.
+ * Converts Hsl color object into its Rgb representation using Hsv interconversion.
+ * @param {object} input - An Hsl color object.
+ * @return {object} An Rgb color object representation.
  */
-export function hslToRgb({ h, s, l, a = 1 }: HslColor): RgbColor {
+export function hslToRgb({ h, s, l, a = 1 }: Hsl): Rgb {
 	return hsvToRgb(hslToHsv({ h, s, l, a }));
 }

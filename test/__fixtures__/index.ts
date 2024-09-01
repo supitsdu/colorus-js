@@ -1,10 +1,4 @@
-import type {
-	CmykColor,
-	ColorObject,
-	HslColor,
-	HsvColor,
-	RgbColor,
-} from "../../src/types";
+import type { Cmyk, ColorObject, Hsl, Hsv, Rgb } from "../../src/types";
 import { cmykColors } from "./cmykColors";
 import { hexColors } from "./hexColors";
 import { hslColors } from "./hslColors";
@@ -27,19 +21,19 @@ export type ColorNames =
 export type ColorRepresentations<T extends ColorObject = ColorObject> = {
 	object: T;
 	string: string;
-	rgb?: RgbColor;
+	rgb?: Rgb;
 };
 
 export type FormatColorMap<
-	T extends ColorObject = RgbColor,
+	T extends ColorObject = Rgb,
 	C extends string = ColorNames,
 > = Record<C, ColorRepresentations<T>>;
 
 export interface TestColors {
 	rgb: FormatColorMap;
-	hsl: FormatColorMap<HslColor>;
-	hsv: FormatColorMap<HsvColor>;
-	cmyk: FormatColorMap<CmykColor>;
+	hsl: FormatColorMap<Hsl>;
+	hsv: FormatColorMap<Hsv>;
+	cmyk: FormatColorMap<Cmyk>;
 	hex: FormatColorMap;
 	withAlpha: (color: ColorObject, value?: number) => ColorObject;
 }
@@ -60,7 +54,7 @@ export type TestColorObject = ColorRepresentations & { colorName: string };
 type TestColorsFunc = (
 	format: Formats,
 	color: TestColorObject,
-	expectedRgb: RgbColor,
+	expectedRgb: Rgb,
 ) => void;
 
 export function forEachColorFormat<

@@ -1,11 +1,11 @@
 import { Clamp } from "../core/colorNormalizer";
-import type { HslColor, HsvColor, RgbColor } from "../types";
+import type { Hsl, Hsv, Rgb } from "../types";
 
 /**
- * Converts HsvColor color object into its HslColor representation using interconversion.
- * @param hsv - An HsvColor color object.
+ * Converts Hsv color object into its Hsl representation using interconversion.
+ * @param hsv - An Hsv color object.
  */
-export function hsvToHsl({ h, s, v, a = 1 }: HsvColor): HslColor {
+export function hsvToHsl({ h, s, v, a = 1 }: Hsv): Hsl {
 	const deltaL = ((200 - s) * v) / 100;
 
 	const l = deltaL / 2;
@@ -20,10 +20,10 @@ export function hsvToHsl({ h, s, v, a = 1 }: HsvColor): HslColor {
 }
 
 /**
- * Converts an HsvColor color object into its RgbColor representation.
- * @param hsv - An HsvColor color object.
+ * Converts an Hsv color object into its Rgb representation.
+ * @param hsv - An Hsv color object.
  */
-export function hsvToRgb({ h, s, v, a = 1 }: HsvColor): RgbColor {
+export function hsvToRgb({ h, s, v, a = 1 }: Hsv): Rgb {
 	const hueRange = (h / 60) % 6;
 	const saturation = s / 100;
 	const value = v / 100;
@@ -36,7 +36,7 @@ export function hsvToRgb({ h, s, v, a = 1 }: HsvColor): RgbColor {
 	let green: number;
 	let blue: number;
 
-	// Determine the RgbColor components based on the hue range
+	// Determine the Rgb components based on the hue range
 	if (0 <= hueRange && hueRange < 1) {
 		[red, green, blue] = [chroma, secondLargestComponent, 0];
 	} else if (1 <= hueRange && hueRange < 2) {

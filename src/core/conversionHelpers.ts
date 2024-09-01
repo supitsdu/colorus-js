@@ -1,10 +1,10 @@
 import type { AnyRgb } from "../types";
 
 /**
- * Check if an HEX color is shortanable by comparing the RgbColor components.
- * @param r the red channel component of RgbColor color
- * @param g the green channel component of RgbColor color
- * @param b the blue channel component of RgbColor color
+ * Check if an HEX color is shortanable by comparing the Rgb components.
+ * @param r the red channel component of Rgb color
+ * @param g the green channel component of Rgb color
+ * @param b the blue channel component of Rgb color
  * @param a the alpha channel component of RGBA color
  */
 export const isRgbShortanable = (
@@ -15,9 +15,9 @@ export const isRgbShortanable = (
 ): boolean => !(r % 17 !== 0 || g % 17 !== 0 || b % 17 !== 0 || a % 17 !== 0);
 
 /**
- * Calculates the Euclidean distance between two RgbColor colors.
- * @param primary - The first RgbColor color string.
- * @param secondary - The second RgbColor color string.
+ * Calculates the Euclidean distance between two Rgb colors.
+ * @param primary - The first Rgb color string.
+ * @param secondary - The second Rgb color string.
  */
 export const computeColorDistance = (
 	{ r: r1, g: g1, b: b1 }: AnyRgb,
@@ -31,8 +31,8 @@ interface ComputeHsvHueParams {
 }
 
 /**
- * Calculates the hue component of an HsvColor color object.
- * @param rgb - An RgbColor color object.
+ * Calculates the hue component of an Hsv color object.
+ * @param rgb - An Rgb color object.
  * @param params - Parameters including segment, maxRgb, and minRgb.
  */
 export function computeHsvHue(

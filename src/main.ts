@@ -1,5 +1,5 @@
 export { isValidColor } from "./isValidColor";
 
-export { defineColor, Color } from "./Color";
+export { dye } from "./dye";
 
-export type { CmykColor, HslColor, HsvColor, RgbColor } from "./types";
+export type { Dye, Cmyk, Hsl, Hsv, Rgb } from "./types";

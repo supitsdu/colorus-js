@@ -1,45 +1,19 @@
-import { Color, defineColor } from "../src/Color";
+import { dye } from "../src/dye";
 
 import { forEachColorFormat, forEachMethod, testColors } from "./__fixtures__";
 
-describe("Color Class", () => {
-	describe("Static Methods", () => {
-		describe("Color.stringify", () => {
-			forEachColorFormat(
-				"should convert from %s object to its string representation",
-				(_, color) => {
-					const result = Color.stringify(color.object);
-					expect(result).toBe(color.string);
-				},
-				["rgb", "hsl", "hsv", "cmyk"],
-			);
-		});
-
-		describe("Color.parse", () => {
-			forEachColorFormat(
-				"should convert from %s string to its object representation",
-				(_, color) => {
-					const result = Color.parse(color.string);
-					expect(result).toEqual(color.object);
-				},
-				["hex", "rgb", "hsl", "hsv", "cmyk"],
-			);
-		});
-	});
-});
-
-describe("defineColor Function", () => {
+describe("dye Function", () => {
 	describe("Error Handling", () => {
 		it("should throw an error for invalid input", () => {
-			expect(() => defineColor("invalid color")).toThrow(TypeError);
+			expect(() => dye("invalid color")).toThrow(TypeError);
 			// @ts-expect-error Should ignore error for invalid color format
-			expect(() => defineColor({ x: 10, y: 20 })).toThrow(TypeError);
+			expect(() => dye({ x: 10, y: 20 })).toThrow(TypeError);
 		});
 	});
 
 	describe("Color Instance Properties and Methods", () => {
 		it("should calculate luminance correctly", () => {
-			const color = defineColor("#ff0000");
+			const color = dye("#ff0000");
 			expect(color.luminance).toBeCloseTo(0.2126);
 		});
 
@@ -48,7 +22,7 @@ describe("defineColor Function", () => {
 				"should make the Color.%s() getter public",
 				method => {
 					const color = testColors[method].white;
-					const result = defineColor(color.string);
+					const result = dye(color.string);
 
 					expect(result[method]).toEqual(color.object);
 				},
@@ -67,7 +41,7 @@ describe("defineColor Function", () => {
 				"should make the Color.%s() getter public",
 				method => {
 					const color = testColors[methods[method]].white;
-					const result = defineColor(color.object);
+					const result = dye(color.object);
 
 					expect(result[method]()).toEqual(color.string);
 				},
@@ -79,7 +53,7 @@ describe("defineColor Function", () => {
 			forEachColorFormat(
 				"should convert from %s to named color",
 				(_, color) => {
-					const result = defineColor(color.string);
+					const result = dye(color.string);
 					expect(result.toNamed()).toBe(color.colorName);
 				},
 				["hex", "rgb", "hsl", "hsv", "cmyk"],
@@ -90,7 +64,7 @@ describe("defineColor Function", () => {
 			forEachMethod(
 				"should make the Color.%s() method public",
 				method => {
-					const color = defineColor("#fff");
+					const color = dye("#fff");
 					expect(color).toHaveProperty(method);
 				},
 				[
@@ -111,7 +85,7 @@ describe("defineColor Function", () => {
 			forEachColorFormat(
 				"should create a Color instance from a %s string",
 				(format, color, expectedRgb) => {
-					const instance = defineColor(color.object);
+					const instance = dye(color.object);
 
 					expect(instance.isValid).toBeTruthy();
 					expect(instance.format).toBe(format);
@@ -126,7 +100,7 @@ describe("defineColor Function", () => {
 			forEachColorFormat(
 				"should create a Color instance from a %s string",
 				(format, color, expectedRgb) => {
-					const instance = defineColor(color.string);
+					const instance = dye(color.string);
 
 					expect(instance.isValid).toBeTruthy();
 					expect(instance.format).toBe(format);
@@ -142,7 +116,7 @@ describe("defineColor Function", () => {
 		forEachColorFormat(
 			"should add a plugin for a %s string Color instance",
 			(_, color) => {
-				const result = defineColor(color.string, {
+				const result = dye(color.string, {
 					plugins: {
 						getHue: function () {
 							return this.hsl.h;
@@ -157,7 +131,7 @@ describe("defineColor Function", () => {
 		);
 
 		it("should allow the plugin method to access the Colorus instance data", () => {
-			const color = defineColor("rgb(20, 120, 80)", {
+			const color = dye("rgb(20, 120, 80)", {
 				plugins: {
 					getHue: function () {
 						return this.hsl.h;
@@ -169,7 +143,7 @@ describe("defineColor Function", () => {
 		});
 
 		it("should handle multiple plugin methods", () => {
-			const color = defineColor("#FF0000", {
+			const color = dye("#FF0000", {
 				plugins: {
 					getHue: function () {
 						return this.hsl.h;

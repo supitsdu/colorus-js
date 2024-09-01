@@ -1,12 +1,12 @@
 import { Clamp } from "../core/colorNormalizer";
-import type { CmykColor, RgbColor } from "../types";
+import type { Cmyk, Rgb } from "../types";
 
 /**
- * Converts an CmykColor color object into its RgbColor representation.
- * @param {object} cmyk - An CmykColor color object.
- * @return {object} An RgbColor color object representation.
+ * Converts an Cmyk color object into its Rgb representation.
+ * @param {object} cmyk - An Cmyk color object.
+ * @return {object} An Rgb color object representation.
  */
-export function cmykToRgb({ c, m, y, k, a = 1 }: CmykColor): RgbColor {
+export function cmykToRgb({ c, m, y, k, a = 1 }: Cmyk): Rgb {
 	c /= 100;
 	m /= 100;
 	y /= 100;

@@ -1,11 +1,11 @@
-import type { RgbColor } from "../types";
+import type { Rgb } from "../types";
 
 /**
  * Calculate the relative luminance of an sRGB color.
  * @param {object} color - An object containing the sRGB components of the color.
  * @return The luminance value of the color.
  */
-export const relativeLuminance = ({ r, g, b }: RgbColor): number => {
+export const relativeLuminance = ({ r, g, b }: Rgb): number => {
 	const fn = (c: number) => {
 		const d = c / 255;
 		return d <= 0.03928 ? d / 12.92 : ((d + 0.055) / 1.055) ** 2.4;
@@ -29,5 +29,5 @@ export const calculateContrastRatio = (L1: number, L2: number): number =>
  * @param bg - The sRGB color values of the background.
  * @return The contrast ratio between the two colors.
  */
-export const contrastRatio = (fg: RgbColor, bg: RgbColor) =>
+export const contrastRatio = (fg: Rgb, bg: Rgb) =>
 	calculateContrastRatio(relativeLuminance(fg), relativeLuminance(bg));

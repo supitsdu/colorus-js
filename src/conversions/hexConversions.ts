@@ -1,11 +1,11 @@
 import { Clamp } from "../core/colorNormalizer";
-import type { AnyObject, RgbColor } from "../types";
+import type { AnyObject, Rgb } from "../types";
 
 /**
- * Converts a HEX color into an RgbColor color object representation.
+ * Converts a HEX color into an Rgb color object representation.
  * @param hex - A valid HEX color without the hashtag  "#". The alpha  channel is optional.
  */
-export function hexToRgb(hex: string): RgbColor {
+export function hexToRgb(hex: string): Rgb {
 	const delta = Number.parseInt(hex, 16);
 	const value: AnyObject = {};
 

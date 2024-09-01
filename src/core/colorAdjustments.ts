@@ -1,5 +1,5 @@
 import { nan, precision } from "../helpers";
-import type { HslColor, RgbColor } from "../types";
+import type { Hsl, Rgb } from "../types";
 import { Clamp } from "./colorNormalizer";
 
 /**
@@ -18,41 +18,41 @@ export const modBy = (value: number, amount: number): number => {
 };
 
 /**
- * Lightens an HslColor color by the specified amount.
- * @param color - HslColor color object to lighten.
+ * Lightens an Hsl color by the specified amount.
+ * @param color - Hsl color object to lighten.
  * @param amount - A value between 0 and 1.
- * @return New HslColor color object.
+ * @return New Hsl color object.
  */
-export const lighten = (color: HslColor, amount: number): HslColor => {
+export const lighten = (color: Hsl, amount: number): Hsl => {
 	return Clamp.hsl({ ...color, l: modBy(color.l, amount) });
 };
 
 /**
- * Saturate an HslColor color by the specified amount.
- * @param color - HslColor color object to lighten.
+ * Saturate an Hsl color by the specified amount.
+ * @param color - Hsl color object to lighten.
  * @param amount - A value between 0 and 1.
- * @return New HslColor color object.
+ * @return New Hsl color object.
  */
-export const saturate = (color: HslColor, amount: number): HslColor => {
+export const saturate = (color: Hsl, amount: number): Hsl => {
 	return Clamp.hsl({ ...color, s: modBy(color.s, amount) });
 };
 
 /**
- * Adjust the hue of a HslColor color.
- * @param color - HslColor color object..
+ * Adjust the hue of a Hsl color.
+ * @param color - Hsl color object..
  * @param amount - A value between 0 and 1.
- * @return New HslColor color object.
+ * @return New Hsl color object.
  */
-export const hue = (color: HslColor, amount: number): HslColor => {
+export const hue = (color: Hsl, amount: number): Hsl => {
 	return Clamp.hsl({ ...color, h: modBy(color.h, amount) });
 };
 
 /**
- * Adjust the alpha channel of a RgbColor color.
- * @param color - RgbColor color object..
+ * Adjust the alpha channel of a Rgb color.
+ * @param color - Rgb color object..
  * @param amount - A value between 0 and 1.
- * @return New RgbColor color object.
+ * @return New Rgb color object.
  */
-export const alpha = (color: RgbColor, amount: number): RgbColor => {
+export const alpha = (color: Rgb, amount: number): Rgb => {
 	return Clamp.rgb({ ...color, a: modBy(color.a ?? 1, amount) }); // Handle optional alpha
 };

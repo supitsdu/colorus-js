@@ -6,21 +6,15 @@ import {
 	isRgbShortanable,
 } from "../core/conversionHelpers";
 import { hexString } from "../helpers";
-import type {
-	CmykColor,
-	HexFormatOptions,
-	HslColor,
-	HsvColor,
-	RgbColor,
-} from "../types";
+import type { Cmyk, FormatOptions, Hsl, Hsv, Rgb } from "../types";
 import { hexToRgb } from "./hexConversions";
 import { hsvToHsl } from "./hsvConversions";
 
 /**
- * Converts RgbColor values to the nearest CSS named color.
- * @param color - The RgbColor color object.
+ * Converts Rgb values to the nearest CSS named color.
+ * @param color - The Rgb color object.
  */
-export function rgbToNamedColor({ r, g, b }: RgbColor): string {
+export function rgbToNamedColor({ r, g, b }: Rgb): string {
 	let closestColor = "black";
 	let shortestDistance = Number.POSITIVE_INFINITY;
 
@@ -37,14 +31,14 @@ export function rgbToNamedColor({ r, g, b }: RgbColor): string {
 }
 
 /**
- * Converts RgbColor color object to HEX color string.
- * @param rgb an valid RgbColor color object
+ * Converts Rgb color object to HEX color string.
+ * @param rgb an valid Rgb color object
  * @param options options to  customize output format and precision
  * @param options.minify  set `true` for minified hexadecimal notation.
  */
 export function rgbToHex(
-	{ r, g, b, a = 1 }: RgbColor,
-	options?: HexFormatOptions,
+	{ r, g, b, a = 1 }: Rgb,
+	options?: FormatOptions,
 ): string {
 	const { minify } = { minify: false, ...options };
 
@@ -67,11 +61,11 @@ export function rgbToHex(
 }
 
 /**
- * Converts an RgbColor color object into its HsvColor representation.
- * @param {object} rgb - An RgbColor color object.
- * @return {object} - An HsvColor color object representation.
+ * Converts an Rgb color object into its Hsv representation.
+ * @param {object} rgb - An Rgb color object.
+ * @return {object} - An Hsv color object representation.
  */
-export function rgbToHsv({ r, g, b, a = 1 }: RgbColor): HsvColor {
+export function rgbToHsv({ r, g, b, a = 1 }: Rgb): Hsv {
 	const maxRgb = Math.max(r, g, b);
 	const minRgb = Math.min(r, g, b);
 	const segment = maxRgb - minRgb;
@@ -84,11 +78,11 @@ export function rgbToHsv({ r, g, b, a = 1 }: RgbColor): HsvColor {
 }
 
 /**
- * Converts an RgbColor color object into its CmykColor representation.
- * @param {object} rgb - An RgbColor color object.
- * @return {object} An CmykColor color object representation.
+ * Converts an Rgb color object into its Cmyk representation.
+ * @param {object} rgb - An Rgb color object.
+ * @return {object} An Cmyk color object representation.
  */
-export function rgbToCmyk({ r, g, b, a = 1 }: RgbColor): CmykColor {
+export function rgbToCmyk({ r, g, b, a = 1 }: Rgb): Cmyk {
 	const R = r / 255;
 	const G = g / 255;
 	const B = b / 255;
@@ -102,10 +96,10 @@ export function rgbToCmyk({ r, g, b, a = 1 }: RgbColor): CmykColor {
 }
 
 /**
- * Converts RgbColor color object into its HslColor representation using HsvColor interconversion.
- * @param {object} input - An RgbColor color object.
- * @return {object} An HslColor color object representation.
+ * Converts Rgb color object into its Hsl representation using Hsv interconversion.
+ * @param {object} input - An Rgb color object.
+ * @return {object} An Hsl color object representation.
  */
-export function rgbToHsl({ r, g, b, a = 1 }: RgbColor): HslColor {
+export function rgbToHsl({ r, g, b, a = 1 }: Rgb): Hsl {
 	return hsvToHsl(rgbToHsv({ r, g, b, a }));
 }

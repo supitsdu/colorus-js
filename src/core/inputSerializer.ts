@@ -3,7 +3,7 @@ import { errorMessages } from "../constants/errorMessages";
 import { cmykToRgb } from "../conversions/cmykConversions";
 import { hslToRgb } from "../conversions/hslConversions";
 import { hsvToRgb } from "../conversions/hsvConversions";
-import { isObject } from "../helpers";
+import { isObject, isString, isUndefined } from "../helpers";
 import type {
 	AnyColorData,
 	ColorConverters,
@@ -28,15 +28,15 @@ const converters: ColorConverters = {
 };
 
 /**
- * Converts a color object to a standardized format (RgbColor).
+ * Converts a color object to a standardized format (Rgb).
  *
  * @param input - The input color object or `AnyColorData`.
- * @returns The standardized `ColorData` with the color represented in RgbColor format.
+ * @returns The standardized `ColorData` with the color represented in Rgb format.
  */
 export function fromObject(
-	input?: AnyColorData | ColorObject | null,
+	input: AnyColorData | ColorObject | unknown | null,
 ): ColorData {
-	if (!input || !isObject(input)) {
+	if (!isObject(input)) {
 		throw new TypeError(errorMessages.invalidColorType);
 	}
 
@@ -47,7 +47,9 @@ export function fromObject(
 		throw new TypeError(errorMessages.invalidColorType);
 	}
 
-	const originalInput = hasData ? input.originalInput || value : value;
+	const originalInput = (
+		hasData ? input.originalInput || value : value
+	) as ColorObject;
 
 	const colorTypeFromObject = determineColorType(value);
 	if (!colorTypeFromObject || !Object.hasOwn(converters, colorTypeFromObject)) {
@@ -57,7 +59,7 @@ export function fromObject(
 	const format = hasData ? input.format : colorTypeFromObject;
 
 	return {
-		originalInput: originalInput || value,
+		originalInput: originalInput,
 		isValid: value !== undefined && format !== undefined,
 		value: converters[colorTypeFromObject](value as ColorObject),
 		format,
@@ -74,14 +76,14 @@ export function fromObject(
 export function processColorInput(
 	input?: unknown | string | ColorObject | ColorData,
 ): ColorData {
-	if (typeof input === "string") {
+	if (isString(input)) {
 		const parsedColorData = parseColor(input);
 		if (parsedColorData !== null) return fromObject(parsedColorData);
 
 		throw new TypeError(errorMessages.invalidColorString(input));
 	}
 
-	if (typeof input === "undefined") return fallbackColor;
+	if (isUndefined(input)) return fallbackColor;
 
 	return fromObject(input);
 }

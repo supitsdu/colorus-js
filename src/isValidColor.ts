@@ -2,7 +2,7 @@ import {
 	determineColorType,
 	execColorStringTest,
 } from "./core/colorTypeAnalyzer";
-import { isObject } from "./helpers";
+import { isObject, isString } from "./helpers";
 import type { AnyObject, SupportedColorFormat } from "./types";
 
 /** Tests the `input` for a valid color.
@@ -18,7 +18,7 @@ export function isValidColor(
 		return determineColorType(input as AnyObject) || null;
 	}
 
-	if (typeof input === "string") {
+	if (isString(input)) {
 		const match = execColorStringTest(input);
 		if (match) return match[0];
 	}
