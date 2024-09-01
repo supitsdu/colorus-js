@@ -164,7 +164,9 @@ const execMatch: ExecMatchClone = {
 	pattern: {
 		lastIndex: 0,
 		exec(input: string) {
-			const match = namedColorsMap[formatNamedColor(input)];
+			const color = formatNamedColor(input);
+			if (!Object.hasOwn(namedColorsMap, color)) return null;
+			const match = namedColorsMap[color as keyof typeof namedColorsMap];
 			return match !== undefined ? [match] : null;
 		},
 	},
