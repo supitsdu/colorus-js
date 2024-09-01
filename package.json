@@ -16,11 +16,13 @@
 		}
 	},
 	"scripts": {
-		"lint": "biome lint ./src/*.ts",
-		"lint:fix": "biome lint --write ./src/*.js",
+		"ci:src": "biome ci ./src/*.ts",
+		"ci:test": "biome ci ./test/*.ts",
+		"ci": "npm run ci:test && npm run ci:src",
+		"check:test": "biome check --write ./test/*.ts",
+		"check:src": "biome check --write ./src/*.ts",
+		"lint": "npm run check:test && npm run check:src",
 		"prettier": "prettier --check *.md",
-		"prettier:fix": "prettier --write *.md",
-		"format": "npm run lint:fix && npm run prettier:fix",
 		"test": "jest",
 		"build": "rollup -c"
 	},
