@@ -1,6 +1,6 @@
 import { Round } from "./colorNormalizer";
 
-import type { FormatOptions, Cmyk, Hsl, Hsv, Rgb } from "../types";
+import type { Cmyk, FormatOptions, Hsl, Hsv, Rgb } from "../types";
 
 interface FormatPrefs {
 	spacer: string;

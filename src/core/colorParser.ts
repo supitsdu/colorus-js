@@ -1,6 +1,6 @@
 import { hexToRgb } from "../conversions/hexConversions";
-import { execColorStringTest } from "./colorTypeAnalyzer";
 import { padString } from "../helpers";
+import { execColorStringTest } from "./colorTypeAnalyzer";
 
 import type { AnyColorData, ColorParsers } from "../types";
 

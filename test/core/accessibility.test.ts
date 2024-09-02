@@ -1,7 +1,7 @@
 import {
-	relativeLuminance,
 	calculateContrastRatio,
 	contrastRatio,
+	relativeLuminance,
 } from "../../src/core/accessibility";
 import { testColors } from "../__fixtures__";
 

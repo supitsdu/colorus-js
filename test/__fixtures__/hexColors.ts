@@ -1,5 +1,5 @@
-import { rgbColors } from "./rgbColors";
 import type { TestColors } from ".";
+import { rgbColors } from "./rgbColors";
 
 export const hexColors: TestColors["hex"] = {
 	black: {

@@ -1,4 +1,3 @@
-import { parseColor } from "./colorParser";
 import { errorMessages } from "../constants/errorMessages";
 import { cmykToRgb } from "../conversions/cmykConversions";
 import { hslToRgb } from "../conversions/hslConversions";
@@ -11,6 +10,7 @@ import type {
 	ColorObject,
 } from "../types";
 import { Clamp } from "./colorNormalizer";
+import { parseColor } from "./colorParser";
 import { determineColorType, isColorData } from "./colorTypeAnalyzer";
 
 export const fallbackColor: ColorData = {

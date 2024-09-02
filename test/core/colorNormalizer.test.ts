@@ -1,10 +1,10 @@
 import {
-	alpha,
 	Clamp,
+	Round,
+	alpha,
 	degree,
 	eightBit,
 	percent,
-	Round,
 } from "../../src/core/colorNormalizer";
 
 describe("Color Normalizers", () => {

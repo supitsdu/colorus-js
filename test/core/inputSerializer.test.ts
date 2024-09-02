@@ -1,7 +1,7 @@
 import {
-	processColorInput,
 	fallbackColor,
 	fromObject,
+	processColorInput,
 } from "../../src/core/inputSerializer";
 import type { AnyObject } from "../../src/types";
 import { forEachColorFormat, testColors } from "../__fixtures__";
