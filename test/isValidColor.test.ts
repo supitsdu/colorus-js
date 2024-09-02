@@ -1,5 +1,5 @@
-import { forEachColorFormat } from "./__fixtures__";
 import { isValidColor } from "../src/isValidColor";
+import { forEachColorFormat } from "./__fixtures__";
 
 describe("isValidColor", () => {
 	it("should return null for an invalid color object", () => {

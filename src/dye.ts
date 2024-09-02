@@ -9,9 +9,9 @@
 // Core library modules
 import { contrastRatio, relativeLuminance } from "./core/accessibility";
 import { alpha, hue, lighten, saturate } from "./core/colorAdjustments";
+import colorFormatter from "./core/colorFormatter";
 import { fallbackColor, processColorInput } from "./core/inputSerializer";
 import { isValidPlugin } from "./core/pluginValidation";
-import colorFormatter from "./core/colorFormatter";
 
 // Conversion utilities
 import {
@@ -31,10 +31,10 @@ import { errorMessages } from "./constants/errorMessages";
 // Types
 import type {
 	ColorInput,
+	Dye,
 	DyeOptions,
 	DyePlugins,
 	DyeReturns,
-	Dye,
 } from "./types";
 
 function isValidDyeOptions<P extends DyePlugins>(
