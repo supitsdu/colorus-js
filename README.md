@@ -1,84 +1,60 @@
-# Colorus-js
+<p align="center">
+  <img src="https://raw.githubusercontent.com/supitsdu/colorus-js/main/favicon.svg" width="256">
+<p>
 
-<img src="https://raw.githubusercontent.com/supitsdu/colorus-js/main/favicon.svg" width="196">
+# Colorus.js
 
-Colorus is a versatile tool designed for seamless color manipulation across various formats. Whether you're handling RGB, HSL, HSV, or CMYK colors, Colorus streamlines the process, offering a hassle-free experience for managing colors in your projects.
+[![NPM](https://img.shields.io/badge/NPM-%23CB3837.svg?style=for-the-badge&logo=npm&logoColor=white&labelColor=black&color=black)](https://www.npmjs.com/package/colorus-js)
+[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white&labelColor=black&color=black)](https://www.typescriptlang.org/)
+[![GitHub stars](https://img.shields.io/github/stars/supitsdu/colorus-js?style=for-the-badge&logo=Github&logoColor=white&labelColor=black&color=black)](https://github.com/supitsdu/colorus-js)
 
-The key features of Colorus include:
+A versatile and powerful color manipulation library for JavaScript.
 
-- **Color Format Conversion**: Effortlessly convert between different color formats such as RGB, HSL, HSV, and CMYK using a straightforward API.
-- **Color Manipulation**: Adjust colors with ease using functions like lightening, darkening, saturating, desaturating, mixing, or changing hue to achieve your desired effects.
-- **Customizable Formatting**: Tailor the output format of colors to your needs with options for minification and CSSNext compatibility.
-- **Contrast Ratio Calculation**: Ensure accessibility compliance by calculating the contrast ratio between colors, aiding in meeting web accessibility standards.
+## Features
 
-## Installation
+- **Intuitive API:** Work with colors effortlessly using a simple and expressive function-based API.
+- **Multiple Color Models:** Supports various color models, including RGB, HSL, HSV, and CMYK.
+- **Flexible Input/Output:** Accepts color inputs in different formats (hex, rgb, hsl, etc.) and provides various output options.
+- **Color Conversions:** Easily convert between different color models and formats.
+- **Color Adjustments:** Perform common color adjustments like lightening, darkening, saturating, desaturating, and more.
+- **Accessibility:** Calculate relative luminance and contrast ratios for improved accessibility.
+- **Extensible:** Extend the core functionality with custom plugins.
+- **TypeScript Support:** Provides full TypeScript support for enhanced type safety and developer experience.
 
-You can install Colorus via npm:
+### Usage
 
-```sh
-npm i colorus-js
+```javascript
+import { dye } from "colorus-js"
+
+const color = dye("#ff0000") // Create a color from a hex code
+
+console.log(color.rgb) // Output: { r: 255, g: 0, b: 0, a: 1 }
+console.log(color.toHsl()) // Output: hsl(0, 100%, 50%)
+
+const lighterColor = color.lighten(0.2) // Lighten the color by 20%
+console.log(lighterColor.toHex()) // Output: #ff6666
 ```
 
-## Usage
+### Plugins
 
-```js
-const { Colorus } = require('colorus-js')
+Extend the `dye` function with custom methods using plugins.
 
-// Create a new Colorus instance
-const color = new Colorus('rgb(255 0 0)')
+```javascript
+const colorWithPlugin = dye("#0000ff", {
+  plugins: {
+    isBlue() {
+      return this.rgb.b > 200
+    }
+  }
+})
 
-console.log(color.colorType) // Returns: 'rgb'
-console.log(color.lighten(0.2).toHex({ minify: true })) // Returns: '#F33'
+console.log(colorWithPlugin.isBlue()) // Output: true
 ```
 
-## API Reference
+For more information see [Working with Plugins Guide](docs/WORKING_WITH_PLUGINS.md).
 
-### `Colorus`
+## Contributing
 
-Utility that provides methods for working with colors.
+Contributions are welcome! Please read the [Contributing Guide](CONTRIBUTING.md).
 
-#### Constructor
-
-Creates a new Colorus instance with the provided input.
-
-```ts
-constructor(input?: AnyColor)
-```
-
-- `input`: The color input string or object.
-
-#### Properties
-
-- `colorType`: Get the type of the current color.
-- `luminance`: Get the relative luminance of the current color.
-- `rgb`: Get the `sRGB` object representation of the current color.
-- `hsl`: Get the `HSL` object representation of the current color.
-- `hsv`: Get the `HSV` object representation of the current color.
-- `cmyk`: Get the `CMYK` object representation of the current color.
-
-#### Methods
-
-- `toHex(options): string`: Convert the current color to hexadecimal format.
-- `toRgb(options): string`: Convert the current color to `RGB` string format.
-- `toHsl(options): string`: Convert the current color to `HSL` string format.
-- `toHsv(options): string`: Convert the current color to `HSV` string format.
-- `toCmyk(options): string`: Convert the current color to `CMYK` string format.
-- `toNamed(): string`: Convert the current color to its nearest [CSS named color](https://www.w3.org/TR/css-color-4/#named-colors) representation.
-- `mix(input, amount): Colorus`: Mixes the current color with another color.
-- `lighten(amount): Colorus`: Lightens the current color.
-- `darken(amount): Colorus`: Darkens the current color.
-- `saturate(amount): Colorus`: Saturates the current color.
-- `desaturate(amount): Colorus`: Desaturates the current color.
-- `hue(amount): Colorus`: Changes the hue of the current color.
-- `alpha(amount): Colorus`: Changes the alpha (opacity) of the current color.
-- `contrastRatio(backgroundColor): number`: Gets the contrast ratio between a foreground color and its adjacent background.
-- `invert(): Colorus`: Inverts the color using sRGB values.
-- `grayscale(): Colorus`: Converts the current color to grayscale.
-
-#### Static Methods
-
-- `test(input): string | null`: An analytical method to quickly test the input for any valid color. Returns the type of the color (e.g.: `'rgb'`) if the color is valid, otherwise `null`.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
+[**Leave a star and help spread the hues! 🎨⭐**](https://github.com/supitsdu/colorus-js)
