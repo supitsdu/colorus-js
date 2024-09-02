@@ -186,9 +186,10 @@ export type Dye<P extends DyePlugins = DyePlugins> = {
 
 /** Represents the return type of the `dye` function, encompassing both the core properties and any additional plugin methods. */
 export type DyeReturns<P extends DyePlugins> = Dye<P> & {
-	[K in keyof P]: P[K] extends Plugin<infer R>
-		? (...params: Parameters<P[K]>) => R extends DyeReturns<P> // Change here
-				? DyeReturns<P>
-				: R
-		: Dye<P>;
+	[K in keyof P]: P[K] extends Plugin<infer R, infer ThisArg>
+		? (
+				this: ThisArg,
+				...params: Parameters<P[K]>
+			) => R extends DyeReturns<P> ? DyeReturns<P> : R
+		: never;
 };
