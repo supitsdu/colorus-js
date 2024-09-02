@@ -1,6 +1,7 @@
 {
 	"files": {
-		"ignore": ["node_modules", "coverage", "docs", ".github", "_test"]
+		"ignore": ["node_modules", "coverage", "docs", ".github", "_test"],
+		"include": ["src/*.ts", "test/*.ts"]
 	},
 	"organizeImports": { "enabled": true },
 	"formatter": {
