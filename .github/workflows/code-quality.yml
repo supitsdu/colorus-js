@@ -33,7 +33,7 @@ jobs:
           version: latest
 
       - name: Run linting
-        run: npm run ci
+        run: npm run lint
 
       - name: Run docs formating
         run: npm run format
