@@ -47,7 +47,7 @@
 		"adjust"
 	],
 	"devDependencies": {
-		"@biomejs/biome": "1.9.2",
+		"@biomejs/biome": "1.9.3",
 		"@rollup/plugin-typescript": "^12.1.0",
 		"@swc/core": "^1.7.22",
 		"@swc/jest": "^0.2.36",
