@@ -68,6 +68,7 @@ export class ColorParser<E, R> {
 		input: unknown,
 	): Colors.MatchArray<string | number> | null {
 		if (typeof input !== "string") return null;
+		this.regex.lastIndex = 0; // Always reset the regex before using it, to avoid unexpected results
 		return input.match(this.regex)?.slice(1) ?? null;
 	}
 

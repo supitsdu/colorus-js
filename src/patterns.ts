@@ -22,7 +22,7 @@ export const chCmyk = ["c", "m", "y", "k", "a"];
  * regexHex.test("#ff0000"); // true
  * regexHex.test("#ff0000ff"); // true
  */
-export const regexHex = /^#?([a-f0-9]{8}|[a-f0-9]{6}|[a-f0-9]{3,4})$/iy;
+export const regexHex = /^#?([a-f0-9]{8}|[a-f0-9]{6}|[a-f0-9]{3,4})$/i;
 
 /**
  * This regular expression matches a RGB color string.
@@ -32,7 +32,7 @@ export const regexHex = /^#?([a-f0-9]{8}|[a-f0-9]{6}|[a-f0-9]{3,4})$/iy;
  * regexRgb.test("rgba(255, 0, 0, 1)"); // true
  */
 export const regexRgb =
-	/^rgba?\(\s*(\d{1,3})(?:\s*,\s*|\s+)(\d{1,3})(?:\s*,\s*|\s+)(\d{1,3})(?:\s*(?:,|\/)\s*(0?\.\d+|1|0))?\s*\)$/iy;
+	/^rgba?\(\s*(\d{1,3})(?:\s*,\s*|\s+)(\d{1,3})(?:\s*,\s*|\s+)(\d{1,3})(?:\s*(?:,|\/)\s*(0?\.\d+|1|0))?\s*\)$/i;
 
 /**
  * This regular expression matches a HSL color string.
@@ -43,7 +43,7 @@ export const regexRgb =
  * regexHsl.test("hsla(0deg, 100%, 50%, 1)"); // true
  */
 export const regexHsl =
-	/^hsla?\(\s*(\d{1,3})(?:\s*(?:deg|°))?(?:\s*,\s*|\s+)(\d{1,3})%?(?:\s*,\s*|\s+)(\d{1,3})%?(?:\s*(?:,|\/)\s*(0?\.\d+|1|0))?\s*\)$/iy;
+	/^hsla?\(\s*(\d{1,3})(?:\s*(?:deg|°))?(?:\s*,\s*|\s+)(\d{1,3})%?(?:\s*,\s*|\s+)(\d{1,3})%?(?:\s*(?:,|\/)\s*(0?\.\d+|1|0))?\s*\)$/i;
 
 /**
  * This regular expression matches a HSV color string.
@@ -54,7 +54,7 @@ export const regexHsl =
  * regexHsv.test("hsva(0deg, 100%, 100%, 1)"); // true
  */
 export const regexHsv =
-	/^hsva?\(\s*(\d{1,3})(?:\s*(?:deg|°))?(?:\s*,\s*|\s+)(\d{1,3})%?(?:\s*,\s*|\s+)(\d{1,3})%?(?:\s*(?:,|\/)\s*(0?\.\d+|1|0))?\s*\)$/iy;
+	/^hsva?\(\s*(\d{1,3})(?:\s*(?:deg|°))?(?:\s*,\s*|\s+)(\d{1,3})%?(?:\s*,\s*|\s+)(\d{1,3})%?(?:\s*(?:,|\/)\s*(0?\.\d+|1|0))?\s*\)$/i;
 
 /**
  * This regular expression matches a CMYK color string.
@@ -65,4 +65,4 @@ export const regexHsv =
  * regexCmyk.test("cmyka(0%, 100%, 100%, 0%, 1)"); // true
  */
 export const regexCmyk =
-	/^cmyka?\(\s*(\d{1,3})%?(?:\s*,\s*|\s+)(\d{1,3})%?(?:\s*,\s*|\s+)(\d{1,3})%?(?:\s*,\s*|\s+)(\d{1,3})%?(?:\s*(?:,|\/)\s*(0?\.\d+|1|0))?\s*\)$/iy;
+	/^cmyka?\(\s*(\d{1,3})%?(?:\s*,\s*|\s+)(\d{1,3})%?(?:\s*,\s*|\s+)(\d{1,3})%?(?:\s*,\s*|\s+)(\d{1,3})%?(?:\s*(?:,|\/)\s*(0?\.\d+|1|0))?\s*\)$/i;
