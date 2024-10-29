@@ -9,7 +9,7 @@
 			"build",
 			"dist"
 		],
-		"include": ["src/*.ts", "test/*.ts"]
+		"include": ["src/*.ts", "test/*.ts", "rollup.config.js", "jest.config.js"]
 	},
 	"organizeImports": { "enabled": true },
 	"formatter": {
