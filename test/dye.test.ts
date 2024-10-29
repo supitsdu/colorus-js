@@ -1,161 +1,205 @@
-import { dye } from "../src/dye";
+import {
+	type Dye,
+	createPlugin,
+	dye,
+	hslParser,
+	lighten,
+	saturate,
+} from "../src/main";
 
-import { forEachColorFormat, forEachMethod, testColors } from "./__fixtures__";
+const redColor = { r: 255, g: 0, b: 0, a: 1 };
+const blackColor = { r: 0, g: 0, b: 0, a: 1 };
+const whiteColor = { r: 255, g: 255, b: 255, a: 1 };
+const invalidColorString = "invalid color";
+const invalidRgbObject = { r: 300, g: -20, b: "invalid" };
+const invalidRgbString = "rgb(300, -20, invalid)";
+const hslColorString = "hsl(0, 60%, 50%)";
+const customHslInput = "hsl(0, 100%, 50%)";
+const customPluginColor = "rgb(255, 0, 0)";
+const chainColor = { r: 128, g: 100, b: 100, a: 1 };
+const expectedResults = {
+	lightenedColor: { r: 140.81, g: 110.02, b: 110.02, a: 1 },
+	saturatedColor: { r: 129.41, g: 98.61, b: 98.61, a: 1 },
+	lightenedAndSaturatedColor: { r: 142.34, g: 108.46, b: 108.46, a: 1 },
+};
 
-describe("dye Function", () => {
-	describe("Error Handling", () => {
-		it("should throw an error for invalid input", () => {
-			expect(() => dye("invalid color")).toThrow(TypeError);
-			// @ts-expect-error Should ignore error for invalid color format
-			expect(() => dye({ x: 10, y: 20 })).toThrow(TypeError);
+describe("dye function", () => {
+	beforeEach(() => {
+		jest.clearAllMocks();
+	});
+
+	describe("Color calculations", () => {
+		it("should calculate the correct luminance for a given color", () => {
+			expect(dye(redColor).luminance).toBe(0.21); // Luminance for red
+			expect(dye(blackColor).luminance).toBe(0);
+			expect(dye(whiteColor).luminance).toBe(1);
+		});
+
+		it("should calculate the correct HSL values for a given color", () => {
+			expect(dye(redColor).hsl).toEqual({ h: 0, s: 100, l: 50, a: 1 });
+		});
+
+		it("should calculate the correct HSV values for a given color", () => {
+			const color = dye(redColor);
+			expect(color.hsv).toEqual({ h: 0, s: 100, v: 100, a: 1 });
+		});
+
+		it("should calculate the correct CMYK values for a given color", () => {
+			const color = dye(redColor);
+			expect(color.cmyk).toEqual({ c: 0, m: 100, y: 100, k: 0, a: 1 });
+		});
+
+		it("should return the correct RGB values for a given color", () => {
+			const color = dye(redColor);
+			expect(color.rgb).toEqual({ r: 255, g: 0, b: 0, a: 1 });
+		});
+
+		it("should return the correct alpha value for a given color", () => {
+			const color = dye("rgb(255, 0, 0, 0.5)");
+			expect(color.alpha).toBe(0.5);
+		});
+
+		it("should return the correct hue value for a given color", () => {
+			const color = dye(
+				{ h: 243, s: 50, l: 30, a: 1 },
+				{ parsers: [hslParser] },
+			);
+			expect(color.hue).toBe(243);
 		});
 	});
 
-	describe("Color Instance Properties and Methods", () => {
-		it("should calculate luminance correctly", () => {
-			const color = dye("#ff0000");
-			expect(color.luminance).toBeCloseTo(0.2126);
-		});
-
-		describe("Object Representations (Conversions)", () => {
-			forEachMethod(
-				"should make the Color.%s() getter public",
-				method => {
-					const color = testColors[method].white;
-					const result = dye(color.string);
-
-					expect(result[method]).toEqual(color.object);
-				},
-				["rgb", "hsl", "hsv", "cmyk"],
+	describe("Error handling", () => {
+		it("should return an error object when the color string parsing fails", () => {
+			const invalidColor = dye(invalidColorString);
+			expect(invalidColor.error?.message).toMatch(
+				"Failed to parse color input:",
 			);
 		});
 
-		describe("String Representations (Conversions)", () => {
-			const methods = {
-				toRgb: "rgb",
-				toHsl: "hsl",
-				toHsv: "hsv",
-				toCmyk: "cmyk",
-			};
-			forEachMethod(
-				"should make the Color.%s() getter public",
-				method => {
-					const color = testColors[methods[method]].white;
-					const result = dye(color.object);
-
-					expect(result[method]()).toEqual(color.string);
-				},
-				["toRgb", "toHsl", "toHsv", "toCmyk"],
-			);
+		it("should handle non-object type input types gracefully", () => {
+			const color = dye([] as unknown as string);
+			expect(color.error?.message).toMatch("Failed to parse color input:");
 		});
 
-		describe("Named Colors (Conversions)", () => {
-			forEachColorFormat(
-				"should convert from %s to named color",
-				(_, color) => {
-					const result = dye(color.string);
-					expect(result.toNamed()).toBe(color.colorName);
-				},
-				["hex", "rgb", "hsl", "hsv", "cmyk"],
-			);
+		it("should handle null input gracefully", () => {
+			const color = dye(null as unknown as string);
+			expect(color.error?.message).toMatch("No color input provided");
 		});
 
-		describe("Adjustments Methods", () => {
-			forEachMethod(
-				"should make the Color.%s() method public",
-				method => {
-					const color = dye("#fff");
-					expect(color).toHaveProperty(method);
-				},
-				[
-					"lighten",
-					"darken",
-					"saturate",
-					"desaturate",
-					"hue",
-					"alpha",
-					"contrastRatio",
-				],
-			);
+		it("should handle undefined input gracefully", () => {
+			const color = dye(undefined as unknown as string);
+			expect(color.error?.message).toMatch("No color input provided");
+		});
+
+		it("should handle empty string input gracefully", () => {
+			const color = dye("");
+			expect(color.error?.message).toMatch("No color input provided");
+		});
+
+		it("should handle non-string and non-object input gracefully", () => {
+			// @ts-expect-error Testing invalid input
+			const color = dye(123);
+			expect(color.error?.message).toMatch("Failed to parse color input:");
+		});
+
+		it("should handle invalid RGB object input gracefully", () => {
+			const color = dye(invalidRgbObject as unknown as string);
+			expect(color.error?.message).toMatch("Failed to parse color input:");
+		});
+
+		it("should handle invalid color format gracefully", () => {
+			const color = dye(invalidRgbString);
+			expect(color.error?.message).toMatch("Failed to parse color input:");
+		});
+
+		it("should handle known color format without parsers gracefully", () => {
+			const color = dye(hslColorString);
+			expect(color.error?.message).toMatch("Failed to parse color input:");
 		});
 	});
 
-	describe("Color Instance Creation", () => {
-		describe("Object Type", () => {
-			forEachColorFormat(
-				"should create a Color instance from a %s string",
-				(format, color, expectedRgb) => {
-					const instance = dye(color.object);
+	describe("Custom parsers", () => {
+		it("should use custom parsers correctly", () => {
+			const result = dye(customHslInput, { parsers: [hslParser] });
 
-					expect(instance.isValid).toBeTruthy();
-					expect(instance.format).toBe(format);
-					expect(instance.originalInput).toBe(color.object);
-					expect(instance.value).toEqual(expectedRgb);
-				},
-				["rgb", "hsl", "hsv", "cmyk"],
-			);
-		});
-
-		describe("String Type", () => {
-			forEachColorFormat(
-				"should create a Color instance from a %s string",
-				(format, color, expectedRgb) => {
-					const instance = dye(color.string);
-
-					expect(instance.isValid).toBeTruthy();
-					expect(instance.format).toBe(format);
-					expect(instance.originalInput).toBe(color.string);
-					expect(instance.value).toEqual(expectedRgb);
-				},
-				["hex", "rgb", "hsl", "hsv", "cmyk"],
-			);
+			expect(result.source).toEqual({
+				value: { h: "0", s: "100", l: "50", a: undefined },
+				model: "hsl",
+				isValid: true,
+			});
+			expect(result.rgb).toEqual({ r: 255, g: 0, b: 0, a: 1 });
 		});
 	});
 
-	describe("Plugin Functionality", () => {
-		forEachColorFormat(
-			"should add a plugin for a %s string Color instance",
-			(_, color) => {
-				const result = dye(color.string, {
-					plugins: {
-						getHue: function () {
-							return this.hsl.h;
-						},
-					},
-				});
-
-				expect(result).toHaveProperty("getHue");
-				expect(typeof result.getHue).toBe("function");
-			},
-			["hex", "rgb", "hsl", "hsv", "cmyk"],
-		);
-
-		it("should allow the plugin method to access the Colorus instance data", () => {
-			const color = dye("rgb(20, 120, 80)", {
-				plugins: {
-					getHue: function () {
-						return this.hsl.h;
-					},
-				},
+	describe("Custom plugins", () => {
+		it("should expose custom plugins correctly", () => {
+			const customPlugin = createPlugin("customPlugin", function () {
+				return `Custom plugin called with color: ${this.rgb.r}, ${this.rgb.g}, ${this.rgb.b}`;
 			});
 
-			expect(color.getHue()).toBe(156);
-		});
-
-		it("should handle multiple plugin methods", () => {
-			const color = dye("#FF0000", {
-				plugins: {
-					getHue: function () {
-						return this.hsl.h;
-					},
-					isRed: function () {
-						return this.rgb.r === 255 && this.rgb.g === 0 && this.rgb.b === 0;
-					},
-				},
+			const color = dye(customPluginColor, {
+				plugins: { customPlugin },
 			});
 
-			expect(color.getHue()).toBe(0);
-			expect(color.isRed()).toBeTruthy();
+			expect(color.customPlugin()).toBe(
+				"Custom plugin called with color: 255, 0, 0",
+			);
+		});
+	});
+
+	describe("Chaining plugin functions", () => {
+		// Custom plugin for testing
+		const chain = createPlugin("chain", function () {
+			return dye(this.rgb, this.options);
+		});
+
+		let o: Dye.Instance<{
+			lighten: typeof lighten;
+			chain: typeof chain;
+			saturate: typeof saturate;
+		}>;
+
+		beforeEach(() => {
+			o = dye(chainColor, {
+				plugins: {
+					chain,
+					lighten,
+					saturate,
+				},
+			});
+		});
+
+		it("should return the original color", () => {
+			expect(o.rgb).toEqual(chainColor);
+		});
+
+		it("should lighten the color", () => {
+			expect(o.lighten().rgb).toEqual(expectedResults.lightenedColor);
+		});
+
+		it("should saturate the color", () => {
+			expect(o.chain().saturate().rgb).toEqual(expectedResults.saturatedColor);
+		});
+
+		it("should chain saturate calls", () => {
+			expect(o.chain().chain().saturate().rgb).toEqual(
+				expectedResults.saturatedColor,
+			);
+		});
+
+		it("should chain lighten calls", () => {
+			expect(o.chain().chain().chain().lighten().rgb).toEqual(
+				expectedResults.lightenedColor,
+			);
+		});
+
+		it("should chain lighten and saturate calls", () => {
+			expect(o.chain().lighten().chain().chain().rgb).toEqual(
+				expectedResults.lightenedColor,
+			);
+			expect(o.lighten().chain().saturate().chain().rgb).toEqual(
+				expectedResults.lightenedAndSaturatedColor,
+			);
 		});
 	});
 });
