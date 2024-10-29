@@ -1,6 +1,14 @@
 {
 	"files": {
-		"ignore": ["node_modules", "coverage", "docs", ".github", "_test"],
+		"ignore": [
+			"node_modules",
+			"coverage",
+			"docs",
+			".github",
+			"_test",
+			"build",
+			"dist"
+		],
 		"include": ["src/*.ts", "test/*.ts"]
 	},
 	"organizeImports": { "enabled": true },
@@ -31,18 +39,21 @@
 		"enabled": true,
 		"rules": {
 			"complexity": {
-				"noStaticOnlyClass": "warn"
+				"noStaticOnlyClass": "warn",
+				"noForEach": "off"
 			},
 			"suspicious": {
 				"noDebugger": "off",
-				"noConsoleLog": "info",
+				"noConsoleLog": "warn",
 				"noExplicitAny": "off",
 				"noConfusingVoidType": "off"
 			},
 			"style": {
 				"noShoutyConstants": "warn",
 				"useNamingConvention": "error",
-				"noNonNullAssertion": "off"
+				"noNonNullAssertion": "off",
+				"noInferrableTypes": "off",
+				"useNumberNamespace": "off"
 			}
 		}
 	}
