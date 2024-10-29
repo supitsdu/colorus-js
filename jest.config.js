@@ -14,13 +14,19 @@ export default {
 
 	// Indicates whether the coverage information should be collected while executing the test
 	collectCoverage: true,
+	collectCoverageFrom: [
+		"src/**/*.ts",      // Include all .js files in the src folder
+		"!src/types/*.ts", 	// Exclude types files
+		"!test/**/*.ts", 	// Exclude test files
+	  ],
+
 
 	// The directory where Jest should output its coverage files
 	coverageDirectory: "coverage",
 
 	// Indicates which provider should be used to instrument code for coverage
 	coverageProvider: "v8",
-	coverageReporters: ["html-spa"],
+	coverageReporters: ["html-spa", "lcov"],
 
 	// An array of file extensions your modules use
 	moduleFileExtensions: ["js", "ts"],
@@ -30,4 +36,5 @@ export default {
 
 	// The glob patterns Jest uses to detect test files
 	testMatch: ["**/?(*.)+(spec|test).(ts|js)"],
+
 };
