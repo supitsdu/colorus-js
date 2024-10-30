@@ -8,8 +8,8 @@
 
 import typescript from "@rollup/plugin-typescript";
 import bundleSize from "rollup-plugin-bundle-size";
-import esbuild from "rollup-plugin-esbuild";
 import dts from "rollup-plugin-dts";
+import esbuild from "rollup-plugin-esbuild";
 
 export default [
 	// Phase 1: Transpile TypeScript to JavaScript and generate declaration files (`.d.ts`)
