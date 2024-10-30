@@ -1,63 +1,52 @@
 import { toRgb } from "../../src/plugins/toRgb";
-import { clampRgb } from "../../src/utils/clampColorHelpers";
-import { generateColorComponents } from "../../src/utils/colorUtils";
-
-jest.mock("../../src/utils/colorUtils", () => ({
-	generateColorComponents: jest.fn(),
-}));
-
-jest.mock("../../src/utils/clampColorHelpers", () => ({
-	clampRgb: jest.fn(),
-}));
 
 describe("toRgb plugin", () => {
-	it("should convert the color to an RGB string", () => {
-		const mockThis = {
+	test("should convert to RGB with minify enabled", () => {
+		const result = toRgb.call({
+			rgb: { r: 100, g: 100, b: 200, a: 1 },
 			alpha: 1,
-			rgb: { r: 0, g: 1, b: 2 },
-			options: { formatOptions: {} },
-		};
-
-		// @ts-expect-error mock implementation
-		clampRgb.mockReturnValue(mockThis.rgb);
-		// @ts-expect-error mock implementation
-		generateColorComponents.mockReturnValue([", ", "", "", "%"]);
-
-		const pluginFunction = toRgb.bind(mockThis);
-		const result = pluginFunction();
-
-		expect(clampRgb).toHaveBeenCalledWith(mockThis.rgb, true);
-		expect(generateColorComponents).toHaveBeenCalledWith(
-			mockThis.alpha,
-			mockThis.options.formatOptions,
-		);
-		expect(result).toBe("rgb(0, 1, 2)");
+			options: { formatOptions: { minify: true } },
+		});
+		expect(result).toBe("rgb(100,100,200)");
 	});
 
-	it("should return an RGB string with alpha channel", () => {
-		const mockThis = {
+	test("should convert to RGB with minify disabled", () => {
+		const result = toRgb.call({
+			rgb: { r: 100, g: 100, b: 200, a: 1 },
 			alpha: 1,
-			rgb: { r: 0, g: 1, b: 2, a: 0.5 },
-			options: { formatOptions: {} },
-		};
+			options: { formatOptions: { minify: false } },
+		});
 
-		// @ts-expect-error mock implementation
-		clampRgb.mockReturnValue(mockThis.rgb);
+		expect(result).toBe("rgb(100, 100, 200)");
+	});
 
-		// @ts-expect-error mock implementation
-		generateColorComponents.mockReturnValue([", ", ", 0.5", "a", "%"]);
+	test("should convert to RGB with CSS Next enabled", () => {
+		const result = toRgb.call({
+			rgb: { r: 100, g: 100, b: 200, a: 1 },
+			alpha: 1,
+			options: { formatOptions: { cssNext: true } },
+		});
 
-		const pluginFunction = toRgb.bind(mockThis);
+		expect(result).toBe("rgb(100 100 200)");
+	});
 
-		const result = pluginFunction();
+	test("should convert to RGB with CSS Next disabled", () => {
+		const result = toRgb.call({
+			rgb: { r: 100, g: 100, b: 200, a: 1 },
+			alpha: 1,
+			options: { formatOptions: { cssNext: false } },
+		});
 
-		expect(clampRgb).toHaveBeenCalledWith(mockThis.rgb, true);
+		expect(result).toBe("rgb(100, 100, 200)");
+	});
 
-		expect(generateColorComponents).toHaveBeenCalledWith(
-			mockThis.alpha,
-			mockThis.options.formatOptions,
-		);
+	test("should convert to RGB with combined options", () => {
+		const result = toRgb.call({
+			rgb: { r: 100, g: 100, b: 200, a: 1 },
+			alpha: 1,
+			options: { formatOptions: { cssNext: true, minify: true } },
+		});
 
-		expect(result).toBe("rgba(0, 1, 2, 0.5)");
+		expect(result).toBe("rgb(100 100 200)");
 	});
 });

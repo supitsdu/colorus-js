@@ -5,6 +5,9 @@ import {
 	hslParser,
 	lighten,
 	saturate,
+	toHsl,
+	toHsv,
+	toRgb,
 } from "../src/main";
 
 const redColor = { r: 255, g: 0, b: 0, a: 1 };
@@ -28,7 +31,7 @@ describe("dye function", () => {
 		jest.clearAllMocks();
 	});
 
-	describe("Color calculations", () => {
+	describe("Color Calculations", () => {
 		it("should calculate the correct luminance for a given color", () => {
 			expect(dye(redColor).luminance).toBe(0.21); // Luminance for red
 			expect(dye(blackColor).luminance).toBe(0);
@@ -68,7 +71,7 @@ describe("dye function", () => {
 		});
 	});
 
-	describe("Error handling", () => {
+	describe("Error Handling", () => {
 		it("should return an error object when the color string parsing fails", () => {
 			const invalidColor = dye(invalidColorString);
 			expect(invalidColor.error?.message).toMatch(
@@ -118,7 +121,7 @@ describe("dye function", () => {
 		});
 	});
 
-	describe("Custom parsers", () => {
+	describe("Custom Parsers", () => {
 		it("should use custom parsers correctly", () => {
 			const result = dye(customHslInput, { parsers: [hslParser] });
 
@@ -131,7 +134,7 @@ describe("dye function", () => {
 		});
 	});
 
-	describe("Custom plugins", () => {
+	describe("Custom Plugins", () => {
 		it("should expose custom plugins correctly", () => {
 			const customPlugin = createPlugin("customPlugin", function () {
 				return `Custom plugin called with color: ${this.rgb.r}, ${this.rgb.g}, ${this.rgb.b}`;
@@ -147,8 +150,7 @@ describe("dye function", () => {
 		});
 	});
 
-	describe("Chaining plugin functions", () => {
-		// Custom plugin for testing
+	describe("Chaining Plugin Functions", () => {
 		const chain = createPlugin("chain", function () {
 			return dye(this.rgb, this.options);
 		});
@@ -200,6 +202,51 @@ describe("dye function", () => {
 			expect(o.lighten().chain().saturate().chain().rgb).toEqual(
 				expectedResults.lightenedAndSaturatedColor,
 			);
+		});
+	});
+
+	describe("Repeated Use of Color with Edge Cases", () => {
+		const input = "rgb(100 100 200)";
+		it("should handle HSL color string with different format options", () => {
+			const minifyEnable = dye(input, {
+				plugins: { toHsl },
+				formatOptions: { minify: true },
+			}).toHsl();
+			const cssNextEnable = dye(input, {
+				plugins: { toHsl },
+				formatOptions: { cssNext: true },
+			}).toHsl();
+
+			expect(minifyEnable).toBe("hsl(240,48,59)");
+			expect(cssNextEnable).toBe("hsl(240 48% 59%)");
+		});
+
+		test("should handle HSV color string with different format options", () => {
+			const minifyEnable = dye(input, {
+				plugins: { toHsv },
+				formatOptions: { minify: true },
+			}).toHsv();
+			const cssNextEnable = dye(input, {
+				plugins: { toHsv },
+				formatOptions: { cssNext: true },
+			}).toHsv();
+
+			expect(minifyEnable).toBe("hsv(240,50,78)");
+			expect(cssNextEnable).toBe("hsv(240 50% 78%)");
+		});
+
+		test("should handle RGB color string with different format options", () => {
+			const minifyEnable = dye(input, {
+				plugins: { toRgb },
+				formatOptions: { minify: true },
+			}).toRgb();
+			const cssNextEnable = dye(input, {
+				plugins: { toRgb },
+				formatOptions: { cssNext: true },
+			}).toRgb();
+
+			expect(minifyEnable).toBe("rgb(100,100,200)");
+			expect(cssNextEnable).toBe("rgb(100 100 200)");
 		});
 	});
 });

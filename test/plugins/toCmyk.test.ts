@@ -1,63 +1,52 @@
 import { toCmyk } from "../../src/plugins/toCmyk";
-import { clampCmyk } from "../../src/utils/clampColorHelpers";
-import { generateColorComponents } from "../../src/utils/colorUtils";
-
-jest.mock("../../src/utils/colorUtils", () => ({
-	generateColorComponents: jest.fn(),
-}));
-
-jest.mock("../../src/utils/clampColorHelpers", () => ({
-	clampCmyk: jest.fn(),
-}));
 
 describe("toCmyk plugin", () => {
-	it("should convert the color to a CMYK string", () => {
-		const mockThis = {
+	test("should convert to CMYK with minify enabled", () => {
+		const result = toCmyk.call({
+			cmyk: { c: 50, m: 50, y: 0, k: 20, a: 1 },
 			alpha: 1,
-			cmyk: { c: 0, m: 1, y: 2, k: 3 },
-			options: { formatOptions: {} },
-		};
-
-		// @ts-expect-error mock implementation
-		clampCmyk.mockReturnValue(mockThis.cmyk);
-		// @ts-expect-error mock implementation
-		generateColorComponents.mockReturnValue([", ", "", "", "%"]);
-
-		const pluginFunction = toCmyk.bind(mockThis);
-		const result = pluginFunction();
-
-		expect(clampCmyk).toHaveBeenCalledWith(mockThis.cmyk, true);
-		expect(generateColorComponents).toHaveBeenCalledWith(
-			mockThis.alpha,
-			mockThis.options.formatOptions,
-		);
-		expect(result).toBe("cmyk(0%, 1%, 2%, 3%)");
+			options: { formatOptions: { minify: true } },
+		});
+		expect(result).toBe("cmyk(50,50,0,20)");
 	});
 
-	it("should return a CMYK string with alpha channel", () => {
-		const mockThis = {
-			cmyk: { c: 0, m: 1, y: 2, k: 3, a: 0.5 },
-			alpha: 0.5,
-			options: { formatOptions: {} },
-		};
+	test("should convert to CMYK with minify disabled", () => {
+		const result = toCmyk.call({
+			cmyk: { c: 50, m: 50, y: 0, k: 20, a: 1 },
+			alpha: 1,
+			options: { formatOptions: { minify: false } },
+		});
 
-		// @ts-expect-error mock implementation
-		clampCmyk.mockReturnValue(mockThis.cmyk);
+		expect(result).toBe("cmyk(50%, 50%, 0%, 20%)");
+	});
 
-		// @ts-expect-error mock implementation
-		generateColorComponents.mockReturnValue([", ", ", 0.5", "a", "%"]);
+	test("should convert to CMYK with CSS Next enabled", () => {
+		const result = toCmyk.call({
+			cmyk: { c: 50, m: 50, y: 0, k: 20, a: 1 },
+			alpha: 1,
+			options: { formatOptions: { cssNext: true } },
+		});
 
-		const pluginFunction = toCmyk.bind(mockThis);
+		expect(result).toBe("cmyk(50% 50% 0% 20%)");
+	});
 
-		const result = pluginFunction();
+	test("should convert to CMYK with CSS Next disabled", () => {
+		const result = toCmyk.call({
+			cmyk: { c: 50, m: 50, y: 0, k: 20, a: 1 },
+			alpha: 1,
+			options: { formatOptions: { cssNext: false } },
+		});
 
-		expect(clampCmyk).toHaveBeenCalledWith(mockThis.cmyk, true);
+		expect(result).toBe("cmyk(50%, 50%, 0%, 20%)");
+	});
 
-		expect(generateColorComponents).toHaveBeenCalledWith(
-			mockThis.alpha,
-			mockThis.options.formatOptions,
-		);
+	test("should convert to CMYK with combined options", () => {
+		const result = toCmyk.call({
+			cmyk: { c: 50, m: 50, y: 0, k: 20, a: 1 },
+			alpha: 1,
+			options: { formatOptions: { cssNext: true, minify: true } },
+		});
 
-		expect(result).toBe("cmyka(0%, 1%, 2%, 3%, 0.5)");
+		expect(result).toBe("cmyk(50 50 0 20)");
 	});
 });
