@@ -1,18 +1,16 @@
 # Working with Plugins
 
-This guide shows how to create, use, and understand plugins in **Colorus.js**.
+Extend **Colorus.js** with plugins to create custom color transformations and calculations.
 
-## Plugins Overview
+## Overview
 
-Plugins are functions that can attach to any `Dye.Instance` created with `dye()`, allowing you to extend functionality with custom calculations and transformations.
+Plugins attach directly to any `Dye.Instance`, allowing flexible extension of core functionality.
 
-### Defining a Plugin
+## Creating a Plugin
 
-Plugins are functions using `this` as the color context, with optional additional arguments.
+Define a new plugin with `createPlugin`:
 
 ```typescript
-import type { createPlugin } from "colorus-js"
-
 export const myPlugin = createPlugin("myPlugin", function () {
   console.debug(this.rgb)
   console.debug(this.toHex())
@@ -20,14 +18,11 @@ export const myPlugin = createPlugin("myPlugin", function () {
 })
 ```
 
-### Using Plugins with `dye()`
+## Adding Plugins to `dye()`
 
-Attach plugins to a `Dye.Instance` via `options.plugins` in the `dye()` function.
+Pass plugins to `dye` to make them accessible in the color instance:
 
 ```typescript
-import { dye } from "colorus-js"
-import { myPlugin } from "./myPlugin.ts"
-
 const color = dye("#ff0000", {
   plugins: {
     myPlugin,
@@ -41,20 +36,20 @@ color.myPlugin() // "someValue"
 color.isRed() // true
 ```
 
-### Chaining Plugins
+## Chaining Plugins
 
-Chain custom plugins with core color methods seamlessly.
+Combine plugins and methods seamlessly:
 
 ```typescript
-color.lighten(0.2).desaturate(0.7).myCustomPlugin().rgb // Fully typed
+color.lighten(0.2).desaturate(0.7).anotherCustomPlugin().rgb // Fully typed
 ```
 
-### Type Safety
+## Type Safety
 
-TypeScript automatically types `this` as a `Dye.Instance` within plugins, providing type-safe access to core properties and methods.
+Colorus.js infers `Dye.Instance` type for `this` within plugins, enabling type-safe access to instance properties and methods.
 
-### Key Tips
+## Plugin Guidelines
 
-- **Naming:** Use unique names to avoid conflicts with core methods or built-ins.
-- **Avoid Side Effects:** Do not modify the original `Dye.Instance` directly.
-- **Optimize for Performance:** Ensure efficiency for any intensive calculations.
+- **Unique Names**: Avoid conflicts by ensuring plugin names don’t overlap with built-in methods.
+- **Side Effect-Free**: Plugins should not alter the `Dye.Instance` state directly.
+- **Performance**: Optimize for intensive operations to maintain efficiency.
