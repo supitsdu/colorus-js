@@ -22,9 +22,7 @@ console.log(color.source.isValid) // true
 console.log(color.source.model) // "rgb"
 ```
 
-### Using Parsers
-
-Add `parsers` to handle different color formats:
+### Multi-Format Support
 
 ```javascript
 import { dye, hslParser } from "colorus-js"
@@ -37,14 +35,12 @@ console.log(color.rgb) // { r: 38.25, g: 114.75, b: 38.25, a: 1 }
 
 **Built-in Parsers:** `cmykParser`, `hexParser`, `hslParser`, `hsvParser`, `rgbParser` (default)
 
-### Adding Plugins
-
-Extend `dye` with custom plugins like `grayscale`:
+### Custom Plugins
 
 ```javascript
 import { createPlugin, dye } from "colorus-js"
 
-// New plugin
+// Custom grayscale plugin definition
 const grayscale = createPlugin("grayscale", function () {
   const avg = (this.rgb.r + this.rgb.g + this.rgb.b) / 3
   return dye({ r: avg, g: avg, b: avg, a: this.rgb.a }, this.options)
@@ -67,8 +63,8 @@ Each `dye` instance provides:
 
 ## Further Reading
 
-- [Working with Plugins](docs/WORKING_WITH_PLUGINS.md)
-- [Working with Parsers](docs/WORKING_WITH_PARSERS.md)
+- [Working with Plugins](docs/guide/WORKING_WITH_PLUGINS.md)
+- [Working with Parsers](docs/guide/WORKING_WITH_PARSERS.md)
 
 ## Contributing
 
