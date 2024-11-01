@@ -1,46 +1,37 @@
 # Contributing to Colorus.js 🎉
 
-We welcome contributions to Colorus.js! Whether you're fixing bugs 🐛, improving documentation 📚, or adding new features through plugins ✨, your help is valuable in making this library even better.
+Thank you for considering a contribution to **Colorus.js**! From fixing bugs to improving documentation or expanding functionality with plugins and parsers, every contribution is valuable.
 
-## Future Plans: Mono-repo 📦
+## Design Choice
 
-In the future, we intend to transition the Colorus.js repository into a mono-repo structure. This will allow us to manage the core package and official plugins within a single repository, streamlining development and maintenance.
+The design choice ensures that colors are parsed, transformed, and returned in predictable and reliable ways, even if it means some operations may be slower than highly optimized alternatives.
 
-## Core Functionality: Non-Extensible (Intentional) 🔒
+Despite this focus, **Colorus.js** performs efficiently in most use cases. While the library might not aim to be the absolute fastest, it’s still capable of handling high-demand operations quickly. If you identify areas where optimizations can be made without sacrificing validation, please feel free to propose changes or submit a pull request.
 
-| Core Functionality         | Extensible via Plugins |
-| -------------------------- | ---------------------- |
-| Color creation (`dye`)     | No                     |
-| Color conversions          | No                     |
-| Color adjustments          | No                     |
-| Accessibility calculations | No                     |
+## Core and Extensible Features 🔒
 
-The plugin system provides a powerful and flexible mechanism for adding custom features and behaviors to color objects created by `dye`. We encourage you to leverage this system to enhance the capabilities of Colorus.js without modifying its core. 💪
+| Feature                           | Extensible via Plugins or Parsers             |
+| --------------------------------- | --------------------------------------------- |
+| Color creation (`dye`)            | [Parsers](docs/guide/WORKING_WITH_PARSERS.md) |
+| Color conversions and adjustments | [Plugins](docs/guide/WORKING_WITH_PLUGINS.md) |
 
-## Focus on Performance 🚀
-
-We're always looking for ways to improve the performance of Colorus.js. Contributions that enhance the speed or reduce the bundle size of the library are highly appreciated. If you have ideas for optimizations or performance improvements, please share them with us!
+The plugin and parser systems in version 2.0.0 allow easy extensibility, making it possible to add custom features while preserving the core library’s structure.
 
 ## How to Contribute 🛠️
 
-1. **For complex or significant changes:** Please open an issue first to discuss your proposed changes with the maintainers. This helps ensure alignment with the project's goals and avoids potential conflicts or wasted effort. 💬
-
-2. **For simple fixes (e.g., typos, grammar):** Feel free to directly open a pull request. 👍
-
-3. In either case, follow these steps:
-   - Fork the repository and create a new branch for your feature or bug fix. 🍴
-   - Make your changes and ensure that the code is well-documented and tested. 🧪
-   - Submit a pull request, clearly describing your changes and their benefits. 🚀
+1. **Significant Changes:** Open an issue first to discuss.
+2. **Minor Fixes (e.g., typos):** Open a pull request directly.
+3. **Steps:**
+   - Fork the repository, create a branch, and make your changes.
+   - Ensure documentation and tests accompany your updates.
+   - Submit a pull request with a clear, concise description.
 
 ## Documentation and Type Support 📚
 
-Clear and comprehensive documentation is essential for any library, and Colorus.js is no exception. We strive to provide accurate and up-to-date documentation for all core functions, types, and the plugin system. Contributions that improve the documentation, add examples, or clarify usage are highly valued.
-✍️
+Complete documentation and robust TypeScript support are priorities for **Colorus.js**. Contributions that improve docs, examples, or types are always welcome.
 
-### Type Safety and Function Chaining 🔒⛓️
+## Type Safety and Chaining 🔒⛓️
 
-We place a strong emphasis on type safety. The function chaining mechanism, in particular, relies heavily on TypeScript's type inference to provide a smooth and error-free developer experience. When contributing, pay close attention to maintaining and enhancing the type definitions, especially when modifying or adding new features that interact with the chaining mechanism.
+Type safety is critical to **Colorus.js**, particularly in the chaining API. Please ensure typings are preserved or improved when contributing any functions affecting chaining behavior.
 
-We appreciate your interest in contributing to Colorus.js! Please don't hesitate to reach out if you have any questions or need further guidance. 🙌
-
-**Thank you for your support!** 🙏
+**Thank you for supporting Colorus.js!** 🙏
