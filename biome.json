@@ -54,6 +54,10 @@
 				"noNonNullAssertion": "off",
 				"noInferrableTypes": "off",
 				"useNumberNamespace": "off"
+			},
+			"correctness": {
+				"noUnusedVariables": "warn",
+				"noUnusedImports": "warn"
 			}
 		}
 	}
