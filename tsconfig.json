@@ -19,6 +19,8 @@
     "module": "esnext", // Use the latest ECMAScript module syntax.
     "strict": true, // Enable all strict type-checking options.
     "composite": false, // Don't enable project references for incremental builds.
+    "noUnusedLocals": true, // Report errors on unused local variables.
+    "noUnusedParameters": true // Report errors on unused parameters.
   },
   "include": ["src"], // Include all TypeScript files within the 'src' directory and its subdirectories.
   "exclude": ["node_modules", "dist"] // Exclude the 'node_modules' and 'dist' directories from compilation.
