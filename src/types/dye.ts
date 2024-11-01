@@ -1,8 +1,6 @@
 import type { ColorParser } from "../processing/colorParser";
 import type { Colors } from "./colorModels";
 
-type PropertyType<T, K extends keyof T> = T[K];
-
 export namespace Dye {
 	export interface Source<V = Colors.Any> {
 		model: string;
@@ -54,7 +52,7 @@ export namespace Dye {
 			[K in keyof E]: K extends keyof Properties
 				? never
 				: E[K] extends (...params: any[]) => any
-					? PluginFunction<ReturnType<E[K]>, Parameters<E[K]>> //(this: Context, ...params: Parameters<E[K]>) => ReturnType<E[K]>
+					? PluginFunction<ReturnType<E[K]>, Parameters<E[K]>>
 					: E[K];
 		};
 		formatOptions?: FormatOptions;
