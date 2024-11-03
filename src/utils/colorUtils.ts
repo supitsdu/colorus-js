@@ -41,19 +41,6 @@ export const expandHexString = (hexString: string): string => {
 	return expanded;
 };
 
-/**
- * Converts a hexadecimal string to an integer.
- * @param hex - The hexadecimal string.
- * @param start - The starting index for the substring to parse.
- * @param length - The length of the substring to parse.
- * @returns The integer value represented by the hex string.
- */
-export const hexToInt = (
-	hex: string,
-	start: number = 0,
-	length: number = 2,
-): number => Number.parseInt(hex.slice(start, start + length) || "ff", 16);
-
 export const clamp = (value: number | string, max: number): number =>
 	Math.max(Math.min(Number(value) || 0, max), 0);
 

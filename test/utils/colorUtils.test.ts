@@ -3,7 +3,6 @@ import {
 	expandHexString,
 	formatDecimal,
 	generateColorComponents,
-	hexToInt,
 	modBy,
 	normalize8Bit,
 	normalizeAlpha,
@@ -11,14 +10,6 @@ import {
 	normalizePercentage,
 	toHexString,
 } from "../../src/utils/colorUtils";
-
-describe("hexToInt", () => {
-	it("should convert a hexadecimal string to an integer", () => {
-		expect(hexToInt("ff")).toBe(255);
-		expect(hexToInt("0a")).toBe(10);
-		expect(hexToInt("ff", 0, 1)).toBe(15);
-	});
-});
 
 describe("toHexString", () => {
 	it("should convert an integer to a hexadecimal string with a specified minimum length", () => {

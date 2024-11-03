@@ -5,7 +5,7 @@ import {
 	clampHsv,
 	clampRgb,
 } from "../utils/clampColorHelpers";
-import { expandHexString, hexToInt, toHexString } from "../utils/colorUtils";
+import { expandHexString, toHexString } from "../utils/colorUtils";
 
 export const convertCmykToRgb = (
 	{ c, m, y, k, a }: Colors.Cmyk,
@@ -28,13 +28,16 @@ export const convertHexToRgb = (
 	round: boolean = false,
 ): Colors.Rgb => {
 	const hex = expandHexString(color);
+	const num = Number.parseInt(hex, 16);
+
+	const hasAlpha = hex.length === 8;
 
 	return clampRgb(
 		{
-			r: hexToInt(hex),
-			g: hexToInt(hex, 2),
-			b: hexToInt(hex, 4),
-			a: hexToInt(hex, 6) / 255,
+			r: (num >> (hasAlpha ? 24 : 16)) & 0xff,
+			g: (num >> (hasAlpha ? 16 : 8)) & 0xff,
+			b: (num >> (hasAlpha ? 8 : 0)) & 0xff,
+			a: hasAlpha ? (num & 0xff) / 255 : 1,
 		},
 		round,
 	);
