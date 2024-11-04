@@ -1,60 +1,65 @@
-<p align="center">
-  <img src="https://raw.githubusercontent.com/supitsdu/colorus-js/main/favicon.svg" width="256">
-<p>
-
 # Colorus.js
 
-[![NPM](https://img.shields.io/badge/NPM-%23CB3837.svg?style=for-the-badge&logo=npm&logoColor=white&labelColor=black&color=black)](https://www.npmjs.com/package/colorus-js)
-[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white&labelColor=black&color=black)](https://www.typescriptlang.org/)
-[![GitHub stars](https://img.shields.io/github/stars/supitsdu/colorus-js?style=for-the-badge&logo=Github&logoColor=white&labelColor=black&color=black)](https://github.com/supitsdu/colorus-js)
-
-A versatile and powerful color manipulation library for JavaScript.
+**Colorus.js** is a flexible color manipulation library with multi-format support and TypeScript compatibility.
 
 ## Features
 
-- **Intuitive API:** Work with colors effortlessly using a simple and expressive function-based API.
-- **Multiple Color Models:** Supports various color models, including RGB, HSL, HSV, and CMYK.
-- **Flexible Input/Output:** Accepts color inputs in different formats (hex, rgb, hsl, etc.) and provides various output options.
-- **Color Conversions:** Easily convert between different color models and formats.
-- **Color Adjustments:** Perform common color adjustments like lightening, darkening, saturating, desaturating, and more.
-- **Accessibility:** Calculate relative luminance and contrast ratios for improved accessibility.
-- **Extensible:** Extend the core functionality with custom plugins.
-- **TypeScript Support:** Provides full TypeScript support for enhanced type safety and developer experience.
+- 🌈 **Model-Agnostic Design** – Supports HEX, RGB, HSL, HSV, CMYK, and is extendable to any color model.
+- ⚡️ **Effortless Chaining** – Chain transformations with seamless TypeScript support for clarity and reliability.
+- 🧩 **Extensible by Design** – Add custom parsers and plugins to unlock new models and functions.
+- 🔒 **Solid Type Safety** – Robust TypeScript types deliver consistent, predictable color transformations.
 
-### Usage
+## Quick Start
 
 ```javascript
 import { dye } from "colorus-js"
 
-const color = dye("#ff0000") // Create a color from a hex code
+const color = dye("rgb(255 0 0)")
 
-console.log(color.rgb) // Output: { r: 255, g: 0, b: 0, a: 1 }
-console.log(color.toHsl()) // Output: hsl(0, 100%, 50%)
-
-const lighterColor = color.lighten(0.2) // Lighten the color by 20%
-console.log(lighterColor.toHex()) // Output: #ff6666
+console.log(color.hsl) // { h: 0, s: 100, l: 50, a: 1 }
+console.log(color.luminance) // 0.21
+console.log(color.source.isValid) // true
+console.log(color.source.model) // "rgb"
 ```
 
-### Plugins
-
-Extend the `dye` function with custom methods using plugins.
+### Multi-Format Support
 
 ```javascript
-const colorWithPlugin = dye("#0000ff", {
-  plugins: {
-    isBlue() {
-      return this.rgb.b > 200
-    }
-  }
-})
+import { dye, hslParser } from "colorus-js"
 
-console.log(colorWithPlugin.isBlue()) // Output: true
+const color = dye("hsl(120deg 50% 30%)", { parsers: [hslParser] })
+
+console.log(color.luminance) // 0.13
+console.log(color.rgb) // { r: 38.25, g: 114.75, b: 38.25, a: 1 }
 ```
 
-For more information see [Working with Plugins Guide](docs/WORKING_WITH_PLUGINS.md).
+**Built-in Parsers:** `cmykParser`, `hexParser`, `hslParser`, `hsvParser`, `rgbParser` (default)
+
+### Custom Plugins
+
+```javascript
+import { createPlugin, dye } from "colorus-js"
+
+// Custom grayscale plugin definition
+const grayscale = createPlugin("grayscale", function () {
+  const avg = (this.rgb.r + this.rgb.g + this.rgb.b) / 3
+  return dye({ r: avg, g: avg, b: avg, a: this.rgb.a }, this.options)
+})
+
+// Usage
+const color = dye("rgb(255, 0, 0)", { plugins: { grayscale } })
+
+console.log(color.grayscale().rgb) // { r: 85, g: 85, b: 85, a: 1 }
+```
+
+**Built-in Plugins:** `invert`, `lighten`, `darken`, `saturate`, `desaturate`, `toCmyk`, `toHex`, `toHsl`, `toHsv`, `toRgb`
+
+## Further Reading
+
+- [API Reference](docs/API.md)
+- [Working with Plugins](docs/guide/WORKING_WITH_PLUGINS.md)
+- [Working with Parsers](docs/guide/WORKING_WITH_PARSERS.md)
 
 ## Contributing
 
-Contributions are welcome! Please read the [Contributing Guide](CONTRIBUTING.md).
-
-[**Leave a star and help spread the hues! 🎨⭐**](https://github.com/supitsdu/colorus-js)
+Contributions are welcome! See the [Contributing Guide](CONTRIBUTING.md).
