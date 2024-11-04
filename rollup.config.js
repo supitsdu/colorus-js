@@ -55,7 +55,7 @@ export default [
 
 	// Phase 3: Bundle TypeScript declaration files into a single file
 	{
-		input: "build/@types/src/main.d.ts", // Take the output from phase 1 as TypeScript declarations, as configured in tsconfig.json ("declarationDir")
+		input: "build/src/main.d.ts",
 		plugins: [
 			dts(), // Bundles .d.ts files. See: https://github.com/Swatinem/rollup-plugin-dts
 			bundleSize(),
