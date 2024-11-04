@@ -1,6 +1,6 @@
 {
 	"name": "colorus-js",
-	"version": "1.0.0",
+	"version": "2.0.0",
 	"description": "Extend, enhance, create! 🎨 Colorus.js: Your extensible, type-safe color library.",
 	"type": "module",
 	"sideEffects": false,
@@ -43,11 +43,13 @@
 		"hex",
 		"rgb",
 		"hsl",
+		"cmyk",
+		"hsv",
 		"convert",
 		"adjust"
 	],
 	"devDependencies": {
-		"@biomejs/biome": "1.9.3",
+		"@biomejs/biome": "1.9.4",
 		"@rollup/plugin-typescript": "^12.1.0",
 		"@swc/core": "^1.7.22",
 		"@swc/jest": "^0.2.36",

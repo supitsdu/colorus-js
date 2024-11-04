@@ -1,7 +1,15 @@
 {
 	"files": {
-		"ignore": ["node_modules", "coverage", "docs", ".github", "_test"],
-		"include": ["src/*.ts", "test/*.ts"]
+		"ignore": [
+			"node_modules",
+			"coverage",
+			"docs",
+			".github",
+			"_test",
+			"build",
+			"dist"
+		],
+		"include": ["src/*.ts", "test/*.ts", "rollup.config.js", "jest.config.js"]
 	},
 	"organizeImports": { "enabled": true },
 	"formatter": {
@@ -31,18 +39,25 @@
 		"enabled": true,
 		"rules": {
 			"complexity": {
-				"noStaticOnlyClass": "warn"
+				"noStaticOnlyClass": "warn",
+				"noForEach": "off"
 			},
 			"suspicious": {
 				"noDebugger": "off",
-				"noConsoleLog": "info",
+				"noConsoleLog": "warn",
 				"noExplicitAny": "off",
 				"noConfusingVoidType": "off"
 			},
 			"style": {
 				"noShoutyConstants": "warn",
 				"useNamingConvention": "error",
-				"noNonNullAssertion": "off"
+				"noNonNullAssertion": "off",
+				"noInferrableTypes": "off",
+				"useNumberNamespace": "off"
+			},
+			"correctness": {
+				"noUnusedVariables": "warn",
+				"noUnusedImports": "warn"
 			}
 		}
 	}
