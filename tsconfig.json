@@ -5,21 +5,23 @@
 // https://www.typescriptlang.org/tsconfig
 
 {
-	"compilerOptions": {
-		"declaration": true, // Generate .d.ts declaration files for better tooling and type safety.
-		"declarationDir": "build/@types/", // Place declaration files in this directory.
-		"emitDeclarationOnly": false, // Emit both JavaScript and declaration files.
-		"declarationMap": false, // Don't generate source maps for declaration files.
-		"rootDir": "src", // Specify the root directory for source files.
-		"outDir": "build", // Output compiled JavaScript files to this directory.
-		"moduleResolution": "node", // Use Node.js' module resolution strategy.
-		"esModuleInterop": true, // Enables interoperability between CommonJS and ES Modules.
-		"verbatimModuleSyntax": true, // Preserve 'import' and 'export' statements in the output.
-		"target": "esnext", // Compile to the latest JavaScript version.
-		"module": "esnext", // Use the latest ECMAScript module syntax.
-		"strict": true, // Enable all strict type-checking options.
-		"composite": false // Don't enable project references for incremental builds.
-	},
-	"include": ["src/**/*.ts"], // Include all TypeScript files within the 'src' directory and its subdirectories.
-	"exclude": ["node_modules", "dist"] // Exclude the 'node_modules' and 'dist' directories from compilation.
+  "compilerOptions": {
+    "declaration": true, // Generate .d.ts declaration files for better tooling and type safety.
+    "declarationDir": "build/@types/", // Place declaration files in this directory.
+    "emitDeclarationOnly": false, // Emit both JavaScript and declaration files.
+    "declarationMap": false, // Don't generate source maps for declaration files.
+    "rootDir": ".", // Specify the root directory for source files.
+    "outDir": "build", // Output compiled JavaScript files to this directory.
+    "moduleResolution": "node", // Use Node.js' module resolution strategy.
+    "esModuleInterop": true, // Enables interoperability between CommonJS and ES Modules.
+    "verbatimModuleSyntax": true, // Preserve 'import' and 'export' statements in the output.
+    "target": "esnext", // Compile to the latest JavaScript version.
+    "module": "esnext", // Use the latest ECMAScript module syntax.
+    "strict": true, // Enable all strict type-checking options.
+    "composite": false, // Don't enable project references for incremental builds.
+    "noUnusedLocals": true, // Report errors on unused local variables.
+    "noUnusedParameters": true // Report errors on unused parameters.
+  },
+  "include": ["src"], // Include all TypeScript files within the 'src' directory and its subdirectories.
+  "exclude": ["node_modules", "dist"] // Exclude the 'node_modules' and 'dist' directories from compilation.
 }
