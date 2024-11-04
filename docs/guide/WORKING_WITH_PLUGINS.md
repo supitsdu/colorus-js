@@ -12,9 +12,7 @@ Define a new plugin with `createPlugin`:
 
 ```typescript
 export const myPlugin = createPlugin("myPlugin", function () {
-  console.debug(this.rgb)
-  console.debug(this.toHex())
-  return "someValue"
+  return `The Red value is ${this.rgb.r}`
 })
 ```
 
@@ -23,7 +21,7 @@ export const myPlugin = createPlugin("myPlugin", function () {
 Pass plugins to `dye` to make them accessible in the color instance:
 
 ```typescript
-const color = dye("#ff0000", {
+const color = dye("rgb(255 0 0)", {
   plugins: {
     myPlugin,
     isRed(): boolean {
@@ -32,7 +30,7 @@ const color = dye("#ff0000", {
   }
 })
 
-color.myPlugin() // "someValue"
+color.myPlugin() // "The Red value is 255"
 color.isRed() // true
 ```
 
