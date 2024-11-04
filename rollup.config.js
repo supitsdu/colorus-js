@@ -6,10 +6,10 @@
 //
 // The `tsconfig.json` file is used for TypeScript compilation settings, including the output location for declaration files.
 
-import esbuild from "rollup-plugin-esbuild";
 import typescript from "@rollup/plugin-typescript";
-import dts from "rollup-plugin-dts";
 import bundleSize from "rollup-plugin-bundle-size";
+import dts from "rollup-plugin-dts";
+import esbuild from "rollup-plugin-esbuild";
 
 export default [
 	// Phase 1: Transpile TypeScript to JavaScript and generate declaration files (`.d.ts`)
@@ -55,7 +55,7 @@ export default [
 
 	// Phase 3: Bundle TypeScript declaration files into a single file
 	{
-		input: "build/@types/main.d.ts", // Take the output from phase 1 as TypeScript declarations, as configured in tsconfig.json ("declarationDir")
+		input: "build/@types/src/main.d.ts", // Take the output from phase 1 as TypeScript declarations, as configured in tsconfig.json ("declarationDir")
 		plugins: [
 			dts(), // Bundles .d.ts files. See: https://github.com/Swatinem/rollup-plugin-dts
 			bundleSize(),

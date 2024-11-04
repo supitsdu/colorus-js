@@ -1,6 +1,6 @@
 {
 	"name": "colorus-js",
-	"version": "1.0.0",
+	"version": "2.0.0",
 	"description": "Extend, enhance, create! 🎨 Colorus.js: Your extensible, type-safe color library.",
 	"type": "module",
 	"sideEffects": false,
@@ -43,6 +43,8 @@
 		"hex",
 		"rgb",
 		"hsl",
+		"cmyk",
+		"hsv",
 		"convert",
 		"adjust"
 	],
