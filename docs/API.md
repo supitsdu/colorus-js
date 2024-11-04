@@ -49,7 +49,8 @@ Each `Dye.Instance` provides access to various color properties calculated based
 - `luminance`: Calculates and returns the luminance value.
 - `alpha`: Returns the alpha (transparency) value.
 - `hue`: Returns the hue value.
-- `error`: Returns `{ message?: string }` with the error message, if any.
+- `source`: Metadata and validity.
+- `error`: Returns the error message, if any.
 
 **Example:**
 

@@ -54,15 +54,9 @@ console.log(color.grayscale().rgb) // { r: 85, g: 85, b: 85, a: 1 }
 
 **Built-in Plugins:** `invert`, `lighten`, `darken`, `saturate`, `desaturate`, `toCmyk`, `toHex`, `toHsl`, `toHsv`, `toRgb`
 
-## API
-
-Each `dye` instance provides:
-
-- `source`: Original input and validity
-- `luminance`, `rgb`, `hsl`, `hsv`, `cmyk`, `alpha`, `hue`: Access color properties with defaults
-
 ## Further Reading
 
+- [API Reference](docs/API.md)
 - [Working with Plugins](docs/guide/WORKING_WITH_PLUGINS.md)
 - [Working with Parsers](docs/guide/WORKING_WITH_PARSERS.md)
 
