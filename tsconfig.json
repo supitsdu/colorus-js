@@ -7,7 +7,6 @@
 {
   "compilerOptions": {
     "declaration": true, // Generate .d.ts declaration files for better tooling and type safety.
-    "declarationDir": "build/@types/", // Place declaration files in this directory.
     "emitDeclarationOnly": false, // Emit both JavaScript and declaration files.
     "declarationMap": false, // Don't generate source maps for declaration files.
     "rootDir": ".", // Specify the root directory for source files.
