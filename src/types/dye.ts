@@ -37,23 +37,23 @@ export namespace Dye {
 	export type PluginFunction<
 		Returns = void,
 		Params extends any[] = any[],
-		ThisContext = Context,
-	> = (this: ThisContext, ...params: Params) => Returns;
+		Props = Properties,
+	> = (this: Props, ...params: Params) => Returns;
 
 	export type DefaultPlugins = Record<never, never>;
 
 	export type Plugins<T extends DefaultPlugins = DefaultPlugins> =
 		T extends DefaultPlugins
 			? DefaultPlugins
-			: { [K in keyof T]: PluginFunction };
+			: {
+					[K in keyof T]: T[K] extends PluginFunction<infer R, infer P>
+						? PluginFunction<R, P>
+						: never;
+				};
 
 	export interface Options<E extends Plugins = Plugins> {
 		plugins?: {
-			[K in keyof E]: K extends keyof Properties
-				? never
-				: E[K] extends (...params: any[]) => any
-					? PluginFunction<ReturnType<E[K]>, Parameters<E[K]>>
-					: E[K];
+			[K in keyof E]: K extends keyof Properties ? never : E[K];
 		};
 		formatOptions?: FormatOptions;
 		fallback?: Colors.Rgb;
@@ -72,8 +72,6 @@ export namespace Dye {
 		get hue(): number;
 		options: Options<P>;
 	}
-
-	export type Context = Properties;
 
 	export type Instance<E extends Plugins = Plugins> = Properties<E> & {
 		[K in keyof E]: E[K] extends PluginFunction<infer R, infer P>
