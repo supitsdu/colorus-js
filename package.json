@@ -1,65 +1,65 @@
 {
-	"name": "colorus-js",
-	"version": "2.0.0",
-	"description": "Extend, enhance, create! 🎨 Colorus.js: Your extensible, type-safe color library.",
-	"type": "module",
-	"sideEffects": false,
-	"main": "./dist/main.js",
-	"module": "./dist/main.js",
-	"types": "./dist/main.d.ts",
-	"files": [
-		"dist",
-		"README.md",
-		"LICENSE"
-	],
-	"exports": {
-		".": {
-			"import": "./dist/main.js",
-			"require": "./dist/main.cjs",
-			"types": "./dist/main.d.ts"
-		}
-	},
-	"scripts": {
-		"check-types": "tsc --noEmit",
-		"lint:fix": "biome check --write",
-		"lint": "biome ci",
-		"format": "prettier --check *.md",
-		"test": "jest",
-		"build": "rollup -c"
-	},
-	"author": "Eduardo M. Santos",
-	"license": "MIT",
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/supitsdu/colorus-js.git"
-	},
-	"bugs": {
-		"url": "https://github.com/supitsdu/colorus-js/issues"
-	},
-	"homepage": "https://github.com/supitsdu/colorus-js/",
-	"keywords": [
-		"color",
-		"colours",
-		"hex",
-		"rgb",
-		"hsl",
-		"cmyk",
-		"hsv",
-		"convert",
-		"adjust"
-	],
-	"devDependencies": {
-		"@biomejs/biome": "1.9.4",
-		"@rollup/plugin-typescript": "^12.1.0",
-		"@swc/core": "^1.7.22",
-		"@swc/jest": "^0.2.36",
-		"@types/jest": "^29.5.12",
-		"jest": "^29.7.0",
-		"prettier": "^3.3.3",
-		"rollup": "4.24.4",
-		"rollup-plugin-bundle-size": "^1.0.3",
-		"rollup-plugin-dts": "^6.1.1",
-		"rollup-plugin-esbuild": "^6.1.1",
-		"tslib": "^2.7.0"
-	}
+  "name": "colorus-js",
+  "version": "2.0.1",
+  "description": "Extend, enhance, create! 🎨 Colorus.js: Your extensible, type-safe color library.",
+  "type": "module",
+  "sideEffects": false,
+  "main": "./dist/main.js",
+  "module": "./dist/main.js",
+  "types": "./dist/main.d.ts",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/main.js",
+      "require": "./dist/main.cjs",
+      "types": "./dist/main.d.ts"
+    }
+  },
+  "scripts": {
+    "check-types": "tsc --noEmit",
+    "lint:fix": "biome check --write",
+    "lint": "biome ci",
+    "format": "prettier --check *.md",
+    "test": "jest",
+    "build": "rollup -c"
+  },
+  "author": "Eduardo M. Santos",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/supitsdu/colorus-js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/supitsdu/colorus-js/issues"
+  },
+  "homepage": "https://github.com/supitsdu/colorus-js/",
+  "keywords": [
+    "color",
+    "colours",
+    "hex",
+    "rgb",
+    "hsl",
+    "cmyk",
+    "hsv",
+    "convert",
+    "adjust"
+  ],
+  "devDependencies": {
+    "@biomejs/biome": "1.9.4",
+    "@rollup/plugin-typescript": "^12.1.0",
+    "@swc/core": "^1.7.22",
+    "@swc/jest": "^0.2.36",
+    "@types/jest": "^29.5.12",
+    "jest": "^29.7.0",
+    "prettier": "^3.3.3",
+    "rollup": "4.24.4",
+    "rollup-plugin-bundle-size": "^1.0.3",
+    "rollup-plugin-dts": "^6.1.1",
+    "rollup-plugin-esbuild": "^6.1.1",
+    "tslib": "^2.7.0"
+  }
 }
