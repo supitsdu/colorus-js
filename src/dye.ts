@@ -39,7 +39,7 @@ export function dye<I extends Colors.Input, P extends Dye.Plugins>(
 	if (!processedInput) {
 		processedInput = [
 			input,
-			{ r: 0, g: 0, b: 0, a: 1 },
+			options.fallback || { r: 0, g: 0, b: 0, a: 1 },
 			{ model: "unknown", value: input, isValid: false },
 		];
 	}

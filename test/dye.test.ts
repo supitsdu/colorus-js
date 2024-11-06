@@ -72,6 +72,16 @@ describe("dye function", () => {
 	});
 
 	describe("Error Handling", () => {
+		it("should use the fallback RGB object when the input color is invalid", () => {
+			const invalidColor = "invalid-color";
+			const fallbackRgb = { r: 255, g: 255, b: 255, a: 1 };
+			const instance = dye(invalidColor, { fallback: fallbackRgb });
+
+			expect(instance.rgb).toEqual(fallbackRgb);
+			expect(instance.source.model).toBe("unknown");
+			expect(instance.source.isValid).toBe(false);
+		});
+
 		it("should return an error object when the color string parsing fails", () => {
 			const invalidColor = dye(invalidColorString);
 			expect(invalidColor.error?.message).toMatch(
