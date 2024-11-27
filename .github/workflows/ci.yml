@@ -1,4 +1,4 @@
-name: CI
+name: Build, Test & Quality Checks
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
 
 jobs:
   quality:
-    name: Quality & Build
+    name: Code Quality & Package Build
     runs-on: ubuntu-latest
 
     strategy:
@@ -18,30 +18,30 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup Node.js ${{ matrix.node-version }}
+      - name: Set up Node.js environment (v${{ matrix.node-version }})
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
 
-      - name: Setup Biome.js
+      - name: Install Biome.js formatter and linter
         uses: biomejs/setup-biome@v2
         with:
           version: latest
 
-      - name: Install dependencies
+      - name: Install project dependencies
         run: npm ci
 
-      - name: Run linting & formatting
+      - name: Verify code style and formatting (Biome)
         run: |
           npm run lint
           npm run format
 
-      - name: Run type-checking
+      - name: Verify TypeScript types
         run: npm run check-types
 
-      - name: Run tests
+      - name: Run unit and integration tests
         run: npm test
 
-      - name: Build package
+      - name: Build production package
         run: npm run build
