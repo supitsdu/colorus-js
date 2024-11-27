@@ -1,17 +1,14 @@
-name: CI
+name: Build, Test & Quality Checks
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   pull_request:
-    branches:
-      - main
+    branches: [main]
 
 jobs:
-  build:
-    name: Test & Build
-
+  quality:
+    name: Code Quality & Package Build
     runs-on: ubuntu-latest
 
     strategy:
@@ -19,37 +16,32 @@ jobs:
         node-version: [22.x]
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup Node.js ${{ matrix.node-version }}
+      - name: Set up Node.js environment (v${{ matrix.node-version }})
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-          cache: "npm"
+          cache: 'npm'
 
-      - name: Display Node.js version
-        run: node -v
+      - name: Install Biome.js formatter and linter
+        uses: biomejs/setup-biome@v2
+        with:
+          version: latest
 
-      - name: Install dependencies
+      - name: Install project dependencies
         run: npm ci
 
-      - name: Cache node_modules
-        uses: actions/cache@v3
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
+      - name: Verify code style and formatting (Biome)
+        run: |
+          npm run lint
+          npm run format
 
-      - name: Run linting
-        run: npm run lint
-
-      - name: Run type-checking
+      - name: Verify TypeScript types
         run: npm run check-types
 
-      - name: Run tests
+      - name: Run unit and integration tests
         run: npm test
 
-      - name: Build the package
+      - name: Build production package
         run: npm run build
