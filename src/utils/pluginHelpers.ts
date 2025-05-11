@@ -16,14 +16,16 @@ export const createPlugin = <T extends Dye.PluginFunction, K extends string>(
  * Extends the main Dye instance with custom methods.
  * This function ensures that no main methods are overwritten by plugins.
  *
- * @param props the Dye instance properties
+ * @param instance the Dye instance to extend with plugins
  * @param plugins the custom plugins to add to the Dye instance
  * @returns the extended Dye instance
  */
 export const integratePlugins = <P extends Dye.DefaultPlugins>(
-	props: Dye.Properties<P>,
+	instance: Dye.Properties<P>,
 	plugins?: P,
 ): Dye.Instance<P> => {
+	if (!plugins) return instance as Dye.Instance<P>;
+
 	for (const methodName in plugins) {
 		try {
 			if (typeof plugins[methodName] !== "function") {
@@ -32,12 +34,12 @@ export const integratePlugins = <P extends Dye.DefaultPlugins>(
 				);
 			}
 
-			if (methodName in props) continue; // Prevent overwriting main methods
+			if (methodName in instance) continue; // Prevent overwriting main methods
 
-			Object.defineProperties(props, {
+			Object.defineProperties(instance, {
 				// Add the plugin method to the Dye instance
 				[methodName]: {
-					value: (plugins[methodName] as Dye.PluginFunction).bind(props),
+					value: (plugins[methodName] as Dye.PluginFunction).bind(instance),
 					writable: false,
 					enumerable: false,
 					configurable: true,
@@ -51,11 +53,11 @@ export const integratePlugins = <P extends Dye.DefaultPlugins>(
 				},
 			});
 		} catch (e) {
-			Object.assign(props, {
+			Object.assign(instance, {
 				error: { message: (e as Error).message },
 			});
 		}
 	}
 
-	return props as Dye.Instance<P>;
+	return instance as Dye.Instance<P>;
 };
