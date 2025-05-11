@@ -61,7 +61,7 @@ class ColorInstance<P extends Dye.Plugins> implements Dye.Properties<P> {
  * Colorus class that provides methods for color processing and parsing.
  * @template P The plugins type extending Dye.Plugins
  */
-class Colorus<P extends Dye.Plugins> {
+export class Colorus<P extends Dye.Plugins> {
 	readonly options: Dye.Options<P>;
 
 	/**
