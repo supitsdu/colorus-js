@@ -84,50 +84,59 @@ describe("dye function", () => {
 
 		it("should return an error object when the color string parsing fails", () => {
 			const invalidColor = dye(invalidColorString);
+			expect(invalidColor.error).toBeDefined();
 			expect(invalidColor.error?.message).toMatch(
-				"Failed to parse color input:",
+				"Failed to parse color input",
 			);
 		});
 
 		it("should handle non-object type input types gracefully", () => {
 			const color = dye([] as unknown as string);
-			expect(color.error?.message).toMatch("Failed to parse color input:");
+			expect(color.error).toBeDefined();
+			expect(color.error?.message).toMatch("Failed to parse color input");
 		});
 
 		it("should handle null input gracefully", () => {
 			const color = dye(null as unknown as string);
+			expect(color.error).toBeDefined();
 			expect(color.error?.message).toMatch("No color input provided");
 		});
 
 		it("should handle undefined input gracefully", () => {
 			const color = dye(undefined as unknown as string);
+			expect(color.error).toBeDefined();
 			expect(color.error?.message).toMatch("No color input provided");
 		});
 
 		it("should handle empty string input gracefully", () => {
 			const color = dye("");
+			expect(color.error).toBeDefined();
 			expect(color.error?.message).toMatch("No color input provided");
 		});
 
 		it("should handle non-string and non-object input gracefully", () => {
 			// @ts-expect-error Testing invalid input
 			const color = dye(123);
-			expect(color.error?.message).toMatch("Failed to parse color input:");
+			expect(color.error).toBeDefined();
+			expect(color.error?.message).toMatch("Failed to parse color input");
 		});
 
 		it("should handle invalid RGB object input gracefully", () => {
 			const color = dye(invalidRgbObject as unknown as string);
-			expect(color.error?.message).toMatch("Failed to parse color input:");
+			expect(color.error).toBeDefined();
+			expect(color.error?.message).toMatch("Failed to parse color input");
 		});
 
 		it("should handle invalid color format gracefully", () => {
 			const color = dye(invalidRgbString);
-			expect(color.error?.message).toMatch("Failed to parse color input:");
+			expect(color.error).toBeDefined();
+			expect(color.error?.message).toMatch("Failed to parse color input");
 		});
 
 		it("should handle known color format without parsers gracefully", () => {
 			const color = dye(hslColorString);
-			expect(color.error?.message).toMatch("Failed to parse color input:");
+			expect(color.error).toBeDefined();
+			expect(color.error?.message).toMatch("Failed to parse color input");
 		});
 	});
 

@@ -1,4 +1,4 @@
-export { dye } from "./dye";
+export { dye, Colorus } from "./dye";
 export { cmykParser } from "./parsers/cmykParser";
 export { hexParser } from "./parsers/hexParser";
 export { hslParser } from "./parsers/hslPaser";
