@@ -2,19 +2,85 @@
 
 Detailed information about the core functionalities, methods, and types available in the library.
 
-## Core Method
+## Core Class
+
+### `Colorus`
+
+The `Colorus` class provides methods for color processing and parsing.
+
+**Constructor:**
+
+```typescript
+new Colorus(options?: Dye.Options)
+```
+
+**Parameters:**
+
+- `options`: An optional configuration object to customize parsing and plugin behavior.
+  - `plugins`: An object containing custom plugins to extend functionality.
+  - `parsers`: An array of `ColorParser` instances to use for the input.
+  - `formatOptions`: Options for output formatting.
+
+**Example:**
+
+```javascript
+import { Colorus } from "colorus-js"
+
+const colorus = new Colorus({ parsers: [hslParser] })
+const color = colorus.dye("hsl(120deg 50% 30%)")
+
+console.log(color.rgb) // { r: 38.25, g: 114.75, b: 38.25, a: 1 }
+```
+
+## Core Methods
+
+### `dye(input: Colors.Input): Dye.Instance`
+
+Creates a color instance with the specified input.
+
+**Parameters:**
+
+- `input`: A color input, which can be either a color string (e.g., `"#FF5733"`, `"rgb(255, 0, 0)"`, `"hsl(120, 100%, 50%)"`, etc.) or an object representing RGB values.
+
+**Returns:** An instance of `Dye.Instance` with methods for color manipulation.
+
+**Example:**
+
+```javascript
+const color = colorus.dye("rgb(255, 0, 0)")
+console.log(color.hsl) // { h: 0, s: 100, l: 50, a: 1 }
+```
+
+### `match(input: Colors.Input): Dye.ParserMatchArray | undefined`
+
+Attempts to match a color input using the configured parsers.
+
+**Parameters:**
+
+- `input`: A color input to parse.
+
+**Returns:** A `ParserMatchArray` if a match is found, or `undefined` if no match is found.
+
+**Example:**
+
+```javascript
+const matchResult = colorus.match("rgb(255, 0, 0)")
+
+if (matchResult) {
+  console.log("Color matched successfully:", matchResult)
+} else {
+  console.log("No valid parser found for the input.")
+}
+```
 
 ### `dye(input: Colors.Input, options?: Dye.Options): Dye.Instance`
 
-The primary function for creating a color instance.
+The `dye` helper function is a convenient wrapper around the `Colorus` class. It simplifies the creation of color instances without explicitly instantiating the `Colorus` class.
 
 **Parameters:**
 
 - `input`: A color input, which can be either a color string (e.g., `"#FF5733"`, `"rgb(255, 0, 0)"`, `"hsl(120, 100%, 50%)"`, etc.) or an object representing RGB values.
 - `options`: An optional configuration object to customize parsing and plugin behavior.
-  - `plugins`: An object containing custom plugins to extend functionality.
-  - `parsers`: An array of `ColorParser` instances to use for the input.
-  - `formatOptions`: Options for output formatting.
 
 **Returns:** An instance of `Dye.Instance` with methods for color manipulation.
 
@@ -24,7 +90,9 @@ The primary function for creating a color instance.
 import { dye } from "colorus-js"
 
 const color = dye("rgb(255, 0, 0)")
+
 console.log(color.hsl) // { h: 0, s: 100, l: 50, a: 1 }
+console.log(color.luminance) // 0.21
 ```
 
 ## Color Types
@@ -55,7 +123,7 @@ Each `Dye.Instance` provides access to various color properties calculated based
 **Example:**
 
 ```javascript
-const color = dye("hsl(120, 100%, 50%)")
+const color = colorus.dye("hsl(120, 100%, 50%)")
 console.log(color.rgb) // { r: 0, g: 255, b: 0, a: 1 }
 ```
 
